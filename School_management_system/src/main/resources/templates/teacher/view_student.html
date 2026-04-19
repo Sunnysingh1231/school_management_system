@@ -1,0 +1,50 @@
+<div th:fragment="studentlist">
+
+
+	<div class="top-header">
+		<div>
+			<h2>Student List</h2>
+		</div>
+
+		<div style="display: flex; gap: 10px;">
+			<input type="text" id="searchInput" placeholder="Search student..."
+				style="padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none;">
+
+			<button class="btn-primary">+ Add Student</button>
+		</div>
+	</div>
+
+	<div class="table-container">
+		<table id="studentTable">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Class</th>
+					<th>Roll No</th>
+					<th>Status</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="student, count: ${students}">
+					<td th:text="${count.index+1}">2</td>
+					<td th:text="${student.name}">Anjali Verma</td>
+					<td th:text="${student.classEntity.className}">9-B</td>
+					<td th:text="${student.rollNumber}">12</td>
+					<td><span class="badge">Active</span></td>
+					<td>
+						<a th:href="@{'/teacher/student/view/' + ${student.id}}"
+                           onclick="loadPage(event, this.href)"
+                           class="action-btn view-btn">
+                           View
+                        </a>
+					<a th:href="@{'/teacher/student/edit/' + ${student.id}}"
+                           onclick="loadPage(event, this.href)" class="action-btn edit-btn">Edit</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>

@@ -1,0 +1,53 @@
+<div th:fragment="attendence">
+
+
+
+        <form th:action="@{/teacher/students-attendence}" method="post">
+
+            <!-- Header -->
+        <div class="top-header">
+            <h2>📅 Mark Attendance</h2>
+
+            <button class="btn-primary">Save Attendance</button>
+        </div>
+
+        <!-- Card -->
+        <div class="glass-card">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <!-- Row 1 -->
+                    <tr th:each="student,count : ${students}">
+                        <td  th:text="${count.index+1}">1</td>
+                        <td th:text="${student.rollNumber}">101</td>
+                        <td th:text="${student.name}">Amit Kumar</td>
+                        <td class="cont">
+                            <span class="status-text"></span>
+
+                            <label class="switch">
+                                <input type="checkbox" name="attends" th:value="${student.id}" onchange="toggleText(this)" th:checked="${allAttendence[student.id]}">
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+        </form>
+
+    </div>
+ 
+</div>

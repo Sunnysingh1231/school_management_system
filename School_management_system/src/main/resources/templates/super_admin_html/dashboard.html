@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>SmS Super Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel = "stylesheet" th:href="@{/super_admin_css/header.css}">
+	<link rel = "stylesheet" th:href="@{/super_admin_css/dashboard.css}">
+</head>
+<body>
+	
+	<div th:replace="~{/super_admin_html/header::super_head}"></div>
+		
+	<section class="super-admin">
+
+	<h2>Super Admin Panel</h2>
+	
+		<div class="admin-controls">
+		
+			<div class="admin-card">
+				<h3>🏫 School</h3>
+				<a th:href="@{/super/register_school}">Add School</a>
+				<a th:href="@{/super/schools}">View School</a>
+			</div>
+			
+			<div class="admin-card">
+				<h3>👤 Users</h3>
+				<a th:href="@{/super/user_register}">Add New User</a>
+				<a>Manage Users</a>
+				<a>Assign Role</a>
+			</div>
+			
+			<div class="admin-card">
+				<h3>👨‍🏫 Teachers</h3>
+				<button>Add Teacher</button>
+				<button>View Teachers</button>
+			</div>
+			
+			<div class="admin-card">
+				<h3>🏫 Classes</h3>
+				<button>Add Class</button>
+				<button>View Classes</button>
+			</div>
+			
+			<div class="admin-card">
+				<h3>📚 Subjects</h3>
+				<button>Add Subject</button>
+				<button>View Subjects</button>
+			</div>
+			
+			<div class="admin-card">
+				<h3>💰 Fees</h3>
+				<button>Collect Fees</button>
+				<button>Fees Report</button>
+			</div>
+			
+			
+			<div class="admin-card">
+				<h3>📊 Reports</h3>
+				<button>Attendance</button>
+				<button>Result</button>
+			</div>
+			
+			<div class="admin-card">
+				<h3>⚙️ Settings</h3>
+				<button>School Info</button>
+				<button>System Settings</button>
+			</div>
+			
+			<div class="admin-card">
+			    <h3>🤖 AI Management</h3>
+			    <a>Implement AI Module</a>
+			    <a>View AI Modules</a>
+			</div>
+		
+		</div>
+	
+	</section>
+	
+</body>
+</html>

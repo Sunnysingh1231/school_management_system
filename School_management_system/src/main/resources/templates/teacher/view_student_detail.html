@@ -1,0 +1,85 @@
+<div th:fragment="studentView">
+
+    <!-- Header -->
+    <div class="top-header">
+        <div>
+            <h2>Student Profile</h2>
+            <p>View complete student details</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <a href="@{'/teacher/student/edit/' + ${student.id}}" class="btn-primary">
+                Edit Student
+            </a>
+
+            <a th:href="@{'/teacher/students'}" 
+               onclick="loadPage(event, this.href)" 
+               class="btn-outline">
+                ← Back
+            </a>
+        </div>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="glass-card" style="display:flex; gap:30px; align-items:center; flex-wrap:wrap;">
+
+        <!-- Avatar -->
+        <div style="width:100px; height:100px; border-radius:50%; 
+                    background:linear-gradient(135deg,#6366f1,#a855f7); 
+                    display:flex; align-items:center; justify-content:center; 
+                    color:white; font-size:2rem; font-weight:bold;">
+            <span th:text="${#strings.substring(student.name,0,1).toUpperCase() + 
+              (student.name.contains(' ') ? 
+              #strings.substring(student.name, student.name.indexOf(' ')+1, student.name.indexOf(' ')+2).toUpperCase() 
+              : '')}">S</span>
+        </div>
+
+        <!-- Basic Info -->
+        <div>
+            <h2 th:text="${student.name}">Student Name</h2>
+            <p style="color:#64748b;">
+                Class: <strong th:text="${student.classEntity.className}">10-A</strong> |
+                Roll No: <strong th:text="${student.rollNumber}">12</strong>
+            </p>
+
+            <span class="badge"
+                  classappend="${student.active} ? '' : ' red'"
+                  text="${student.active} ? 'Active' : 'Inactive'">
+            </span>
+        </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="control-grid" style="margin-top:25px;">
+
+        <div class="glass-card">
+            <h3>Personal Info</h3>
+            <p><strong>Guardian/Father Name:</strong> <span th:text="${student.parentName}">---</span></p>
+            <p><strong>Mother Name:</strong> <span th:text="${student.parentPhone}">---</span></p>
+            <p><strong>Date of Birth:</strong> <span th:text="${student.dateOfBirth}">---</span></p>
+        </div>
+
+        <div class="glass-card">
+            <h3>Contact Info</h3>
+            <p><strong>Phone:</strong> <span th:text="${student.phone}">---</span></p>
+            <p><strong>Email:</strong> <span th:text="${student.email}">---</span></p>
+            <p><strong>Address:</strong> <span th:text="${student.address}">---</span></p>
+        </div>
+
+        <div class="glass-card">
+            <h3>Academic Info</h3>
+            <p><strong>Class:</strong> <span th:text="${student.classEntity.className}">---</span></p>
+            <p><strong>Section:</strong> <span th:text="${student.classEntity.section}">A</span></p>
+            <p><strong>Admission No:</strong> <span text="${student.name}">---</span></p>
+        </div>
+
+        <div class="glass-card">
+            <h3>Performance</h3>
+            <p><strong>Attendance: </strong><span th:text="${attendancePercent+'%'}">---</span></p>
+            <p><strong>Last Exam:</strong> A Grade</p>
+            <p><strong>Remarks:</strong> Excellent</p>
+        </div>
+
+    </div>
+
+</div>

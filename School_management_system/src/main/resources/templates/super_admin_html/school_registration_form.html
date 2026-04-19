@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SmS Super Admin</title>
+    <link rel="stylesheet" th:href="@{/super_admin_css/header.css}">
+    <link rel="stylesheet"
+          href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    
+    <style>
+    	.school-register{
+			display:flex;
+			justify-content:center;
+			padding:40px 20px;
+		}
+		
+		.school-card{
+			background:white;
+			padding:35px;
+			width:420px;
+			border-radius:15px;
+			box-shadow:0 5px 15px rgba(0,0,0,0.2);
+		}
+		
+		.school-card h2{
+			text-align:center;
+			color:#ff758c;
+			margin-bottom:20px;
+		}
+		
+		.input-group{
+			margin-bottom:15px;
+			display:flex;
+			flex-direction:column;
+		}
+		
+		.input-group label{
+			font-weight:bold;
+			margin-bottom:5px;
+		}
+		
+		.input-group input,
+		.input-group textarea{
+			padding:10px;
+			border-radius:8px;
+			border:1px solid #ccc;
+		}
+		
+		textarea{
+			resize:none;
+			height:70px;
+		}
+		
+		.school-card button{
+			width:100%;
+			padding:12px;
+			border:none;
+			border-radius:20px;
+			background:#ffcc00;
+			font-weight:bold;
+			cursor:pointer;
+			margin-top:10px;
+		}
+		
+		.school-card button:hover{
+			background:#ffaa00;
+		}
+		#city, #state, #district{
+			background:#f1f1f1;
+			outline: none;
+			cursor:default;
+		}
+
+    </style>
+</head>
+<body>
+
+	<div th:replace="~{/super_admin_html/navbar::super_navbar}"></div>
+	
+	<section class="school-register">
+	
+		<div class="school-card">
+		
+		<h2>Register New School</h2>
+		
+			<form th:action="@{/super/register_school}" method="post" th:object="${school}">
+			
+				<div class="input-group">
+					<label>School Name</label>
+					<input type="text" th:field="*{name}" placeholder="Enter School Name" required>
+				</div>
+				
+				<div class="input-group">
+					<label>School Email</label>
+					<input type="email" th:field="*{email}" placeholder="Enter School Email">
+				</div>
+				
+				<div class="input-group">
+					<label>Phone Number</label>
+					<input type="text" th:field="*{phone}" placeholder="Enter Phone Number" required>
+				</div>
+				
+				<div class="input-group">
+					<label>School Address</label>
+					<textarea th:field="*{address}" placeholder="Enter School Address"></textarea>
+				</div>
+				
+				<div class="input-group">
+					<label>Area / Post Office</label>
+					<input type="text" id="area" th:field="*{areaPost}" placeholder="Enter Area / Post Office">
+				</div>
+				
+				<div class="input-group">
+					<label>Pincode</label>
+					<input type="text" id="pincode" th:field="*{pincode}" placeholder="Enter Pincode">
+				</div>
+				
+				<div class="input-group">
+					<label>City</label>
+					<input type="text" id="city" th:field="*{city}" placeholder="Enter City" readonly>
+				</div>
+				
+				<div class="input-group">
+					<label>District</label>
+					<input type="text" id="district" th:field="*{district}" placeholder="Enter District" readonly>
+				</div>
+				
+				<div class="input-group">
+					<label>State</label>
+					<input type="text" id="state" th:field="*{state}" placeholder="Enter State" readonly>
+				</div>
+				
+				<button type="submit">Register School</button>
+			
+			</form>
+		
+		</div>
+	
+	</section>
+	<script>
+	
+	$(document).ready(function(){
+
+	    $("#pincode").on("keyup", function(){
+
+	        let pincode = $(this).val();
+
+	        if(pincode.length == 6){
+
+	            $.getJSON("https://api.postalpincode.in/pincode/" + pincode, function(data){
+
+	                if(data[0].Status === "Success"){
+
+	                    let postOffice = data[0].PostOffice[0];
+
+	                    $("#district").val(postOffice.District);
+	                    $("#city").val(postOffice.Block);
+	                    $("#state").val(postOffice.State);
+
+	                }else{
+	                    alert("Invalid Pincode");
+	                }
+
+	            });
+
+	        }
+
+	    });
+
+	});
+	
+	$(function(){
+		$("#state").autocomplete({
+	        source: function (request, response) {
+	            $.ajax({
+	                url: "/super/searchState",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function (data) {
+	                    response(data);
+	                }
+	            });
+	        },
+	        minLength: 1
+	    });
+	})
+		
+	
+	</script>
+</body>
+</html>

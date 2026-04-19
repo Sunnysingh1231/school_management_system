@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - School Management System</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" th:href="@{/student/dashboard.css}">
+    
+    <style>
+    	:root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --bg: #f8fafc;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* CARD */
+        .container {
+            min-width: 500px;
+            margin: 20px auto;
+            /* border: 2px solid red; */
+        }
+
+        .card {
+            /* width: 500px; */
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            /* border: 2px solid red; */
+        }
+
+        /* TITLE */
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* GRID (NEW) */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        /* INPUT */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 14px;
+        }
+
+        .input-group input,
+        .input-group select,textarea {
+            width: 90%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            /* opacity: 75%; */
+        }
+
+        .input-group select {
+            color: black;
+        }
+
+        /* BUTTON */
+        
+        .btncont{
+        width:100%;
+        	display:flex;
+        	margin:auto;
+        	gap:20px;
+        }
+        
+        .btncont .btn:nth-child(2){
+        	background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            grid-column: span 2;
+            /* FULL WIDTH */
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                grid-column: span 1;
+            }
+        }
+
+        @media(max-width:500px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+    
+    
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+    
+	<div th:replace="~{/student/sidebar::sidebar}"> </div>
+    
+        
+
+        <!-- ==================== Main Content ==================== -->
+        <div class="main-content">
+            <!-- ==================== Top Navbar ==================== -->
+            <div th:replace="~{/student/navbar::navbar}"> </div>
+
+			<div class="container">
+        <form th:action="@{/student/update}" th:object="${student}" method="post">
+            <div class="card">
+
+                <h2 class="title">Edit Student</h2>
+
+                <!-- Hidden ID -->
+                <input type="hidden" th:field="*{id}">
+
+                <!-- GRID START -->
+                <div class="form-grid">
+
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" th:field="*{name}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" th:field="*{email}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Phone</label>
+                        <input type="text" th:field="*{phone}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Class</label>
+                        <input type="text" th:field="*{classEntity.className}" readonly>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Class</label>
+                        <input type="text" th:field="*{classEntity.section}" readonly>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Gender</label>
+                        <select th:field="*{gender}">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Date of Birth</label>
+                        <input type="date" th:field="*{dateOfBirth}">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Parent Name</label>
+                        <input type="text" th:field="*{parentName}">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Parent Phone: </label>
+                        <input type="text" th:field="*{parentPhone}">
+                    </div>
+                    
+                    <div class="input-group">
+					    <label>Address:</label>
+					    <textarea th:field="*{address}" rows="3" placeholder="Enter full address"></textarea>
+					</div>
+
+                    <!-- BUTTON 
+                    
+                    
+                    
+                    <button class="btn">Update Student</button>
+                    -->
+
+                </div>
+                <!-- GRID END -->
+                
+                <div class="btncont">
+                    
+                    	<button class="btn" onclick="history.back()">Back</button>
+                    	<button type="submit" class="btn">Update Student</button>
+                    
+                    </div>
+
+            </div>
+        </form>
+    </div>
+            
+        </div>
+<script>
+        // Hamburger menu toggle for mobile
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        hamburgerBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking on a menu item (mobile)
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu-link');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Close sidebar when clicking outside of it (mobile)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        const menuLinks = document.querySelectorAll('.sidebar-menu-link');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                // Remove active from all
+                menuLinks.forEach(item => item.classList.remove('active'));
+
+                // Add active to clicked one
+                this.classList.add('active');
+            });
+        });
+    </script>
+        
+</body>
+
+</html>

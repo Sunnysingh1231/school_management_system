@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{header.css}">
+    <title>Teacher Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #fdf6e3;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Container */
+        .container {
+            flex: 1;
+            padding: 30px;
+        }
+
+        /* Title */
+        h2 {
+            text-align: center;
+            color: #ff758c;
+        }
+
+        /* Stats */
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 180px;
+            text-align: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff758c;
+        }
+
+        /* Dashboard Cards */
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            width: 220px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #ff758c;
+        }
+
+        /* Buttons */
+
+        .card a {
+            display: block;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 20px;
+            background: #ffcc00;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        .card a:hover {
+            background: #ffaa00;
+        }
+
+        /* Footer */
+
+        footer {
+            background: #ff758c;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div th:replace="~{/teacher/header::head}"></div>
+
+	<form th:action="@{/teacher}" th:method=get>
+		<select name="class_id">
+			<option th:each="cls: ${classes}" th:text="${'Class '+cls.className +' ('+ cls.section+')'}" th:value="${cls.id}">
+			    select class
+			</option>
+		</select>	
+		<button>Find</button>
+	</form>
+	
+	
+    <div class="container">
+
+        <h2>👨‍🏫 Teacher Dashboard</h2>
+
+        <!-- 🔥 Stats Section -->
+
+        <div class="stats">
+        
+        	<div class="stat-card">
+                <h3>Class Name</h3>
+                <p th:text="${clsName}"></p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Students</h3>
+                <p th:text="${totalSCount}"></p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Today's Classes</h3>
+                <p>8</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Subjects</h3>
+                <p>3</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Attendance %</h3>
+                <p th:text="${attCount == 0 ? 'N/A' : attCount + '%'}"></p>
+            </div>
+
+        </div>
+
+        <!-- 🔥 Controls -->
+
+        <div class="dashboard">
+
+            <div class="card">
+                <h3>👨‍🎓 Students</h3>
+                <a th:href="@{/teacher/students}">View Students</a>
+            </div>
+
+            <div class="card">
+                <h3>📅 Attendance</h3>
+                <a th:href="@{/teacher/students-attendence}">Mark Attendance</a>
+                <a href="/teacher/view-attendance">View Attendance</a>
+            </div>
+
+            <div class="card">
+                <h3>📝 Homework</h3>
+                <a href="/teacher/add-homework">Add Homework</a>
+                <a href="/teacher/homework-list">View Homework</a>
+            </div>
+
+            <div class="card">
+                <h3>🧪 Exams</h3>
+                <a href="/teacher/add-marks">Add Marks</a>
+                <a href="/teacher/results">View Results</a>
+            </div>
+
+            <div class="card">
+                <h3>💬 Notices</h3>
+                <a href="/teacher/add-notice">Add Notice</a>
+                <a href="/teacher/notices">View Notices</a>
+            </div>
+
+            <div class="card">
+                <h3>📊 Reports</h3>
+                <a href="/teacher/class-report">Class Report</a>
+            </div>
+
+            <div class="card">
+                <h3>⚙ Profile</h3>
+                <a href="/teacher/profile">Edit Profile</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Smart School | Teacher Panel</p>
+    </footer>
+
+</body>
+
+</html>

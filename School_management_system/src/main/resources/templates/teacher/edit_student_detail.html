@@ -1,0 +1,122 @@
+<div th:fragment="studentEdit">
+
+
+	<!-- Main Area -->
+	<div class="main-area">
+
+		<form th:action="@{/students/update}" method="post" th:object="${student}">
+
+			<!-- Header -->
+			<div class="top-header">
+				<h2>✏️ Edit Student</h2>
+
+				<div style="display: flex; gap: 10px;">
+					<button type="submit" class="btn-primary">Update</button>
+					<a th:href="@{'/teacher/students'}"
+						onclick="loadPage(event, this.href)" class="btn-outline"> ←
+						Back </a>
+				</div>
+			</div>
+
+			<!-- Form Card -->
+			<div class="glass-card">
+
+				<div class="control-grid">
+
+					<!-- Name -->
+					<div>
+						<label>Full Name</label> <input type="text" th:field="*{name}">
+					</div>
+
+					<!-- Roll -->
+					<div>
+						<label>Roll Number</label> <input type="text"  th:field="*{rollNumber}">
+					</div>
+
+					<!-- Email -->
+					<div>
+						<label>Email</label> <input type="email" th:field="*{email}">
+					</div>
+
+					<!-- Class -->
+					<div>
+						<label>Class</label>
+						<select th:field="*{classEntity.className}">
+							<option value="Play Group">Play Group</option>
+							<option value="LKG">LKG</option>
+							<option value="UKG">UKG</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						
+						</select>
+					</div>
+
+					<!-- Section -->
+					<div>
+						<label>Section</label>
+						<select th:field="*{classEntity.section}">
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						
+						</select>
+					</div>
+
+					<!-- Phone -->
+					<div>
+						<label>Phone</label> <input type="text" th:field="*{phone}">
+					</div>
+					
+					<div>
+						<label>Gender</label> 
+						<select th:field="*{gender}">
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						
+						</select>
+					</div>
+					
+					<div>
+						<label>parentName</label> <input type="text" th:field="*{parentName}">
+					</div>
+					
+					<div>
+						<label>parentPhone</label> <input type="text" th:field="*{parentPhone}">
+					</div>
+					
+
+					<!-- Status Toggle 
+					<div>
+						<label>Active Status</label>
+						<div class="cont" style="margin-top: 8px;">
+							<span class="status-text">OFF</span> <label class="switch">
+								<input type="checkbox" onchange="toggleStatus(this)"> <span
+								class="slider"></span>
+							</label>
+						</div>
+					</div>
+					-->
+
+				</div>
+
+			</div>
+
+		</form>
+
+	</div>
+
+</div>
+
+</div>

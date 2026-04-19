@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SmS</title>
+	<link rel="stylesheet" th:href="@{index.css}">
+	<link rel="stylesheet" th:href="@{header.css}">
+</head>
+<body>
+
+    <div th:replace="~{header :: head}"></div>
+
+    <!-- header -->
+    <header>
+        <h1>🎒 Smart School</h1>
+        <p>Learn With Fun</p>
+    </header>
+
+    <section class="welcome">
+        <h2>Welcome Smart School Management 👋</h2>
+        <p>Learn Maths, Science, English and more in a fun way!</p>
+        <button>Start Learning 🚀</button>
+    </section>
+
+    <section class="subjects">
+
+        <div class="card">
+            <h3>📘 Maths</h3>
+            <p>Learn numbers and fun calculations.</p>
+        </div>
+
+        <div class="card">
+            <h3>🔬 Science</h3>
+            <p>Explore the world of science.</p>
+        </div>
+
+        <div class="card">
+            <h3>📖 English</h3>
+            <p>Improve reading and writing.</p>
+        </div>
+
+        <div class="card">
+            <h3>🌎 Social Studies</h3>
+            <p>Learn about history and geography.</p>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 Smart Learning | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        function toggleMenu(){
+            document.getElementById("nav-links").classList.toggle("active");
+            document.querySelector(".overlay").classList.toggle("active");
+            document.getElementById("mobile-menu").classList.toggle("active");
+            console.log("hww")
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+
+<div th:fragment="super_head">
+
+	<!-- navbar -->
+    <nav class="navbar">
+
+        <div class="logo">SmS</div>
+        <!-- Navigation Links -->
+        <div class="nav-buttons" id="nav-links" onclick="toggleMenu()">
+
+            
+            
+
+            <form th:method="POST" th:action="@{/logout}">
+                <button class="btn logout-btn">Logout</button>
+            </form>
+        </div>
+    </nav>
+    
+
+</div>

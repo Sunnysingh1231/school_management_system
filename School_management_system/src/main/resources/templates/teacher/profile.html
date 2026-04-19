@@ -1,0 +1,94 @@
+<div th:fragment="profile">
+	<div class="dashboard-content">
+
+		<!-- Profile Card -->
+		<div class="profile-page-card">
+
+			<!-- Top Banner -->
+			<div class="profile-banner">
+				<div class="profile-avatar-large">
+					<i class="fas fa-user"></i>
+				</div>
+			</div>
+
+			<!-- Info Section -->
+			<div class="profile-main-info">
+				<h2 text="${student.name}">Arjun Joshi</h2>
+				<p
+					text="${'Class '+student.classEntity.className+'-'+student.classEntity.section}">Class
+					12-A | Science Stream</p>
+			</div>
+
+			<!-- Details Grid -->
+			<div class="profile-details-grid">
+
+				<div class="detail-box">
+					<h4>Personal Info</h4>
+					<p>
+						<strong>Roll No: </strong> <span text="${student.rollNumber}"></span>
+					</p>
+					<p>
+						<strong>DOB: </strong><span text="${student.dateOfBirth}"></span>
+					</p>
+					<p>
+						<strong>Gender: </strong><span text="${student.gender}">Male</span>
+					</p>
+				</div>
+
+				<div class="detail-box">
+					<h4>
+						Contact Info</
+						<p>
+							<strong>Email: </strong><span text="${student.email}"></span>
+						</p>
+						<p>
+							<strong>Phone: </strong> +91 <span text="${student.phone}"></span>
+						</p>
+						<p>
+							<strong>Address: </strong> <span text="${student.address}"></span>
+						</p>
+				</div>
+
+				<div class="detail-box">
+					<h4>Academic Info</h4>
+					<p>
+						<strong>Class: </strong><span
+							text="${student.classEntity.className+'-'+student.classEntity.section}"></span>
+					</p>
+					<p>
+						<strong>Stream: </strong> Science
+					</p>
+					<p>
+						<strong>GPA: </strong> 3.85
+					</p>
+				</div>
+
+				<div class="detail-box">
+					<h4>Guardian Info</h4>
+					<p>
+						<strong>Name: </strong><span text="${student.parentName}"></span>
+					</p>
+					<p>
+						<strong>Relation: </strong> Father
+					</p>
+					<p>
+						<strong>Phone: </strong> +91 <span text="${student.parentPhone}"></span>
+					</p>
+				</div>
+
+			</div>
+
+			<!-- ✅ NEW BOTTOM BUTTONS -->
+			<div class="profile-bottom-actions">
+				<a class="btn-edit" href="@{/student/profile-edit}"> <i
+					class="fas fa-edit"></i> Edit Profile
+				</a> <a class="btn-password" href="@{/student/change-password}"> <i
+					class="fas fa-lock"></i> Change Password
+				</a>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

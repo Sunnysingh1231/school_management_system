@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - School Management System</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" th:href="@{/student/dashboard.css}">
+    
+    <style>
+    	/* ================= ASSIGNMENT PAGE ================= */
+
+.assignment-filters {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: var(--bg-secondary);
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+}
+
+.filter-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Grid */
+.assignment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Card */
+.assignment-card {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transition: 0.3s;
+}
+
+.assignment-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Header */
+.assignment-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assignment-card h3 {
+    font-size: 16px;
+}
+
+/* Status */
+.status {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+}
+
+.status.completed {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.status.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+}
+
+/* Text */
+.subject {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.desc {
+    margin: 10px 0;
+    font-size: 13px;
+}
+
+/* Footer */
+.assignment-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Buttons */
+.btn-view, .btn-submit {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-view {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-submit {
+    background: var(--secondary-color);
+    color: white;
+}
+    
+    </style>
+    
+    
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+    
+	<div th:replace="~{/student/sidebar::sidebar}"> </div>
+    
+        
+
+        <!-- ==================== Main Content ==================== -->
+        <div class="main-content">
+            <!-- ==================== Top Navbar ==================== -->
+            <div th:replace="~{/student/navbar::navbar}"> </div>
+
+			<div class="main-content">
+
+        <div class="dashboard-content">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Assignments 📚</h1>
+                <p>Manage and track all your assignments</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="assignment-filters">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Pending</button>
+                <button class="filter-btn">Completed</button>
+            </div>
+
+            <!-- Assignment Cards -->
+            <div class="assignment-grid">
+
+                <!-- Card 1 -->
+                <div class="assignment-card">
+                    <div class="assignment-card-header">
+                        <h3>Trigonometry Problems</h3>
+                        <span class="status completed">Completed</span>
+                    </div>
+
+                    <p class="subject">Mathematics</p>
+                    <p class="desc">Solve all questions from Chapter 5.</p>
+
+                    <div class="assignment-footer">
+                        <span><i class="fas fa-calendar"></i> Due: Mar 28</span>
+                        <button class="btn-view">View</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="assignment-card">
+                    <div class="assignment-card-header">
+                        <h3>Physics Lab Report</h3>
+                        <span class="status pending">Pending</span>
+                    </div>
+
+                    <p class="subject">Physics</p>
+                    <p class="desc">Write experiment report on optics.</p>
+
+                    <div class="assignment-footer">
+                        <span><i class="fas fa-calendar"></i> Due: Mar 30</span>
+                        <button class="btn-submit">Submit</button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="assignment-card">
+                    <div class="assignment-card-header">
+                        <h3>Chemistry Essay</h3>
+                        <span class="status pending">Pending</span>
+                    </div>
+
+                    <p class="subject">Chemistry</p>
+                    <p class="desc">Write about organic reactions.</p>
+
+                    <div class="assignment-footer">
+                        <span><i class="fas fa-calendar"></i> Due: Apr 2</span>
+                        <button class="btn-submit">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+            
+        </div>
+<script>
+        // Hamburger menu toggle for mobile
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        hamburgerBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking on a menu item (mobile)
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu-link');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Close sidebar when clicking outside of it (mobile)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        const menuLinks = document.querySelectorAll('.sidebar-menu-link');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                // Remove active from all
+                menuLinks.forEach(item => item.classList.remove('active'));
+
+                // Add active to clicked one
+                this.classList.add('active');
+            });
+        });
+    </script>
+        
+</body>
+
+</html>

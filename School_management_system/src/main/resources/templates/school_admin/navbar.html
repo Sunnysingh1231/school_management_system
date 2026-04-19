@@ -1,0 +1,23 @@
+
+<div th:fragment="admin_navbar">
+
+	<!-- navbar -->
+    <nav class="navbar">
+
+        <div class="logo">SmS</div>
+        <!-- Navigation Links -->
+        
+        <div class="logo"> <label th:text="${schoolName}"></label></div>
+        
+        <div class="nav-buttons" id="nav-links">
+            <div class="auth-links">
+            	
+            	<a th:href="@{/admin}" class="btn">Back</a>
+            
+              <!--  <button onclick="history.back()" class="btn">Back</button> -->
+            </div>
+        </div>
+    </nav>
+    
+
+</div>

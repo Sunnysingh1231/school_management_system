@@ -1,0 +1,48 @@
+.super-admin{
+	padding:40px;
+	text-align:center;
+}
+	
+.admin-controls{
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center;
+	gap:25px;
+	margin-top:30px;
+}
+	
+.admin-card{
+	background:white;
+	width:220px;
+	padding:25px;
+	border-radius:15px;
+	box-shadow:0 5px 10px rgba(0,0,0,0.2);
+	transition:0.3s;
+}
+	
+.admin-card:hover{
+	transform:scale(1.05);
+}
+	
+.admin-card h3{
+	margin-bottom:15px;
+	color:#ff758c;
+}
+	
+.admin-card button,
+.admin-card a{
+	display:block;
+	width:100%;
+	margin:8px 0;
+	padding:10px;
+	border:none;
+	border-radius:15px;
+	background:#ffcc00;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+.admin-card button:hover,
+.admin-card a:hover{
+	background:#ffaa00;
+}

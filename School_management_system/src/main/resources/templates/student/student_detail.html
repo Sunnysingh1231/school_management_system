@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/super_admin_css/header.css}">
+	<style>
+		.school-view {
+			display: flex;
+			justify-content: center;
+			padding: 40px;
+		}
+
+		.school-view-card {
+			background: white;
+			padding: 30px;
+			width: 420px;
+			border-radius: 15px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.school-view-card h2 {
+			text-align: center;
+			color: #ff758c;
+			margin-bottom: 0px;
+		}
+
+		.detail {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 1px;
+			border-bottom: 1px solid #eee;
+			padding-bottom: 5px;
+			align-items: center;
+		}
+
+		.detail span {
+			font-weight: bold;
+		}
+
+		.actions {
+			margin-top: 20px;
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.btn {
+			padding: 10px 18px;
+			border-radius: 20px;
+			text-decoration: none;
+			font-weight: bold;
+		}
+
+		.edit {
+			background: #ffcc00;
+			color: black;
+		}
+
+		.back {
+			background: #4ecdc4;
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div th:replace="~{/super_admin_html/navbar::super_navbar}"></div>
+
+
+	<section class="school-view">
+
+		<div class="school-view-card">
+
+			<h2>Student Details</h2>
+
+			<div class="detail">
+				<span>Name:</span>
+				<p text="${school.name}"></p>
+			</div>
+
+			<div class="detail">
+				<span>Email:</span>
+				<p text="${school.email}"></p>
+			</div>
+
+			<div class="detail">
+				<span>Phone:</span>
+				<p text="${school.phone}"></p>
+			</div>
+
+			<div class="detail">
+				<span>Address:</span>
+				<p text="${school.address}"></p>
+			</div>
+
+			<div class="detail">
+				<span>City:</span>
+				<p text="${school.city}"></p>
+			</div>
+
+			<div class="detail">
+				<span>State:</span>
+				<p text="${school.state}"></p>
+			</div>
+
+			<div class="detail">
+				<span>Pincode:</span>
+				<p text="${school.pincode}"></p>
+			</div>
+
+			<div class="actions">
+
+				<a href="@{/super-admin/edit-school/{id}(id=${school.id})}" class="btn edit">Edit</a>
+
+				<a href="@{/super-admin/schools}" class="btn back">Back</a>
+
+			</div>
+
+		</div>
+
+	</section>
+
+</body>
+
+</html>

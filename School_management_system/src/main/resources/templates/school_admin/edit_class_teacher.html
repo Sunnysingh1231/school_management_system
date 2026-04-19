@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SmS Super Admin</title>
+    <link rel="stylesheet" th:href="@{/super_admin_css/header.css}">
+	<style>
+		
+		.school-view{
+			display:flex;
+			justify-content:center;
+			padding:40px;
+		}
+		
+		.school-view-card{
+			background:white;
+			padding:30px;
+			width:420px;
+			border-radius:15px;
+			box-shadow:0 5px 15px rgba(0,0,0,0.2);
+		}
+		
+		.school-view-card h2{
+			text-align:center;
+			color:#ff758c;
+			margin-bottom:0px;
+		}
+		
+		.detail{
+			display:flex;
+			justify-content:space-between;
+			margin-bottom:1px;
+			border-bottom:1px solid #eee;
+			padding-bottom:5px;
+			align-items: center;
+		}
+		
+		.detail span{
+			font-weight:bold;
+		}
+		
+		.actions{
+			margin-top:20px;
+			display:flex;
+			justify-content:space-between;
+		}
+		
+		.btn{
+			padding:10px 18px;
+			border-radius:20px;
+			text-decoration:none;
+			font-weight:bold;
+		}
+		
+		.edit{
+			background:#ffcc00;
+			color:black;
+		}
+		
+		.back{
+			background:#4ecdc4;
+			color:white;
+		}
+	
+	</style>
+</head>
+<body>
+
+
+	<div th:replace="~{/school_admin/navbar::admin_navbar}"></div>
+	
+	
+	
+	<section class="school-view">
+	
+		<div class="school-view-card">
+		<form th:action="@{/admin/edit-class-teacher/{id}(id=${class.id})}" th:method=post>
+			<h2>School Details</h2>
+			
+			<div class="detail">
+				<span>Class Id:</span>
+				<p th:text="${class.id}"></p>
+			</div>
+			
+			<div class="detail">
+				<span>Class Name:</span>
+				<p th:text="${class.className}"></p>
+			</div>
+			
+			<div class="detail">
+				<span>Section:</span>
+				<p th:text="${class.section}"></p>
+			</div>
+			
+			<div class="detail">
+				<span>Class Teacher</span>
+				<p th:text="${class.classTeacher != null ? class.classTeacher.name : 'No Class Teacher'}"></p>
+			</div>
+			
+			<div class="detail">
+			<span>Select Teacher</span>
+				<select name="teacher">
+				<option >Select Teacher</option>
+					<option th:each="teacher : ${teachers}" th:text="${teacher.name}" th:value="${teacher.id}"></option>
+				</select>
+			</div>
+			
+			<div class="actions">
+
+				<button type="submit" class="btn back">Submit</button>
+				
+			</div>
+		</form>
+		</div>
+	
+	</section>
+	
+</body>
+</html>
