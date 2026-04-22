@@ -1,63 +1,120 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>SmS</title>
-	<link rel="stylesheet" th:href="@{index.css}">
-	<link rel="stylesheet" th:href="@{header.css}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmS</title>
+<link rel="stylesheet" th:href="@{index.css}">
+<link rel="stylesheet" th:href="@{header.css}">
 </head>
 <body>
 
-    <div th:replace="~{header :: head}"></div>
+	<div th:replace="~{header :: head}"></div>
 
-    <!-- header -->
-    <header>
-        <h1>🎒 Smart School</h1>
-        <p>Learn With Fun</p>
-    </header>
+	<!-- HERO -->
+	<section class="hero">
+		<div class="hero-text">
+			<h1>Smart School Management Made Simple</h1>
+			<p>Manage students, attendance, assignments, and performance all
+				in one powerful platform.</p>
+			<div class="hero-buttons">
+				<button class="btn btn-login">Get Started</button>
+				<button class="btn btn-back">Explore Features</button>
+			</div>
+		</div>
 
-    <section class="welcome">
-        <h2>Welcome Smart School Management 👋</h2>
-        <p>Learn Maths, Science, English and more in a fun way!</p>
-        <button>Start Learning 🚀</button>
-    </section>
+		<div class="hero-image">
+			<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+				alt="Student">
+		</div>
 
-    <section class="subjects">
+	</section>
 
-        <div class="card">
-            <h3>📘 Maths</h3>
-            <p>Learn numbers and fun calculations.</p>
-        </div>
+	<!-- FEATURES -->
+	<section class="features">
+		<h2 class="section-title">Features</h2>
+		<div class="feature-grid">
+			<div class="feature-card">
+				<i class="fas fa-calendar-check"></i>
+				<h4>Attendance Tracking</h4>
+				<p>Track student attendance easily.</p>
+			</div>
 
-        <div class="card">
-            <h3>🔬 Science</h3>
-            <p>Explore the world of science.</p>
-        </div>
+			<div class="feature-card">
+				<i class="fas fa-tasks"></i>
+				<h4>Assignments</h4>
+				<p>Manage and submit assignments.</p>
+			</div>
 
-        <div class="card">
-            <h3>📖 English</h3>
-            <p>Improve reading and writing.</p>
-        </div>
+			<div class="feature-card">
+				<i class="fas fa-chart-line"></i>
+				<h4>Analytics</h4>
+				<p>Detailed performance insights.</p>
+			</div>
 
-        <div class="card">
-            <h3>🌎 Social Studies</h3>
-            <p>Learn about history and geography.</p>
-        </div>
+			<div class="feature-card">
+				<i class="fas fa-credit-card"></i>
+				<h4>Fee Management</h4>
+				<p>Easy and secure payments.</p>
+			</div>
 
-    </section>
+			<div class="feature-card">
+				<i class="fas fa-clock"></i>
+				<h4>Timetable</h4>
+				<p>Smart scheduling system.</p>
+			</div>
 
-    <footer>
-        <p>© 2026 Smart Learning | All Rights Reserved</p>
-    </footer>
+			<div class="feature-card">
+				<i class="fas fa-bell"></i>
+				<h4>Notifications</h4>
+				<p>Real-time updates.</p>
+			</div>
+		</div>
+	</section>
 
-    <script>
-        function toggleMenu(){
-            document.getElementById("nav-links").classList.toggle("active");
-            document.querySelector(".overlay").classList.toggle("active");
-            document.getElementById("mobile-menu").classList.toggle("active");
-            console.log("hww")
-        }
+	<!-- WHY -->
+	<section class="why">
+		<h2 class="section-title">Why Choose StudyHub?</h2>
+		<p>StudyHub simplifies school management with real-time updates,
+			secure data handling, and an intuitive interface — all in one
+			platform.</p>
+	</section>
+
+	<!-- FOOTER -->
+	<footer class="footer">
+		<div class="footer-grid">
+			<div>
+				<h3>StudyHub</h3>
+				<p>Modern school management system.</p>
+			</div>
+
+			<div>
+				<h4>Quick Links</h4>
+				<a href="#">Home</a> <a href="#">Features</a> <a href="#">Login</a>
+			</div>
+
+			<div>
+				<h4>Contact</h4>
+				<p>Email: support@studyhub.com</p>
+				<p>Phone: +91 9876543210</p>
+			</div>
+		</div>
+
+		<div class="footer-bottom">© 2026 StudyHub. All rights reserved.
+		</div>
+	</footer>
+
+	<script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
+
 </body>
 </html>

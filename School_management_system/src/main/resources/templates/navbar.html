@@ -1,16 +1,13 @@
 <div th:fragment="backnav">
 
-	<!-- navbar -->
-    <nav class="navbar">
-
-        <div class="logo">SmS</div>
-
-        <!-- Navigation Links -->
-        <div class="nav-buttons">
-            <div class="auth-links" sec:authorize="!isAuthenticated()">
-                <button onclick="history.back()" class="btn">Back</button>
-            </div>
+	<!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i> StudyHub
         </div>
-    </nav>
+        <div class="nav-buttons">
+            <button onclick="history.back()" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+    </div>
 
 </div>

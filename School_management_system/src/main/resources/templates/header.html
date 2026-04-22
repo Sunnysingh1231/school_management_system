@@ -1,48 +1,28 @@
-
 <div th:fragment="head">
 
-	<!-- navbar -->
-    <nav class="navbar">
-
-        <div class="logo">SmS</div>
-
-        <!-- Hamburger -->
-        <div class="menu-toggle" id="mobile-menu" onclick="toggleMenu()" sec:authorize="isAuthenticated()">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i> StudyHub
         </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back"><i class="fas fa-arrow-left"></i> Back</button>
 
-        <!-- Overlay -->
-        <div class="overlay" onclick="toggleMenu()"></div>
+            <form th:method="get" th:action="@{/login}" sec:authorize="!isAuthenticated()">
+                <button class="btn btn-login">Login</button>
+            </form>
 
-        <!-- Navigation Links -->
-        <div class="nav-buttons" id="nav-links" onclick="toggleMenu()">
+            <form th:method="POST" th:action="@{/logout}" sec:authorize="isAuthenticated()"
+                onsubmit="return confirmLogout()">
+                <button class="btn btn-login">Logout</button>
+            </form>
 
-            <div class="control" sec:authorize="isAuthenticated()">
-                <a href="">Home</a>
-                <a href="">Students</a>
-                <a href="">Attendence</a>
-                <a href="">Fee</a>
-                <a href="">Notice</a>
-
-                <!-- <span class="username">
-                    Welcome <span sec:authentication="name"></span>
-                </span> -->
-
-                <hr style="width: 100%;">
-
-                <form th:method="POST" th:action="@{/logout}">
-                    <button class="btn logout-btn">Logout</button>
-                </form>
-            </div>
-
-            
         </div>
-        <div class="auth-links" sec:authorize="!isAuthenticated()">
-           <a th:href="@{/login}" class="btn outline">Login</a>
-        </div>
-    </nav>
-    
+    </div>
+    <script>
+        function confirmLogout() {
+            return confirm("Are you sure you want to logout?");
+        }
+    </script>
 
 </div>

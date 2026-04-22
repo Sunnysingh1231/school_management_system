@@ -3,6 +3,8 @@ package com.sms.controller;
 import java.net.http.HttpRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,17 @@ public class TeacherController {
 	private StudentServiceInterface studentServiceInterface;
 
 
-	
+	public String getAcademicSession() {
+	    LocalDate today = LocalDate.now();
+	    int year = today.getYear();
+	    int month = today.getMonthValue();
+
+	    if (month >= 4) {
+	        return year + "-" + (year + 1);
+	    } else {
+	        return (year - 1) + "-" + year;
+	    }
+	}
 //	GET MAPPING------------------------------------------------------------------------
 	
 	@GetMapping
@@ -224,9 +236,19 @@ public class TeacherController {
 	public String pay(HttpServletRequest request, Model model,@PathVariable int id) {
 
 		
-		model.addAttribute("student", studentServiceInterface.findStudentByStudentId(id));
+		model.addAttribute("student", studentServiceInterface.findStudentByStudentId(id).get());
 		
 		
+		
+		List<String> monthList = new ArrayList<>(Arrays.asList(
+			    "April", "May", "June", "July", "August", "September",
+			    "October", "November", "December", "January", "February", "March"
+			));
+		
+		model.addAttribute("monthList", monthList);
+		model.addAttribute("sess", getAcademicSession());
+		
+		System.out.println(getAcademicSession());
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/pay_student :: pay"; // fragment

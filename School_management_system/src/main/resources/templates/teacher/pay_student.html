@@ -17,13 +17,13 @@
             <!-- Student Info -->
             <div class="stats-row">
                 <div class="stat-pill">
-                    Student: <span text="${student.name}"></span>
+                    Student: <span th:text="${student.name}"></span>
                 </div>
                 <div class="stat-pill">
-                    Class: <span text="${student.className}"></span>
+                    Class: <span th:text="${student.classEntity.className+'-'+student.classEntity.section}"></span>
                 </div>
                 <div class="stat-pill">
-                    Session: <span text="${session}"></span>
+                    Session: <span th:text="${sess}"></span>
                 </div>
             </div>
 
@@ -41,10 +41,10 @@
                     </thead>
 
                     <tbody>
-                        <tr each="fee : ${fees}">
+                        <tr th:each="month : ${monthList}">
 
                             <!-- Month -->
-                            <td text="${fee.month}"></td>
+                            <td th:text="${month}"></td>
 
                             <!-- Amount -->
                             <td>₹<span text="${fee.amount}"></span></td>
