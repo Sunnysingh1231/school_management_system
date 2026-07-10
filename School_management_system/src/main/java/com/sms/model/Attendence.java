@@ -1,7 +1,6 @@
 package com.sms.model;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sms.model.ClassEntity;
 import com.sms.model.Teacher;
+import com.sms.model.User;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Integer>{
@@ -24,5 +25,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer>{
 	Optional<Teacher> findByName(String teacher);
 
 	Teacher findByIdAndSchoolId(int id, int id2);
+
+	Optional<Teacher> findByPhone(String emailOrPhone);
 	
 }

@@ -180,6 +180,17 @@ body {
 	align-items: center;
 }
 
+.control-grid input{
+    outline: none;
+    border: 1px solid #929292;
+    padding-left: 10px;
+    width: 180px;
+    height: 24px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    
+}
+
 .glass-card:hover {
 	transform: translateY(-8px);
 	box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
@@ -568,9 +579,9 @@ table {
 						<h1 th:text="${teacher.school.name+' Schoool'}">Teacher
 							Control</h1>
 						<p>
-							Welcome <span class="badge"
-								th:text="${#strings.arraySplit(teacher.name, ' ')[0]+' 👋'}"></span>
-							<span th:text="${dateNow}"></span>
+							<span class="badge"
+								th:text="'Welcome '+${#strings.arraySplit(teacher.name, ' ')[0]+' 👋'}+' Date: ' +${dateNow}"></span>
+							
 						</p>
 					</div>
 				</div>
@@ -584,11 +595,11 @@ table {
 			<div id="contentArea">
 
 				<div class="stats-row">
-					<div class="stat-pill">
+					<div class="stat-pill">Total: 
 						<strong th:text="${totalSCount}">1,240</strong> Students
 					</div>
-					<div class="stat-pill">
-						<strong th:text="${totalSCount}">45</strong> Student
+					<div class="stat-pill">Total Present:
+						<strong th:text="${totalPresent}">45</strong>
 					</div>
 
 				</div>
@@ -601,9 +612,9 @@ table {
 						<h3>Attendance</h3>
 						<p>Mark, edit, and export monthly presence logs.</p>
 						<div class="card-footer">
+						
 							<span class="badge">Live</span>
-							<a href="/teacher/students-attendence" onclick="loadPage(event, this.href)">Attendence</a>
-							<a href="">Manage</a>
+							<a href="/teacher/students-attendence" onclick="loadPage(event, this.href)">Manage</a>
 						</div>
 					</div>
 

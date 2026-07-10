@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" th:href="@{/header.css}">
 <style>
 :root {
@@ -169,18 +171,20 @@ input[type="password"] {
 					id="filltype" placeholder="Enter your password here" required>
 			</div>
 			<div class="forgetpassword">
-				<a href="">forgot password</a>
+				<a href="/forgot-password">forgot password</a>
 			</div>
 			<div class="button">
 				<button id="submittbut">Login</button>
 			</div>
 			<div class="mediaopt">
 				<p>Or continue with</p>
-				<div class="mideaimg">
-					<a id="opt" href=""><img src="apple.png" alt="github"></a> <a
-						id="opt" href=""><img src="google.png" alt="google"></a> <a
-						id="opt" href=""><img src="Facebook.png" alt="facebook"></a>
-				</div>
+				
+
+<div class="mideaimg">
+    <a href="#"><i class="fa-brands fa-apple"></i></a>
+    <a href="#"><i class="fa-brands fa-google"></i></a>
+    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+</div>
 			</div>
 		</div>
 	</form>

@@ -27,8 +27,18 @@ public class SecurityConfiguration {
 	public SecurityFilterChain filterChain(HttpSecurity sec) throws Exception{
 		
 		sec
+//		.csrf(csrf->csrf.disable())
 			.authorizeHttpRequests(auth->auth
 				.requestMatchers("/").permitAll()
+				.requestMatchers(
+                        "/forgot-password",
+                        "/send-otp",
+                        "/verify-otp",
+                        "/reset-password"
+                ).permitAll()
+				
+//				.requestMatchers("/forgot-password").permitAll()
+				
 				.requestMatchers("/index.css","/header.css","/navbar.css").permitAll()
 				.requestMatchers("/super/**").hasAnyRole("SUPER_ADMIN")
 				.requestMatchers("/admin/**").hasAnyRole("SCHOOL_ADMIN")

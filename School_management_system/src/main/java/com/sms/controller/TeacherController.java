@@ -97,6 +97,17 @@ public class TeacherController {
 		model.addAttribute("clsName","Class "+teacherServiceInterface.findClassByClassId(class_id).get().getClassName()+"("+teacherServiceInterface.findClassByClassId(class_id).get().getSection()+")");
 		model.addAttribute("totalSCount",teacherServiceInterface.findAllStudentByClassNameAndSection(teacherServiceInterface.findClassByClassId(class_id).get().getClassName(), teacherServiceInterface.findClassByClassId(class_id).get().getSection()).size());
 
+		int tp = 0;
+		for(Attendence a: attendence) {
+			if(a.getDate().equals(LocalDate.now()) && a.getStatus().equals("PRESENT")) {
+				tp++;
+			}
+		}
+		
+		System.out.println(tp);
+		
+		model.addAttribute("totalPresent", tp == 0 ? "Not Update" : tp);
+		
 		return "/teacher/index";
 	}
 	
@@ -275,10 +286,20 @@ public class TeacherController {
 	
 	
 	@PostMapping("/students/update")
-	public String updateStudent(Model model, HttpSession session) {
+	public String updateStudent(@ModelAttribute Student student) {
 		
+		Student s1 = studentServiceInterface.findStudentByStudentId(student.getId()).get();
 		
+		s1.setName(student.getName());
+		s1.setRollNumber(student.getRollNumber());
+		s1.setEmail(student.getEmail());
+		s1.setPhone(student.getPhone());
+		s1.setGender(student.getGender());
+		s1.setParentName(student.getParentName());
+		s1.setParentPhone(student.getParentPhone());
 		
-		return "redirect:/teacher/student";
+		studentServiceInterface.updateStudent(s1);
+		
+		return "redirect:/teacher";
 	}
 }

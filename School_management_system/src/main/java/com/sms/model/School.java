@@ -1,13 +1,9 @@
 package com.sms.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
-import org.hibernate.boot.model.relational.SqlStringGenerationContext;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

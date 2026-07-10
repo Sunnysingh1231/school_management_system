@@ -17,7 +17,6 @@
             <table>
                 <thead>
                     <tr>
-                        <th>#</th>
                         <th>Roll No</th>
                         <th>Name</th>
                         <th>Status</th>
@@ -28,7 +27,6 @@
 
                     <!-- Row 1 -->
                     <tr th:each="student,count : ${students}">
-                        <td  th:text="${count.index+1}">1</td>
                         <td th:text="${student.rollNumber}">101</td>
                         <td th:text="${student.name}">Amit Kumar</td>
                         <td class="cont">

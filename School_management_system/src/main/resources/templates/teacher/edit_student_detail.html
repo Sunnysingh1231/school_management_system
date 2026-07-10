@@ -4,8 +4,8 @@
 	<!-- Main Area -->
 	<div class="main-area">
 
-		<form th:action="@{/students/update}" method="post" th:object="${student}">
-
+		<form th:action="@{/teacher/students/update}" method="post" th:object="${student}">
+			<input type="hidden" th:field="*{id}">
 			<!-- Header -->
 			<div class="top-header">
 				<h2>✏️ Edit Student</h2>
@@ -38,7 +38,7 @@
 						<label>Email</label> <input type="email" th:field="*{email}">
 					</div>
 
-					<!-- Class -->
+					<!-- Class 
 					<div>
 						<label>Class</label>
 						<select th:field="*{classEntity.className}">
@@ -61,7 +61,7 @@
 						</select>
 					</div>
 
-					<!-- Section -->
+					Section
 					<div>
 						<label>Section</label>
 						<select th:field="*{classEntity.section}">
@@ -72,6 +72,8 @@
 						
 						</select>
 					</div>
+					
+					-->
 
 					<!-- Phone -->
 					<div>

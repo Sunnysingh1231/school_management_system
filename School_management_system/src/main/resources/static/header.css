@@ -20,12 +20,11 @@
         }
 
         /* ================= NAVBAR ================= */
-        .navbar {
+        .navlogocont {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            /* background:white; */
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             position: sticky;
             top: 0;
@@ -33,7 +32,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .logo {
+        .navlogocont .logo {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -41,16 +40,16 @@
             font-size: 20px;
         }
 
-        .logo i {
+        .navlogocont .logo i {
             color: var(--primary);
         }
 
-        .nav-buttons {
+        .navlogocont .nav-buttons {
             display: flex;
             gap: 15px;
         }
 
-        .btn {
+        .navlogocont .btn {
             padding: 10px 18px;
             border-radius: 25px;
             border: none;
@@ -59,15 +58,15 @@
             transition: 0.3s;
         }
 
-        .btn-back {
+        .navlogocont .btn-back {
             background: #e2e8f0;
         }
 
-        .btn-login {
+        .navlogocont .btn-login {
             background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
             color: white;
         }
 
-        .btn:hover {
+        .navlogocont .btn:hover {
             transform: translateY(-2px);
         }
