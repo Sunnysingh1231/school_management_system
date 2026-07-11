@@ -1,5 +1,6 @@
 package com.sms.serviceIMPL;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import com.sms.model.Teacher;
 import com.sms.model.User;
 import com.sms.repository.AttendenceRepository;
 import com.sms.repository.ClassRepository;
+import com.sms.repository.FeeStructureRepository;
 import com.sms.repository.SchoolRepository;
 import com.sms.repository.StudentRepository;
 import com.sms.repository.TeacherRepository;
@@ -38,6 +40,9 @@ public class TeacherService implements TeacherServiceInterface{
 	
 	@Autowired
 	private AttendenceRepository attendenceRepository;
+	
+	@Autowired
+	private FeeStructureRepository feeStructureRepository;
 	
 	public Teacher getCurrentTeacher() {
 	    String email = SecurityContextHolder.getContext()
@@ -112,6 +117,11 @@ public class TeacherService implements TeacherServiceInterface{
 	public List<Attendence> findAttendenceByAndDate(LocalDate date,int clsId) {
 		
 		return attendenceRepository.findBySchoolIdAndClassEntityIdAndDate(getCurrentTeacher().getSchool().getId(), clsId, date);
+	}
+
+	@Override
+	public BigDecimal findStudentFeeByClsId(int id) {
+		return feeStructureRepository.findAmountByClassEntityId(id);
 	}
 	
 	

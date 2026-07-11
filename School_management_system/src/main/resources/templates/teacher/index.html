@@ -350,8 +350,12 @@ body {
 		justify-content: center;
 		align-items: center;
 	}
+	.glass-card {
+		border:2px solid red;
+	}
 	.glass-card a {
 		font-size: .8rem;
+		border:2px solid red;
 	}
 }
 
@@ -625,7 +629,7 @@ table {
 						<h3>Fee Portal</h3>
 						<p>Track pending dues, scholarships, and receipts.</p>
 						<div class="card-footer">
-							<span class="count">5 Dues</span> <a href="#">Invoices</a>
+							<span class="count">5 Dues</span> <a href="/teacher/students/fees" onclick="loadPage(event, this.href)">Pay</a> 
 						</div>
 					</div>
 
@@ -777,6 +781,28 @@ window.onpopstate = function () {
     });
 </script>
 -->
+
+
+<!-- pay-student js -->
+<script>
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll('.fee-check:checked').forEach(function(checkbox) {
+                total += parseFloat(checkbox.getAttribute('data-amount'));
+                console.log(parseFloat(checkbox.getAttribute('data-amount')))
+            });
+            
+            document.getElementById('total').textContent = total.toFixed(2);
+        }
+
+        function selectAll() {
+            const checkboxes = document.querySelectorAll('.fee-check');
+            const allSelected = Array.from(checkboxes).every(cb => cb.checked);
+            checkboxes.forEach(cb => cb.checked = !allSelected);
+            updateTotal();
+        }
+    </script>
+
 </body>
 
 </html>

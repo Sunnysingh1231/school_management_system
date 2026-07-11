@@ -1,5 +1,6 @@
 package com.sms.serviceIMPL;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -11,18 +12,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sms.model.ClassEntity;
+import com.sms.model.FeeStructure;
 import com.sms.model.Role;
 import com.sms.model.School;
 import com.sms.model.Student;
 import com.sms.model.Teacher;
 import com.sms.model.User;
 import com.sms.repository.ClassRepository;
+import com.sms.repository.FeeStructureRepository;
 import com.sms.repository.RoleRepository;
 import com.sms.repository.SchoolRepository;
 import com.sms.repository.StudentRepository;
 import com.sms.repository.TeacherRepository;
 import com.sms.repository.UserRepository;
 import com.sms.serviceInterface.UserServiceInterface;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService implements UserServiceInterface{
@@ -47,6 +52,9 @@ public class UserService implements UserServiceInterface{
 	
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	@Autowired
+	private FeeStructureRepository feeStructureRepository;
 
 	
 	public User getCurrentUser() {
@@ -191,12 +199,67 @@ public class UserService implements UserServiceInterface{
 	}
 
 	
+//SET FEE OF CLASSES---------------------------------------------------------------------------------------------------
 
-	
+	@Transactional
+    public void initializeDefaultFees(School school) {
 
-	
+        List<ClassEntity> classes = classRepository.findBySchoolId(getCurrentUser().getSchool().getId());
 
+        for (ClassEntity classEntity : classes) {
+
+            boolean exists = feeStructureRepository
+                    .existsBySchoolAndClassEntityAndFeeTypeAndSession(
+                            school,
+                            classEntity,
+                            "Monthly Fee",
+                            "2026-2027"
+                    );
+
+            if (!exists) {
+
+                FeeStructure fee = FeeStructure.builder()
+                        .school(school)
+                        .classEntity(classEntity)
+                        .feeType("Monthly Fee")
+                        .amount(new BigDecimal("0"))
+                        .session("2026-2027")
+                        .build();
+
+                feeStructureRepository.save(fee);
+            }
+        }
+    }
+
+	@Override
+	public void initializeFee() {
+		initializeDefaultFees(getCurrentUser().getSchool());
+	}
+
+
+	@Override
+	public List<FeeStructure> findAllFeeStructureBySchool() {
+		return feeStructureRepository.findAllFeeStructureBySchool(getCurrentUser().getSchool());
+	}
+
+
+	@Override
+	public void updateFeeStructure(int id, String type, int amount) {
 	
+		School school = getCurrentUser().getSchool();
+
+	    FeeStructure feeStructure = feeStructureRepository
+	            .findBySchoolAndClassEntityIdAndFeeType(
+	                    school,
+	                    id,
+	                    type)
+	            .orElseThrow(() -> new RuntimeException("Fee structure not found"));
+	    
+	    feeStructure.setAmount(new BigDecimal(amount));
+	    
+	    feeStructureRepository.save(feeStructure);
+		
+	}
 
 	
 	

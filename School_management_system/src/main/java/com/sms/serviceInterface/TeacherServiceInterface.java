@@ -1,5 +1,6 @@
 package com.sms.serviceInterface;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,8 @@ public interface TeacherServiceInterface {
 	Optional<Attendence> findAttendenceByStudentIdAndDateAndClassEntityId(int stdId, LocalDate date, int clsId);  
 	
 	List<Attendence> findAttendenceByAndDate(LocalDate date,int clsId);
+	
+	BigDecimal findStudentFeeByClsId(int id);
 	
 //	List<Attendence> findAttendenceByDate(LocalDate date);>
 }

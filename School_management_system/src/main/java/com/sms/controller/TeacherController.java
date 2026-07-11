@@ -48,6 +48,7 @@ public class TeacherController {
 	
 	@Autowired
 	private StudentServiceInterface studentServiceInterface;
+	
 
 
 	public String getAcademicSession() {
@@ -257,9 +258,11 @@ public class TeacherController {
 			));
 		
 		model.addAttribute("monthList", monthList);
+		
+		model.addAttribute("fee", teacherServiceInterface.findStudentFeeByClsId(studentServiceInterface.findStudentByStudentId(id).get().getClassEntity().getId()));
+		
 		model.addAttribute("sess", getAcademicSession());
 		
-		System.out.println(getAcademicSession());
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/pay_student :: pay"; // fragment
@@ -301,5 +304,14 @@ public class TeacherController {
 		studentServiceInterface.updateStudent(s1);
 		
 		return "redirect:/teacher";
+	}
+	
+	@PostMapping("/students/fees/pay/{id}")
+	public String payStudentFee(@PathVariable int id){
+		
+		System.out.println("all good"+ id );
+		
+		return "redirect:/teacher";
+		
 	}
 }

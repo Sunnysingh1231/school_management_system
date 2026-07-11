@@ -4,167 +4,155 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>School Admin Dashboard</title>
-	<link rel = "stylesheet" th:href="@{/super_admin_css/header.css}">
+<link rel="stylesheet" th:href="@{/super_admin_css/header.css}">
 
 
 <style>
-
-body{
-margin:0;
-font-family:Arial;
-background:#fdf6e3;
+body {
+	margin: 0;
+	font-family: Arial;
+	background: #fdf6e3;
 }
 
 /* Navbar */
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#4ecdc4;
-padding:15px 30px;
-color:white;
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #4ecdc4;
+	padding: 15px 30px;
+	color: white;
 }
 
-nav a{
-text-decoration:none;
-color:white;
-margin-left:20px;
-font-weight:bold;
+nav a {
+	text-decoration: none;
+	color: white;
+	margin-left: 20px;
+	font-weight: bold;
 }
 
 /* Dashboard */
-
-.dashboard{
-padding:40px;
-text-align:center;
+.dashboard {
+	padding: 40px;
+	text-align: center;
 }
 
-.dashboard h2{
-color:#ff758c;
-margin-bottom:30px;
+.dashboard h2 {
+	color: #ff758c;
+	margin-bottom: 30px;
 }
 
 /* Cards */
-
-.controls{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:25px;
+.controls {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 25px;
 }
 
-.card{
-background:white;
-width:220px;
-padding:25px;
-border-radius:15px;
-box-shadow:0 5px 10px rgba(0,0,0,0.2);
-transition:0.3s;
+.card {
+	background: white;
+	width: 220px;
+	padding: 25px;
+	border-radius: 15px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
 }
 
-.card:hover{
-transform:scale(1.05);
+.card:hover {
+	transform: scale(1.05);
 }
 
-.card h3{
-color:#ff758c;
-margin-bottom:15px;
+.card h3 {
+	color: #ff758c;
+	margin-bottom: 15px;
 }
 
 /* Buttons */
-
-.card a{
-display:block;
-margin:8px 0;
-padding:10px;
-border-radius:20px;
-background:#ffcc00;
-color:black;
-text-decoration:none;
-font-weight:bold;
+.card a {
+	display: block;
+	margin: 8px 0;
+	padding: 10px;
+	border-radius: 20px;
+	background: #ffcc00;
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
 }
 
-.card a:hover{
-background:#ffaa00;
+.card a:hover {
+	background: #ffaa00;
 }
 
 /* Footer */
-
-footer{
-background:#ff758c;
-color:white;
-text-align:center;
-padding:15px;
-margin-top:40px;
+footer {
+	background: #ff758c;
+	color: white;
+	text-align: center;
+	padding: 15px;
+	margin-top: 40px;
 }
-
 </style>
 </head>
 
 <body>
 
-		<div th:replace="~{/school_admin/header::school_head}"></div>
-	
+	<div th:replace="~{/school_admin/header::school_head}"></div>
 
-    <section class="dashboard">
 
-        <h2>School Admin Control Panel</h2>
+	<section class="dashboard">
 
-        <div class="controls">
+		<h2>School Admin Control Panel</h2>
 
-            <div class="card">
-                <h3>👨‍🎓 Students</h3>
-                <a th:href="@{/admin/register-student}">Add Student</a>
-                <a th:href="@{/admin/view-student}">View Students</a>
-            </div>
+		<div class="controls">
 
-            <div class="card">
-                <h3>👨‍🏫 Teachers</h3>
-                <a th:href="@{/admin/teacher-register}">Add Teacher</a>
-                <a th:href="@{/admin/view-teacher}">View Teachers</a>
-            </div>
+			<div class="card">
+				<h3>👨‍🎓 Students</h3>
+				<a th:href="@{/admin/register-student}">Add Student</a> <a
+					th:href="@{/admin/view-student}">View Students</a>
+			</div>
 
-            <div class="card">
-                <h3>🏫 Classes</h3>
-                <a href="#">Manage Class</a>
-                <a th:href="@{/admin/view-classes}">View Classes</a>
-                <a th:href="@{/admin/assign-class-teacher}">Assign Class-teacher</a>
-            </div>
+			<div class="card">
+				<h3>👨‍🏫 Teachers</h3>
+				<a th:href="@{/admin/teacher-register}">Add Teacher</a> <a
+					th:href="@{/admin/view-teacher}">View Teachers</a>
+			</div>
 
-            <div class="card">
-                <h3>📚 Subjects</h3>
-                <a href="#">Add Subject</a>
-                <a href="#">Assign Subject</a>
-            </div>
+			<div class="card">
+				<h3>🏫 Classes</h3>
+				<a href="#">Manage Class</a> <a th:href="@{/admin/view-classes}">View
+					Classes</a> <a th:href="@{/admin/assign-class-teacher}">Assign
+					Class-teacher</a>
+			</div>
 
-            <div class="card">
-                <h3>📅 Attendance</h3>
-                <a href="#">Mark Attendance</a>
-                <a href="#">Attendance Report</a>
-            </div>
+			<div class="card">
+				<h3>📚 Subjects</h3>
+				<a href="#">Add Subject</a> <a href="#">Assign Subject</a>
+			</div>
 
-            <div class="card">
-                <h3>📝 Exams</h3>
-                <a href="#">Create Exam</a>
-                <a href="#">Upload Result</a>
-            </div>
+			<div class="card">
+				<h3>📅 Attendance</h3>
+				<a href="#">Mark Attendance</a> <a href="#">Attendance Report</a>
+			</div>
 
-            <div class="card">
-                <h3>💰 Fees</h3>
-                <a href="#">Collect Fees</a>
-                <a href="#">Fees Report</a>
-            </div>
+			<div class="card">
+				<h3>📝 Exams</h3>
+				<a href="#">Create Exam</a> <a href="#">Upload Result</a>
+			</div>
 
-            <div class="card">
-                <h3>⚙ Settings</h3>
-                <a href="#">School Profile</a>
-                <a href="#">System Settings</a>
-            </div>
+			<div class="card">
+				<h3>💰 Fees</h3>
+				<a th:href="@{/admin/manage-student-fee}">Fee Structure</a> <a href="">Fees Report</a>
+			</div>
 
-        </div>  
+			<div class="card">
+				<h3>⚙ Settings</h3>
+				<a href="#">School Profile</a> <a href="#">System Settings</a>
+			</div>
 
-    </section>
+		</div>
+
+	</section>
 
 </body>
 </html>

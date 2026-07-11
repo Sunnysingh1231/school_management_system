@@ -11,17 +11,11 @@
                 <button class="btn btn-login">Login</button>
             </form>
 
-            <form th:method="POST" th:action="@{/logout}" sec:authorize="isAuthenticated()"
-                onsubmit="return confirmLogout()">
+            <form th:method="POST" th:action="@{/logout}" sec:authorize="isAuthenticated()">
                 <button class="btn btn-login">Logout</button>
             </form>
 
         </div>
     </div>
-    <script>
-        function confirmLogout() {
-            return confirm("Are you sure you want to logout?");
-        }
-    </script>
 
 </div>

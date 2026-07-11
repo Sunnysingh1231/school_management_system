@@ -3,15 +3,11 @@
 	<div class="main-area">
 
         <!-- Header -->
-        <form action="@{/teacher/pay-fees}" method="post">
+        <form action="@{/teacher/students/fees/pay}" method="post">
 
             <div class="top-header">
                 <h2>💰 Student Fee Payment</h2>
 
-                <div style="display:flex; gap:10px;">
-                    <button type="button" class="btn-outline" onclick="selectAll()">Select All</button>
-                    <button type="submit" class="btn-primary">Pay Selected</button>
-                </div>
             </div>
 
             <!-- Student Info -->
@@ -47,7 +43,7 @@
                             <td th:text="${month}"></td>
 
                             <!-- Amount -->
-                            <td>₹<span text="${fee.amount}"></span></td>
+                            <td>₹<span th:text="${fee}"></span></td>
 
                             <!-- Status -->
                             <td>
@@ -62,8 +58,7 @@
                                        class="fee-check"
                                        name="feeIds"
                                        value="${fee.id}"
-                                       disabled="${fee.status == 'PAID'}"
-                                       data-amount="${fee.amount}"
+                                       th:data-amount="${fee}"
                                        onchange="updateTotal()">
                             </td>
 

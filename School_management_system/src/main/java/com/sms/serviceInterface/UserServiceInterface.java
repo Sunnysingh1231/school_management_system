@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.sms.model.ClassEntity;
+import com.sms.model.FeeStructure;
 import com.sms.model.Student;
 import com.sms.model.Teacher;
 import com.sms.model.User;
@@ -13,6 +14,7 @@ public interface UserServiceInterface {
 	String schoolName();
 	
 	void initializeClasses();
+	void initializeFee();
 	
 	User getCurrentUser();
 	
@@ -28,11 +30,16 @@ public interface UserServiceInterface {
 	void assignTeacherToClass(int classId, int teacherId);
 	
 	
-//	SSTUDENT CONTROL
+//	STUDENT CONTROL
 	void addStudent(Student student,String role,String classname,String sec);
 	List<Student> findAllStudent();
 	List<Student> findAllStudentByCls(String cls);
 	List<Student> findAllStudentByClsAndSec(String cls,String sec);
 	List<Student> findAllStudentBySec(String sec);
+	
+//	FEE STRUCTURE CONTROLLER
+	
+	List<FeeStructure> findAllFeeStructureBySchool();
+	void updateFeeStructure(int id, String type, int amount);
 	
 }

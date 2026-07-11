@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>School Fee Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/super_admin_css/header.css}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Segoe UI, sans-serif;
+}
+
+body {
+	background: #f5f7fb;
+}
+
+.dashboard {
+	padding: 30px;
+}
+
+.dashboard h2 {
+	margin-bottom: 25px;
+	color: #1e293b;
+}
+
+.fee-container {
+	display: grid;
+	grid-template-columns: 360px 1fr;
+	gap: 25px;
+}
+
+.card {
+	background: #fff;
+	border-radius: 15px;
+	padding: 25px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+.card h3 {
+	margin-bottom: 20px;
+	color: #1e293b;
+}
+
+.form-group {
+	margin-bottom: 18px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 600;
+	color: #555;
+}
+
+.form-group input, .form-group select {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	font-size: 15px;
+	outline: none;
+}
+
+.form-group input:focus, .form-group select:focus {
+	border-color: #2563eb;
+}
+
+.btn-save {
+	width: 100%;
+	padding: 13px;
+	border: none;
+	border-radius: 8px;
+	background: #ffcc00;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+	transition: .3s;
+}
+
+.btn-save:hover {
+	background: #1d4ed8;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table th {
+	background: #ff758c;
+	color: #fff;
+	padding: 14px;
+}
+
+table td {
+	padding: 14px;
+	border-bottom: 1px solid #eee;
+}
+
+table tr:hover {
+	background: #f8fafc;
+}
+
+.edit-btn {
+	background: #10b981;
+	color: #fff;
+	padding: 8px 15px;
+	border-radius: 6px;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.edit-btn:hover {
+	background: #059669;
+}
+
+@media ( max-width :900px) {
+	.fee-container {
+		grid-template-columns: 1fr;
+	}
+}
+</style>
+<body>
+
+	<div th:replace="~{/school_admin/navbar::admin_navbar}"></div>
+
+	<section class="dashboard">
+
+		<h2>💰 School Fee Management</h2>
+
+		<div class="fee-container">
+
+			<!-- Fee Form -->
+			<div class="card">
+
+				<h3>Set / Update Fee</h3>
+
+				<form id="feeForm" th:action="@{/admin/save-fee}" method="post">
+
+					<div class="form-group">
+						<label>Class</label> <select name="classId" required>
+
+							<option value="">Select Class</option>
+
+							<option th:each="cls : ${feeStructure}"
+								th:value="${cls.classEntity.id}"
+								th:text="${cls.classEntity.className+' - '+cls.classEntity.section}"></option>
+
+						</select>
+					</div>
+
+					<div class="form-group">
+
+						<label>Fee Type</label> <select name="feeType">
+
+							<option>Monthly Fee</option>
+							<option>Admission Fee</option>
+							<option>Exam Fee</option>
+							<option>Transport Fee</option>
+
+						</select>
+
+					</div>
+
+					<div class="form-group">
+
+						<label>Amount (₹)</label> <input type="number" name="amount"
+							min="0" required>
+
+					</div>
+
+					<div class="form-group">
+
+						<label>Academic Session</label> <input type="text" name="session"
+							th:value="${sess}" placeholder="2026-2027" disabled>
+
+					</div>
+
+					<button class="btn-save" type="submit">Save Fee</button>
+
+				</form>
+
+			</div>
+
+
+			<!-- Existing Fees -->
+
+			<div class="card">
+
+				<h3>Existing Fee Structure</h3>
+
+				<table>
+
+					<thead>
+
+						<tr>
+
+							<th>Class</th>
+							<th>Fee Type</th>
+							<th>Amount</th>
+							<th>Session</th>
+							<!--  <th>Action</th>  -->
+
+						</tr>
+
+					</thead>
+
+					<tbody>
+
+						<tr th:each="fee : ${feeStructure}">
+
+							<td
+								th:text="${fee.classEntity.className+'-'+fee.classEntity.section}"></td>
+
+							<td th:text="${fee.feeType}"></td>
+
+							<td>₹ <span th:text="${fee.amount}"></span></td>
+
+							<td th:text="${fee.session}"></td>
+
+							<!-- 
+							<td><a class="edit-btn"
+								th:href="@{'/admin/edit-fee/'+${fee.id}}"> Edit </a></td>
+							-->
+
+						</tr>
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<script>
+document.getElementById("feeForm").addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    Swal.fire({
+        title: "Update Fee?",
+        text: "Do you want to update this fee structure?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Update",
+        cancelButtonText: "Cancel"
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            this.submit();
+        }
+
+    });
+
+});
+</script>
+
+	<script th:if="${param.success}">
+		alert("Fee updated successfully.");
+	</script>
+
+</body>
+</html>

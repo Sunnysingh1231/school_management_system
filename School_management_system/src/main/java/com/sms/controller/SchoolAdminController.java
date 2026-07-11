@@ -1,6 +1,7 @@
 package com.sms.controller;
 
 import java.security.PublicKey;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sms.model.ClassEntity;
+import com.sms.model.FeeStructure;
 import com.sms.model.Student;
 import com.sms.model.Teacher;
 import com.sms.repository.ClassRepository;
@@ -45,6 +48,18 @@ public class SchoolAdminController {
 // GET MAPPING-------------------------------------------------------------------
 	
 	
+	public String getAcademicSession() {
+	    LocalDate today = LocalDate.now();
+	    int year = today.getYear();
+	    int month = today.getMonthValue();
+
+	    if (month >= 4) {
+	        return year + "-" + (year + 1);
+	    } else {
+	        return (year - 1) + "-" + year;
+	    }
+	}
+	
 	@GetMapping
 	public String dashboard(Model model) {
 		
@@ -54,6 +69,7 @@ public class SchoolAdminController {
 		model.addAttribute("schoolName",userServiceInterface.schoolName());
 		
 		userServiceInterface.initializeClasses();
+		userServiceInterface.initializeFee();
 		
 		return "/school_admin/dashboard";
 		
@@ -178,6 +194,20 @@ public class SchoolAdminController {
 		
 	}
 	
+	@GetMapping("/manage-student-fee")
+	public String manageStudentFee(Model model) {
+		
+		// SET SCHOOL NAME TO HEADER NAVBAR
+		model.addAttribute("schoolName",userServiceInterface.schoolName());
+		
+		model.addAttribute("feeStructure",userServiceInterface.findAllFeeStructureBySchool());
+		
+		model.addAttribute("sess",getAcademicSession());
+				
+		return "/school_admin/student_fee_manage";
+		
+	}
+	
 	
 //	POST MAPPING------------------------------------------------------------------------
 	
@@ -208,4 +238,13 @@ public class SchoolAdminController {
 		return "/school_admin/dashboard";
 	}
 	
+	@PostMapping("/save-fee")
+	public String setStudentFee(@RequestParam int classId, int amount, String feeType) {
+				
+		userServiceInterface.updateFeeStructure(classId, feeType, amount);
+		
+		return "redirect:/admin/manage-student-fee";
+		
+		
+	}
 }
