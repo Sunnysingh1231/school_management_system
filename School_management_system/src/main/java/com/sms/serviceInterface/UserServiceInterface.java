@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.sms.model.ClassEntity;
 import com.sms.model.FeeStructure;
 import com.sms.model.Student;
+import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
 import com.sms.model.User;
 
@@ -41,5 +42,7 @@ public interface UserServiceInterface {
 	
 	List<FeeStructure> findAllFeeStructureBySchool();
 	void updateFeeStructure(int id, String type, int amount);
+	
+
 	
 }

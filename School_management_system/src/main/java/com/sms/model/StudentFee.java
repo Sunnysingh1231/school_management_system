@@ -34,7 +34,7 @@ public class StudentFee {
     private FeeStructure feeStructure;
 
     @Column(nullable = false)
-    private Integer month;
+    private String month;
 
     @Column(nullable = false)
     private Integer year;
@@ -42,19 +42,13 @@ public class StudentFee {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StudentFeeStatus status = StudentFeeStatus.PENDING;
+    private String status;
 
     private LocalDate paymentDate;
 
     @Column(length = 100)
     private String transactionId;
     
- // Enum for status
-    public enum StudentFeeStatus {
-        PAID,
-        PENDING
-    }
-
+ 
 }

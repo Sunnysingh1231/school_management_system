@@ -2,87 +2,86 @@
 
 	<div class="main-area">
 
-        <!-- Header -->
-        <form action="@{/teacher/students/fees/pay}" method="post">
+		<!-- Header -->
+		<form action="@{/teacher/students/fees/pay}" method="post">
 
-            <div class="top-header">
-                <h2>💰 Student Fee Payment</h2>
+			<div class="top-header">
+				<h2>💰 Student Fee Payment</h2>
 
-            </div>
+			</div>
 
-            <!-- Student Info -->
-            <div class="stats-row">
-                <div class="stat-pill">
-                    Student: <span th:text="${student.name}"></span>
-                </div>
-                <div class="stat-pill">
-                    Class: <span th:text="${student.classEntity.className+'-'+student.classEntity.section}"></span>
-                </div>
-                <div class="stat-pill">
-                    Session: <span th:text="${sess}"></span>
-                </div>
-            </div>
+			<!-- Student Info -->
+			<div class="stats-row">
+				<div class="stat-pill">
+					Student: <span th:text="${student.name}"></span>
+				</div>
+				<div class="stat-pill">
+					Class: <span
+						th:text="${student.classEntity.className+'-'+student.classEntity.section}"></span>
+				</div>
+				<div class="stat-pill">
+					Session: <span th:text="${sess}"></span>
+				</div>
+			</div>
 
-            <!-- Fee Table -->
-            <div class="glass-card">
+			<!-- Fee Table -->
+			<div class="glass-card">
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Month</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th style="text-align:right;">Select</th>
-                        </tr>
-                    </thead>
+				<table>
+					<thead>
+						<tr>
+							<th>Month</th>
+							<th>Amount</th>
+							<th>Status</th>
+							<th style="text-align: right;">Select</th>
+						</tr>
+					</thead>
 
-                    <tbody>
-                        <tr th:each="month : ${monthList}">
+					<tbody>
+						<tr th:each="fee : ${feeDetail}">
 
-                            <!-- Month -->
-                            <td th:text="${month}"></td>
+							<!-- Month -->
+							<td th:text="${fee.month}"></td>
 
-                            <!-- Amount -->
-                            <td>₹<span th:text="${fee}"></span></td>
+							<!-- Amount -->
+							<td>₹<span th:text="${fee.amount}"></span></td>
 
-                            <!-- Status -->
-                            <td>
-                                <span classappend="${fee.status == 'PAID'} ? 'badge' : 'badge red'"
-                                      text="${fee.status}">
-                                </span>
-                            </td>
+							<!-- Status -->
+							<td><span
+								th:class="${fee.status == 'PAID'} ? 'badge' : 'badge red'"
+								th:text="${fee.status}"> </span></td>
 
-                            <!-- Checkbox -->
-                            <td style="text-align:right;">
-                                <input type="checkbox"
-                                       class="fee-check"
-                                       name="feeIds"
-                                       value="${fee.id}"
-                                       th:data-amount="${fee}"
-                                       onchange="updateTotal()">
-                            </td>
+							<!-- Checkbox -->
+							<td style="text-align: right;"><input type="checkbox"
+								class="fee-check" name="feeIds" value="${fee.id}"
+								th:data-amount="${fee.amount}" onchange="updateTotal()">
+							</td>
 
-                        </tr>
-                    </tbody>
-                </table>
+						</tr>
+					</tbody>
+				</table>
 
-                <!-- Total Section -->
-                <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+				<!-- Total Section -->
+				<div
+					style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
 
-                    <h3>Total Selected: ₹<span id="total">0</span></h3>
+					<h3>
+						Total Selected: ₹<span id="total">0</span>
+					</h3>
 
-                    <div style="display:flex; gap:10px;">
-                        <button type="button" class="btn-outline" onclick="selectAll()">Select All</button>
-                        <button type="submit" class="btn-primary">Pay Selected</button>
-                    </div>
+					<div style="display: flex; gap: 10px;">
+						<button type="button" class="btn-outline" onclick="selectAll()">Select
+							All</button>
+						<button type="submit" class="btn-primary">Pay Selected</button>
+					</div>
 
-                </div>
+				</div>
 
-            </div>
+			</div>
 
-        </form>
+		</form>
 
-    </div>
+	</div>
 
 
 </div>

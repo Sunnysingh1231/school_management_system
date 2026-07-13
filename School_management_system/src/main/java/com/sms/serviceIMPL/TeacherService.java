@@ -2,6 +2,8 @@ package com.sms.serviceIMPL;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,12 +14,14 @@ import org.springframework.stereotype.Service;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
 import com.sms.model.Student;
+import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
 import com.sms.model.User;
 import com.sms.repository.AttendenceRepository;
 import com.sms.repository.ClassRepository;
 import com.sms.repository.FeeStructureRepository;
 import com.sms.repository.SchoolRepository;
+import com.sms.repository.StudentFeeRepository;
 import com.sms.repository.StudentRepository;
 import com.sms.repository.TeacherRepository;
 import com.sms.repository.UserRepository;
@@ -43,6 +47,9 @@ public class TeacherService implements TeacherServiceInterface{
 	
 	@Autowired
 	private FeeStructureRepository feeStructureRepository;
+	
+	@Autowired
+	private StudentFeeRepository studentFeeRepository;
 	
 	public Teacher getCurrentTeacher() {
 	    String email = SecurityContextHolder.getContext()
@@ -124,6 +131,37 @@ public class TeacherService implements TeacherServiceInterface{
 		return feeStructureRepository.findAmountByClassEntityId(id);
 	}
 	
-	
+// STUDENT FEE---------------------------------------------------------------------------------------------------
+
+		@Override
+		public List<StudentFee> findStudentFeeDetail(Student student) {
+			
+			BigDecimal amount = feeStructureRepository.findAmountByClassEntityId(student.getClassEntity().getId());
+			
+			List<StudentFee> feeList = studentFeeRepository.findByStudentId(student.getId());
+			
+			String[] monthList = {"April", "May", "June", "July", "August", "September",
+				    "October", "November", "December", "January", "February", "March"};
+				
+			
+			List<StudentFee> resultFees = new ArrayList<>();
+			
+			
+			for(int i = 0; i < 12; i++) {
+				
+				StudentFee rowFee = new StudentFee();
+				
+				rowFee.setMonth(monthList[i]);
+				rowFee.setAmount(amount);
+				rowFee.setStatus("PENDING");
+				
+				resultFees.add(rowFee);
+				
+			}
+			
+			return resultFees;
+			
+		}
+
 
 }

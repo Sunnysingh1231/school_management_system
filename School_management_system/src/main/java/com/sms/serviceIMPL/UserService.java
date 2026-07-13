@@ -16,12 +16,14 @@ import com.sms.model.FeeStructure;
 import com.sms.model.Role;
 import com.sms.model.School;
 import com.sms.model.Student;
+import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
 import com.sms.model.User;
 import com.sms.repository.ClassRepository;
 import com.sms.repository.FeeStructureRepository;
 import com.sms.repository.RoleRepository;
 import com.sms.repository.SchoolRepository;
+import com.sms.repository.StudentFeeRepository;
 import com.sms.repository.StudentRepository;
 import com.sms.repository.TeacherRepository;
 import com.sms.repository.UserRepository;
@@ -55,6 +57,9 @@ public class UserService implements UserServiceInterface{
 	
 	@Autowired
 	private FeeStructureRepository feeStructureRepository;
+	
+	@Autowired
+	private StudentFeeRepository studentFeeRepository;
 
 	
 	public User getCurrentUser() {
@@ -160,6 +165,9 @@ public class UserService implements UserServiceInterface{
 				
 		classRepository.save(classEntity.get());
 	}
+	
+//SET FEE OF CLASSES---------------------------------------------------------------------------------------------------
+
 
 	@Override
 	public void addStudent(Student student,String role,String classname,String sec) {
@@ -261,7 +269,8 @@ public class UserService implements UserServiceInterface{
 		
 	}
 
-	
+
+
 	
 	
 	

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
 import com.sms.model.Student;
+import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
 import com.sms.repository.StudentRepository;
 import com.sms.serviceIMPL.TeacherService;
@@ -104,9 +105,7 @@ public class TeacherController {
 				tp++;
 			}
 		}
-		
-		System.out.println(tp);
-		
+				
 		model.addAttribute("totalPresent", tp == 0 ? "Not Update" : tp);
 		
 		return "/teacher/index";
@@ -246,20 +245,13 @@ public class TeacherController {
 	
 	@GetMapping("/students/fees/pay/{id}")
 	public String pay(HttpServletRequest request, Model model,@PathVariable int id) {
+		
+		Student student = studentServiceInterface.findStudentByStudentId(id).get();
 
 		
-		model.addAttribute("student", studentServiceInterface.findStudentByStudentId(id).get());
+		model.addAttribute("student", student);
 		
-		
-		
-		List<String> monthList = new ArrayList<>(Arrays.asList(
-			    "April", "May", "June", "July", "August", "September",
-			    "October", "November", "December", "January", "February", "March"
-			));
-		
-		model.addAttribute("monthList", monthList);
-		
-		model.addAttribute("fee", teacherServiceInterface.findStudentFeeByClsId(studentServiceInterface.findStudentByStudentId(id).get().getClassEntity().getId()));
+		model.addAttribute("feeDetail", teacherServiceInterface.findStudentFeeDetail(student));
 		
 		model.addAttribute("sess", getAcademicSession());
 		
@@ -314,4 +306,13 @@ public class TeacherController {
 		return "redirect:/teacher";
 		
 	}
+	
+	@PostMapping("/")
+	public String payStudentFee() {
+		
+		System.out.println("all fine");
+		
+		return "redirect:/teacher";
+	}
+	
 }

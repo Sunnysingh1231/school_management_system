@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
 import com.sms.model.Student;
+import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
 
 public interface TeacherServiceInterface {
@@ -30,5 +31,8 @@ public interface TeacherServiceInterface {
 	
 	BigDecimal findStudentFeeByClsId(int id);
 	
-//	List<Attendence> findAttendenceByDate(LocalDate date);>
+//	STUDENT FEE CONTROLLER
+	
+	List<StudentFee> findStudentFeeDetail(Student student);
+	
 }
