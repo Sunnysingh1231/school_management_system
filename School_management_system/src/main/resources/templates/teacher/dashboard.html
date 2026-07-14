@@ -1,219 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{header.css}">
-    <title>Teacher Dashboard</title>
+<div th:fragment="dash">
+	<div class="stats-row">
+		<div class="stat-pill">
+			Total: <strong th:text="${totalSCount}">1,240</strong> Students
+		</div>
+		<div class="stat-pill">
+			Total Present: <strong th:text="${totalPresent}">45</strong>
+		</div>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: #fdf6e3;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        /* Container */
-        .container {
-            flex: 1;
-            padding: 30px;
-        }
+	</div>
 
-        /* Title */
-        h2 {
-            text-align: center;
-            color: #ff758c;
-        }
+	<div class="control-grid">
+		<div class="glass-card">
+			<div class="card-head c-1">
+				<i class="fas fa-calendar-check"></i>
+			</div>
+			<h3>Attendance</h3>
+			<p>Mark, edit, and export monthly presence logs.</p>
+			<div class="card-footer">
 
-        /* Stats */
+				<span class="badge">Live</span> <a
+					href="/teacher/students-attendence"
+					onclick="loadPage(event, this.href)">Manage</a>
+			</div>
+		</div>
 
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin: 30px 0;
-        }
+		<div class="glass-card">
+			<div class="card-head c-2">
+				<i class="fas fa-wallet"></i>
+			</div>
+			<h3>Fee Portal</h3>
+			<p>Track pending dues, scholarships, and receipts.</p>
+			<div class="card-footer">
+				<span class="count">5 Dues</span> <a href="/teacher/students/fees"
+					onclick="loadPage(event, this.href)">Pay Fee</a>
+			</div>
+		</div>
 
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            width: 180px;
-            text-align: center;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
+		<div class="glass-card">
+			<div class="card-head c-3">
+				<i class="fas fa-bullhorn"></i>
+			</div>
+			<h3>Notice Board</h3>
+			<p>Push notifications to mobile apps & email.</p>
+			<div class="card-footer">
+				<a href="#">Post New</a>
+			</div>
+		</div>
 
-        .stat-card h3 {
-            margin: 0;
-            color: #333;
-        }
+		<div class="glass-card">
+			<div class="card-head c-4">
+				<i class="fas fa-file-signature"></i>
+			</div>
+			<h3>Exams</h3>
+			<p>Create digital papers and publish marksheets.</p>
+			<div class="card-footer">
+				<a href="#">Results</a>
+			</div>
+		</div>
 
-        .stat-card p {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ff758c;
-        }
+		<div class="glass-card">
+			<div class="card-head c-5">
+				<i class="fas fa-cloud-upload-alt"></i>
+			</div>
+			<h3>Resources</h3>
+			<p>Upload PDFs, Video lectures, and Notes.</p>
+			<div class="card-footer">
+				<a href="#">Upload</a>
+			</div>
+		</div>
 
-        /* Dashboard Cards */
+		<div class="glass-card">
+			<div class="card-head c-6">
+				<i class="fas fa-comments"></i>
+			</div>
+			<h3>Parent Chat</h3>
+			<p>Direct communication channel with guardians.</p>
+			<div class="card-footer">
+				<span class="badge red">3 New</span> <a href="#">Chat</a>
+			</div>
+		</div>
 
-        .dashboard {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
-            justify-content: center;
-        }
+		<div class="glass-card">
+			<div class="card-head c-7">
+				<i class="fas fa-clock"></i>
+			</div>
+			<h3>Schedule</h3>
+			<p>Manage class timings and lab sessions.</p>
+			<div class="card-footer">
+				<a href="#">View Table</a>
+			</div>
+		</div>
 
-        .card {
-            background: white;
-            width: 220px;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            color: #ff758c;
-        }
-
-        /* Buttons */
-
-        .card a {
-            display: block;
-            margin: 8px 0;
-            padding: 10px;
-            border-radius: 20px;
-            background: #ffcc00;
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-        }
-
-        .card a:hover {
-            background: #ffaa00;
-        }
-
-        /* Footer */
-
-        footer {
-            background: #ff758c;
-            color: white;
-            text-align: center;
-            padding: 15px;
-        }
-    </style>
-
-</head>
-
-<body>
-
-    <div th:replace="~{/teacher/header::head}"></div>
-
-	<form th:action="@{/teacher}" th:method=get>
-		<select name="class_id">
-			<option th:each="cls: ${classes}" th:text="${'Class '+cls.className +' ('+ cls.section+')'}" th:value="${cls.id}">
-			    select class
-			</option>
-		</select>	
-		<button>Find</button>
-	</form>
-	
-	
-    <div class="container">
-
-        <h2>👨‍🏫 Teacher Dashboard</h2>
-
-        <!-- 🔥 Stats Section -->
-
-        <div class="stats">
-        
-        	<div class="stat-card">
-                <h3>Class Name</h3>
-                <p th:text="${clsName}"></p>
-            </div>
-
-            <div class="stat-card">
-                <h3>Students</h3>
-                <p th:text="${totalSCount}"></p>
-            </div>
-
-            <div class="stat-card">
-                <h3>Today's Classes</h3>
-                <p>8</p>
-            </div>
-
-            <div class="stat-card">
-                <h3>Subjects</h3>
-                <p>3</p>
-            </div>
-
-            <div class="stat-card">
-                <h3>Attendance %</h3>
-                <p th:text="${attCount == 0 ? 'N/A' : attCount + '%'}"></p>
-            </div>
-
-        </div>
-
-        <!-- 🔥 Controls -->
-
-        <div class="dashboard">
-
-            <div class="card">
-                <h3>👨‍🎓 Students</h3>
-                <a th:href="@{/teacher/students}">View Students</a>
-            </div>
-
-            <div class="card">
-                <h3>📅 Attendance</h3>
-                <a th:href="@{/teacher/students-attendence}">Mark Attendance</a>
-                <a href="/teacher/view-attendance">View Attendance</a>
-            </div>
-
-            <div class="card">
-                <h3>📝 Homework</h3>
-                <a href="/teacher/add-homework">Add Homework</a>
-                <a href="/teacher/homework-list">View Homework</a>
-            </div>
-
-            <div class="card">
-                <h3>🧪 Exams</h3>
-                <a href="/teacher/add-marks">Add Marks</a>
-                <a href="/teacher/results">View Results</a>
-            </div>
-
-            <div class="card">
-                <h3>💬 Notices</h3>
-                <a href="/teacher/add-notice">Add Notice</a>
-                <a href="/teacher/notices">View Notices</a>
-            </div>
-
-            <div class="card">
-                <h3>📊 Reports</h3>
-                <a href="/teacher/class-report">Class Report</a>
-            </div>
-
-            <div class="card">
-                <h3>⚙ Profile</h3>
-                <a href="/teacher/profile">Edit Profile</a>
-            </div>
-
-        </div>
-
-    </div>
-
-    <footer>
-        <p>© 2026 Smart School | Teacher Panel</p>
-    </footer>
-
-</body>
-
-</html>
+		<div class="glass-card">
+			<div class="card-head c-8">
+				<i class="fas fa-award"></i>
+			</div>
+			<h3>Disciplines</h3>
+			<p>Remarks, achievements, and star ratings.</p>
+			<div class="card-footer">
+				<a href="#">Log Entry</a>
+			</div>
+		</div>
+	</div>
+</div>

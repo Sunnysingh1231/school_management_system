@@ -5,6 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enterprise Teacher Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <link rel="stylesheet" href="dashbord.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -180,15 +182,14 @@ body {
 	align-items: center;
 }
 
-.control-grid input{
-    outline: none;
-    border: 1px solid #929292;
-    padding-left: 10px;
-    width: 180px;
-    height: 24px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    
+.control-grid input {
+	outline: none;
+	border: 1px solid #929292;
+	padding-left: 10px;
+	width: 180px;
+	height: 24px;
+	border-radius: 10px;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
 .glass-card:hover {
@@ -351,11 +352,9 @@ body {
 		align-items: center;
 	}
 	.glass-card {
-		border:2px solid red;
 	}
 	.glass-card a {
 		font-size: .8rem;
-		border:2px solid red;
 	}
 }
 
@@ -440,105 +439,101 @@ tbody tr+tr {
 	transform: translateY(-1px);
 }
 /* Make header responsive */
-@media(max-width:768px)
-{
-.top-header input {
-	width: 100%;
-}
+@media ( max-width :768px) {
+	.top-header input {
+		width: 100%;
+	}
+	.btn-primary {
+		width: 100%;
+		text-align: center;
+	}
 
-.btn-primary {
-	width: 100%;
-	text-align: center;
-}
-
-/* Table responsive */
-.table-container {
-	overflow-x: auto;
-}
-
-table {
-	min-width: 600px;
-}
+	/* Table responsive */
+	.table-container {
+		overflow-x: auto;
+	}
+	table {
+		min-width: 600px;
+	}
 }
 
 /* Buttons inside table */
 /* Toggle container */
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 30px;
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 30px;
 }
 
 /* Hide checkbox */
 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
 
 /* Track */
 .slider {
-    position: absolute;
-    cursor: pointer;
-    inset: 0;
-    background: #2070d8;
-    border-radius: 30px;
-    transition: 0.4s;
-    display: flex;
-    align-items: center;
-    padding: 0 6px;
-    font-size: 10px;
-    font-weight: 600;
+	position: absolute;
+	cursor: pointer;
+	inset: 0;
+	background: #2070d8;
+	border-radius: 30px;
+	transition: 0.4s;
+	display: flex;
+	align-items: center;
+	padding: 0 6px;
+	font-size: 10px;
+	font-weight: 600;
 }
 
 .status-text {
-    display: inline-block;
-    width: 50px;
-    text-align: center;
-    font-weight: 600;
+	display: inline-block;
+	width: 50px;
+	text-align: center;
+	font-weight: 600;
 }
 
 /* Circle (thumb) */
 .slider::before {
-    content: "";
-    position: absolute;
-    height: 24px;
-    width: 24px;
-    left: 3px;
-    top: 3px;
-    background: rgb(226, 226, 226);
-    border-radius: 50%;
-    transition: 0.4s;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+	content: "";
+	position: absolute;
+	height: 24px;
+	width: 24px;
+	left: 3px;
+	top: 3px;
+	background: rgb(226, 226, 226);
+	border-radius: 50%;
+	transition: 0.4s;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* OFF text */
 .slider::after {
-    content: "A";
-    position: absolute;
-    right: 8px;
-    color: #ef4444;
-    
+	content: "A";
+	position: absolute;
+	right: 8px;
+	color: #ef4444;
 }
 
 /* ON state */
-.switch input:checked + .slider {
-    /* background: var(--primary-gradient); */
+.switch input:checked+.slider {
+	/* background: var(--primary-gradient); */
+	
 }
 
 /* Move circle */
-.switch input:checked + .slider::before {
-    transform: translateX(30px);
+.switch input:checked+.slider::before {
+	transform: translateX(30px);
 }
 
 /* ON text */
-.switch input:checked + .slider::after {
-    content: "P";
-    left: 8px;
-    right: auto;
-    color: rgb(20, 204, 17);
-    
+.switch input:checked+.slider::after {
+	content: "P";
+	left: 8px;
+	right: auto;
+	color: rgb(20, 204, 17);
 }
 </style>
 </head>
@@ -557,19 +552,24 @@ table {
 			</div>
 
 			<nav class="nav-menu">
-				<a href="/teacher" class="nav-item active"><i class="fas fa-chart-pie"></i> Overview</a>
-				<a href="/teacher/students" onclick="loadPage(event, this.href)" class="nav-item"><i class="fas fa-user-friends"></i> Student List</a>
-				<a href="#" class="nav-item"><i class="fas fa-book-open"></i> Curriculum</a>
-				<a href="#" class="nav-item"><i class="fas fa-clipboard-list"></i> Logs</a>
-				<a href="/teacher/students/fees" onclick="loadPage(event, this.href)" class="nav-item"><i class="fas fa-clipboard-list"></i> Fees</a>
-				<a href="#" class="nav-item"><i class="fas fa-headset"></i> Support</a>
+				<a href="/teacher" class="nav-item active"><i
+					class="fas fa-chart-pie"></i> Overview</a> <a href="/teacher/students"
+					onclick="loadPage(event, this.href)" class="nav-item"><i
+					class="fas fa-user-friends"></i> Student List</a> <a href="#"
+					class="nav-item"><i class="fas fa-book-open"></i> Curriculum</a> <a
+					href="#" class="nav-item"><i class="fas fa-clipboard-list"></i>
+					Logs</a> <a href="/teacher/students/fees"
+					onclick="loadPage(event, this.href)" class="nav-item"><i
+					class="fas fa-clipboard-list"></i> Fees</a> <a href="#"
+					class="nav-item"><i class="fas fa-headset"></i> Support</a>
 			</nav>
 
 			<div class="storage-info">
 				<form th:method="POST" th:action="@{/logout}"
 					sec:authorize="isAuthenticated()" onsubmit="return confirmLogout()">
 					<button class="storage-info">Logout</button>
-				</form></aside>
+				</form>
+		</aside>
 
 		<main class="main-area">
 			<header class="top-header">
@@ -585,120 +585,16 @@ table {
 						<p>
 							<span class="badge"
 								th:text="'Welcome '+${#strings.arraySplit(teacher.name, ' ')[0]+' 👋'}+' Date: ' +${dateNow}"></span>
-							
+
 						</p>
 					</div>
 				</div>
 
-				<!-- <div class="header-actions">
-					<button class="btn-outline"><i class="fas fa-download"></i> Reports</button>
-					<button class="btn-primary">+ New Entry</button>
-				</div> -->
+				 
 			</header>
 
 			<div id="contentArea">
-
-				<div class="stats-row">
-					<div class="stat-pill">Total: 
-						<strong th:text="${totalSCount}">1,240</strong> Students
-					</div>
-					<div class="stat-pill">Total Present:
-						<strong th:text="${totalPresent}">45</strong>
-					</div>
-
-				</div>
-
-				<div class="control-grid">
-					<div class="glass-card">
-						<div class="card-head c-1">
-							<i class="fas fa-calendar-check"></i>
-						</div>
-						<h3>Attendance</h3>
-						<p>Mark, edit, and export monthly presence logs.</p>
-						<div class="card-footer">
-						
-							<span class="badge">Live</span>
-							<a href="/teacher/students-attendence" onclick="loadPage(event, this.href)">Manage</a>
-						</div>
-					</div>
-
-					<div class="glass-card">
-						<div class="card-head c-2">
-							<i class="fas fa-wallet"></i>
-						</div>
-						<h3>Fee Portal</h3>
-						<p>Track pending dues, scholarships, and receipts.</p>
-						<div class="card-footer">
-							<span class="count">5 Dues</span> <a href="/teacher/students/fees" onclick="loadPage(event, this.href)">Pay</a> 
-						</div>
-					</div>
-
-					<div class="glass-card">
-						<div class="card-head c-3">
-							<i class="fas fa-bullhorn"></i>
-						</div>
-						<h3>Notice Board</h3>
-						<p>Push notifications to mobile apps & email.</p>
-						<div class="card-footer">
-							<a href="#">Post New</a>
-						</div>
-					</div>
-
-					<div class="glass-card">
-						<div class="card-head c-4">
-							<i class="fas fa-file-signature"></i>
-						</div>
-						<h3>Exams</h3>
-						<p>Create digital papers and publish marksheets.</p>
-						<div class="card-footer">
-							<a href="#">Results</a>
-						</div>
-					</div>
-
-					<div class="glass-card">
-						<div class="card-head c-5">
-							<i class="fas fa-cloud-upload-alt"></i>
-						</div>
-						<h3>Resources</h3>
-						<p>Upload PDFs, Video lectures, and Notes.</p>
-						<div class="card-footer">
-							<a href="#">Upload</a>
-						</div>
-					</div>
-
-					<div class="glass-card">
-						<div class="card-head c-6">
-							<i class="fas fa-comments"></i>
-						</div>
-						<h3>Parent Chat</h3>
-						<p>Direct communication channel with guardians.</p>
-						<div class="card-footer">
-							<span class="badge red">3 New</span> <a href="#">Chat</a>
-						</div>
-					</div>
-
-					<div class="glass-card">
-						<div class="card-head c-7">
-							<i class="fas fa-clock"></i>
-						</div>
-						<h3>Schedule</h3>
-						<p>Manage class timings and lab sessions.</p>
-						<div class="card-footer">
-							<a href="#">View Table</a>
-						</div>
-					</div>
-
-					<div class="glass-card">
-						<div class="card-head c-8">
-							<i class="fas fa-award"></i>
-						</div>
-						<h3>Disciplines</h3>
-						<p>Remarks, achievements, and star ratings.</p>
-						<div class="card-footer">
-							<a href="#">Log Entry</a>
-						</div>
-					</div>
-				</div>
+				<div th:replace="teacher/dashboard :: dash"></div>
 			</div>
 		</main>
 	</div>
@@ -732,7 +628,7 @@ navLinks.forEach(link => {
     });
 });
 
-// ================= LOAD PAGE =================
+// ================= LOAD PAGE =================  -->
 function loadPage(event, url) {
     event.preventDefault();
 
@@ -748,7 +644,7 @@ function loadPage(event, url) {
     });
 }
 
-// ================= BACK BUTTON =================
+// ================= BACK BUTTON =================  -->
 window.onpopstate = function () {
     contentArea.innerHTML = "Loading...";
 
@@ -761,47 +657,124 @@ window.onpopstate = function () {
     });
 };
 </script>
-<!-- 
-   <script>
-    function toggleText(el) {
-        const text = el.closest("td").querySelector(".status-text");
 
-        if (el.checked) {
-            text.innerText = "Present";
-            text.style.color = "#10b981"; // green
-        } else {
-            text.innerText = "Absent";
-            text.style.color = "#ef4444"; // red
-        }
+
+	<!-- pay-student js -->
+	<script>
+
+    function updateTotal() {
+
+        let total = 0;
+
+        document.querySelectorAll('.fee-check:checked').forEach(function (checkbox) {
+
+            total += parseFloat(checkbox.dataset.amount);
+
+        });
+
+        document.getElementById('total').textContent = total.toFixed(2);
+
     }
 
-    // Set default colors on load
-    document.querySelectorAll(".switch input").forEach(el => {
-        toggleText(el);
-    });
+    function selectAll() {
+
+        // Get only enabled checkboxes
+        const checkboxes = document.querySelectorAll('.fee-check:not(:disabled)');
+
+        // Check if all enabled checkboxes are already selected
+        const allSelected = Array.from(checkboxes).every(function (checkbox) {
+            return checkbox.checked;
+        });
+
+        // Toggle only enabled checkboxes
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = !allSelected;
+        });
+
+        updateTotal();
+
+    }
+
 </script>
--->
+
+	<script>
 
 
-<!-- pay-student js -->
+function validateFeeForm(event) {
+
+    event.preventDefault();
+
+    const checked = document.querySelectorAll(".fee-check:checked");
+
+    if (checked.length === 0) {
+
+        Swal.fire({
+            icon: "warning",
+            title: "No Month Selected",
+            text: "Please select at least one month."
+        });
+
+        return false;
+    }
+    Swal.fire({
+        title: "Confirm Payment",
+        text: "Do you want to pay the selected fee?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Pay",
+        cancelButtonText: "Cancel"
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            document.getElementById("feeForm").submit();
+        }
+
+    });
+
+    return false;
+    
+}
+</script>
+
+<!-- ================= PROFILE UPDATE SUCCESS ================= -->
 <script>
-        function updateTotal() {
-            let total = 0;
-            document.querySelectorAll('.fee-check:checked').forEach(function(checkbox) {
-                total += parseFloat(checkbox.getAttribute('data-amount'));
-                console.log(parseFloat(checkbox.getAttribute('data-amount')))
-            });
-            
-            document.getElementById('total').textContent = total.toFixed(2);
-        }
+function initForms(event) {
+	
+	event.preventDefault();
 
-        function selectAll() {
-            const checkboxes = document.querySelectorAll('.fee-check');
-            const allSelected = Array.from(checkboxes).every(cb => cb.checked);
-            checkboxes.forEach(cb => cb.checked = !allSelected);
-            updateTotal();
-        }
-    </script>
+    const form = document.getElementById("updateStudentForm");
+
+    Swal.fire({
+    	  title: "Student profile updated successfully.",
+    	  icon: "success",
+    	  draggable: true
+    	}).then(() => {
+
+            form.submit();
+
+        });
+}
+</script>
+
+<!-- ================= ATTENDENCE UPDATE SUCCESS =================  -->
+<script>
+function attendenceForm(event) {
+	
+	event.preventDefault();
+
+    const form = document.getElementById("updateAttendence");
+
+    Swal.fire({
+    	  title: "Attendance updated successfully.",
+    	  icon: "success",
+    	  draggable: true
+    	}).then(() => {
+
+            form.submit();
+
+        });
+}
+</script>
 
 </body>
 

@@ -2,6 +2,7 @@ package com.sms.serviceIMPL;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +58,19 @@ public class TeacherService implements TeacherServiceInterface{
 
 	    return teacherRepository.findByEmail(email);
 //	            .orElseThrow(() -> new RuntimeException("User not found"));
+	}
+	
+	@Override
+	public String getAcademicSession() {
+	    LocalDate today = LocalDate.now();
+	    int year = today.getYear();
+	    int month = today.getMonthValue();
+
+	    if (month >= 4) {
+	        return year + "-" + (year + 1);
+	    } else {
+	        return (year - 1) + "-" + year;
+	    }
 	}
 
 	@Override
@@ -154,6 +168,15 @@ public class TeacherService implements TeacherServiceInterface{
 				rowFee.setMonth(monthList[i]);
 				rowFee.setAmount(amount);
 				rowFee.setStatus("PENDING");
+								
+				for(StudentFee fee:feeList) {
+										
+					if(fee.getMonth().equals(monthList[i]) && fee.getSession().equals(getAcademicSession())) {						
+						rowFee.setStatus("PAID");
+						break;
+					}
+					
+				}
 				
 				resultFees.add(rowFee);
 				
@@ -161,6 +184,30 @@ public class TeacherService implements TeacherServiceInterface{
 			
 			return resultFees;
 			
+		}
+
+		@Override
+		public void makeStudentPaymebnt(int id, String[] month) {
+			
+			Student student = studentRepository.findById(id).get();
+			
+			
+			for(int i = 0; i<month.length;i++) {
+				
+				StudentFee sFee = new StudentFee();
+
+				sFee.setStudent(student);
+				sFee.setMonth(month[i]);
+				sFee.setPaymentDate(LocalDateTime.now());
+				sFee.setSchool(student.getSchool());
+				sFee.setStatus("PAID");
+				sFee.setTransactionId("By "+getCurrentTeacher().getName());
+				sFee.setSession(getAcademicSession());
+				sFee.setAmount(feeStructureRepository.findAmountByClassEntityId(student.getClassEntity().getId()));
+				
+				studentFeeRepository.save(sFee);
+			}
+
 		}
 
 

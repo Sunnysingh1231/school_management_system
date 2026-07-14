@@ -2,7 +2,7 @@
 
 
 
-        <form th:action="@{/teacher/students-attendence}" method="post">
+        <form id = "updateAttendence" th:action="@{/teacher/students-attendence}" method="post" onsubmit="return attendenceForm(event)">
 
             <!-- Header -->
         <div class="top-header">

@@ -1,9 +1,11 @@
 <div th:fragment="pay">
-
 	<div class="main-area">
 
 		<!-- Header -->
-		<form action="@{/teacher/students/fees/pay}" method="post">
+		<form id="feeForm" th:action="@{/teacher/student/fees/payment}"
+			method="post" onsubmit="return validateFeeForm(event)">
+			
+			<input type="hidden" name="studentId" th:value="${student.id}">
 
 			<div class="top-header">
 				<h2>💰 Student Fee Payment</h2>
@@ -47,14 +49,23 @@
 							<td>₹<span th:text="${fee.amount}"></span></td>
 
 							<!-- Status -->
-							<td><span
-								th:class="${fee.status == 'PAID'} ? 'badge' : 'badge red'"
-								th:text="${fee.status}"> </span></td>
+							<td>
+								<span
+									th:class="${fee.status == 'PAID'} ? 'badge' : 'badge red'"
+									th:text="${fee.status}">
+								</span>
+							</td>
 
 							<!-- Checkbox -->
-							<td style="text-align: right;"><input type="checkbox"
-								class="fee-check" name="feeIds" value="${fee.id}"
-								th:data-amount="${fee.amount}" onchange="updateTotal()">
+							<td style="text-align: right;">
+								<input type="checkbox"
+								class="fee-check"
+								name="feeIds"
+								th:value="${fee.month}"
+								th:data-amount="${fee.amount}"
+								th:disabled="${fee.status == 'PAID'}"
+								onchange="updateTotal()"
+							>
 							</td>
 
 						</tr>
@@ -82,6 +93,5 @@
 		</form>
 
 	</div>
-
 
 </div>

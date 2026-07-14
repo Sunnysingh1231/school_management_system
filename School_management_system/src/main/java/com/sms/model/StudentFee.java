@@ -2,6 +2,7 @@ package com.sms.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,15 +30,16 @@ public class StudentFee {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fee_structure_id", nullable = false)
-    private FeeStructure feeStructure;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "fee_structure_id", nullable = false)
+//    private FeeStructure feeStructure;
+    
 
     @Column(nullable = false)
     private String month;
 
     @Column(nullable = false)
-    private Integer year;
+    private String session;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
@@ -45,7 +47,7 @@ public class StudentFee {
     @Column(nullable = false)
     private String status;
 
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDate;
 
     @Column(length = 100)
     private String transactionId;

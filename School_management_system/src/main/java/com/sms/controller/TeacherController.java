@@ -1,5 +1,7 @@
 package com.sms.controller;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.http.HttpRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -51,22 +53,10 @@ public class TeacherController {
 	private StudentServiceInterface studentServiceInterface;
 	
 
-
-	public String getAcademicSession() {
-	    LocalDate today = LocalDate.now();
-	    int year = today.getYear();
-	    int month = today.getMonthValue();
-
-	    if (month >= 4) {
-	        return year + "-" + (year + 1);
-	    } else {
-	        return (year - 1) + "-" + year;
-	    }
-	}
 //	GET MAPPING------------------------------------------------------------------------
 	
 	@GetMapping
-	public String dashboard(Model model,Integer class_id,HttpSession session) {
+	public String dashboard(Model model,Integer class_id,HttpSession session,HttpServletRequest request) {
 		
 		model.addAttribute("classes",teacherServiceInterface.findAllClassByTeacher());
 		
@@ -108,6 +98,10 @@ public class TeacherController {
 				
 		model.addAttribute("totalPresent", tp == 0 ? "Not Update" : tp);
 		
+		
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+	        return "teacher/dashboard :: dash"; // fragment
+	    }
 		return "/teacher/index";
 	}
 	
@@ -253,7 +247,7 @@ public class TeacherController {
 		
 		model.addAttribute("feeDetail", teacherServiceInterface.findStudentFeeDetail(student));
 		
-		model.addAttribute("sess", getAcademicSession());
+		model.addAttribute("sess", teacherServiceInterface.getAcademicSession());
 		
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
@@ -298,19 +292,10 @@ public class TeacherController {
 		return "redirect:/teacher";
 	}
 	
-	@PostMapping("/students/fees/pay/{id}")
-	public String payStudentFee(@PathVariable int id){
+	@PostMapping("/student/fees/payment")
+	public String payStudentFee(@RequestParam int studentId,@RequestParam String[] feeIds) {
 		
-		System.out.println("all good"+ id );
-		
-		return "redirect:/teacher";
-		
-	}
-	
-	@PostMapping("/")
-	public String payStudentFee() {
-		
-		System.out.println("all fine");
+		teacherServiceInterface.makeStudentPaymebnt(studentId,feeIds);
 		
 		return "redirect:/teacher";
 	}

@@ -4,7 +4,7 @@
 	<!-- Main Area -->
 	<div class="main-area">
 
-		<form th:action="@{/teacher/students/update}" method="post" th:object="${student}">
+		<form id="updateStudentForm" th:action="@{/teacher/students/update}" method="post" th:object="${student}" onsubmit="return initForms(event)">
 			<input type="hidden" th:field="*{id}">
 			<!-- Header -->
 			<div class="top-header">

@@ -10,7 +10,8 @@
 			<input type="text" id="searchInput" placeholder="Search student..."
 				style="padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none;">
 
-			<button class="btn-primary">+ Add Student</button>
+			<button type="button" class="btn-primary" onclick="history.back()">
+				← Back</button>
 		</div>
 	</div>
 
@@ -34,12 +35,10 @@
 					<td th:text="${student.classEntity.className}">9-B</td>
 					<td th:text="${student.rollNumber}">12</td>
 					<td><span class="badge">Active</span></td>
-					<td>
-						<a th:href="@{'/teacher/students/fees/pay/' + ${student.id}}"
-                           onclick="loadPage(event, this.href)"
-                           class="action-btn view-btn">
-                           Pay
-                        </a>
+					<td><a
+						th:href="@{'/teacher/students/fees/pay/' + ${student.id}}"
+						onclick="loadPage(event, this.href)" class="action-btn view-btn">
+							Pay </a>
 				</tr>
 			</tbody>
 		</table>

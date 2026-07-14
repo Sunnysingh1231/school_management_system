@@ -14,6 +14,7 @@ import com.sms.model.Teacher;
 public interface TeacherServiceInterface {
 	
 	Teacher getCurrentTeacher();
+	String getAcademicSession();
 	
 	List<ClassEntity> findAllClassByTeacher();
 
@@ -34,5 +35,8 @@ public interface TeacherServiceInterface {
 //	STUDENT FEE CONTROLLER
 	
 	List<StudentFee> findStudentFeeDetail(Student student);
+	
+	void makeStudentPaymebnt(int id, String[] month);
+	
 	
 }
