@@ -58,36 +58,21 @@ public class TeacherController {
 	@GetMapping
 	public String dashboard(Model model,Integer class_id,HttpSession session,HttpServletRequest request) {
 		
-		model.addAttribute("classes",teacherServiceInterface.findAllClassByTeacher());
-		
 		Teacher teacher = teacherServiceInterface.getCurrentTeacher();
 		
 		if(class_id == null) {
-			class_id = teacherServiceInterface.findAllClassByTeacher().get(0).getId();
-		}
-		
-		if(userServiceInterface.findClassById(class_id).get().getClassTeacher().getId() != teacherServiceInterface.getCurrentTeacher().getId()) {
-			return "error/403";
+			class_id = teacherServiceInterface.findAllClsByTeacherIdAndSclId(teacher.getId(), teacher.getSchool().getId()).get(0).getId();
 		}
 		
 		session.setAttribute("clsId", class_id);
 
 		List<Attendence> attendence = teacherServiceInterface.findAttendenceByAndDate(LocalDate.now(), class_id);
 		
-		int ps = 0;
-		int ts = teacherServiceInterface.findAllStudentByClassNameAndSection(teacherServiceInterface.findClassByClassId(class_id).get().getClassName(), teacherServiceInterface.findClassByClassId(class_id).get().getSection()).size();
-		
-		for(Attendence a: attendence) {
-			if(a.getStatus().equals("PRESENT")) {
-				ps++;
-			}
-		}
-		
+		int totalStudent = teacherServiceInterface.findAllStdByClsId(class_id).size();
+
 		model.addAttribute("dateNow", LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")));
 		model.addAttribute("teacher", teacher);
-		model.addAttribute("attCount",(ps*100)/ts);
-		model.addAttribute("clsName","Class "+teacherServiceInterface.findClassByClassId(class_id).get().getClassName()+"("+teacherServiceInterface.findClassByClassId(class_id).get().getSection()+")");
-		model.addAttribute("totalSCount",teacherServiceInterface.findAllStudentByClassNameAndSection(teacherServiceInterface.findClassByClassId(class_id).get().getClassName(), teacherServiceInterface.findClassByClassId(class_id).get().getSection()).size());
+		model.addAttribute("totalSCount",totalStudent);
 
 		int tp = 0;
 		for(Attendence a: attendence) {
@@ -98,17 +83,11 @@ public class TeacherController {
 				
 		model.addAttribute("totalPresent", tp == 0 ? "Not Update" : tp);
 		
-		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/dashboard :: dash"; // fragment
 	    }
 		return "/teacher/index";
 	}
-	
-//	@GetMapping
-//	public String index() {
-//		return "teacher/index";
-//	}
 	
 	@GetMapping("/profile")
 	public String profile(HttpServletRequest request) {
@@ -132,12 +111,12 @@ public class TeacherController {
 	}
 	
 	@GetMapping("/students")
-	public String findAllStudent(HttpServletRequest request, Model model,HttpSession session) {
+	public String studentList(HttpServletRequest request, Model model,HttpSession session) {
 		
 
 		Integer cls = (Integer) session.getAttribute("clsId");
 
-		model.addAttribute("students", teacherServiceInterface.findAllStudentByClsId(cls));
+		model.addAttribute("students", teacherServiceInterface.findAllStdByClsId(cls));
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/view_student :: studentlist"; // fragment
@@ -149,7 +128,7 @@ public class TeacherController {
 	}
 	
 	@GetMapping("/student/view/{id}")
-	public String viewStudentDetail(@PathVariable Integer id, HttpServletRequest request, Model model,HttpSession session) {
+	public String studentProfile(@PathVariable Integer id, HttpServletRequest request, Model model,HttpSession session) {
 		
 
 		Integer cls = (Integer) session.getAttribute("clsId");
@@ -257,6 +236,17 @@ public class TeacherController {
 	    return "redirect:/teacher";
 	    
 	}
+	
+	@GetMapping("/assignments")
+	public String assignment(HttpServletRequest request) {
+
+	    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+	        return "teacher/pay_student :: pay"; // fragment
+	    }
+
+	    return "redirect:/teacher"; // full page
+	}
+	
 	
 	
 //	POST MAPPING-----------------------------------------------------------------------------------------------------

@@ -13,10 +13,17 @@ import com.sms.model.Teacher;
 
 public interface TeacherServiceInterface {
 	
+//USING Dashboard, 
 	Teacher getCurrentTeacher();
 	String getAcademicSession();
+
+//USING Dashboard, 
+	List<ClassEntity> findAllClsByTeacherIdAndSclId(int tcrId, int sclId);
 	
 	List<ClassEntity> findAllClassByTeacher();
+	
+//USING Dashboard, Student List, 
+	List<Student> findAllStdByClsId(int id);
 
 	List<Student> findAllStudentByClassNameAndSection(String cls, String sec);
 	
@@ -28,6 +35,7 @@ public interface TeacherServiceInterface {
 	
 	Optional<Attendence> findAttendenceByStudentIdAndDateAndClassEntityId(int stdId, LocalDate date, int clsId);  
 	
+//USING Dashboard, 
 	List<Attendence> findAttendenceByAndDate(LocalDate date,int clsId);
 	
 	BigDecimal findStudentFeeByClsId(int id);

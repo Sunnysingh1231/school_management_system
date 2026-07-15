@@ -13,6 +13,7 @@ import com.sms.model.User;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer>{
 
+	List<Student> findByClassEntityId(int id);
 
 	List<Student> findByClassEntityClassNameAndClassEntitySectionAndSchoolId(String cls, String sec, int id);
 
@@ -27,6 +28,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer>{
 	Student findByEmail(String username);
 
 	Optional<Student> findByPhone(String emailOrPhone);
+
 
 	
 }

@@ -14,7 +14,7 @@ public interface AttendenceRepository extends JpaRepository<Attendence, Integer>
 
 	void save(Optional<Attendence> attendence);
 
-	List<Attendence> findBySchoolIdAndClassEntityIdAndDate(int sclId, int clsId, LocalDate date);
+	List<Attendence> findAllByClassEntityIdAndDate(int clsId, LocalDate date);
 
 	
 	//STUDENT-------------------------------------------------------------
