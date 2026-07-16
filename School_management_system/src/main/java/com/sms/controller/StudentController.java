@@ -19,6 +19,8 @@ import com.sms.model.Attendence;
 import com.sms.model.Student;
 import com.sms.serviceInterface.StudentServiceInterface;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("student")
 public class StudentController {
@@ -30,7 +32,7 @@ public class StudentController {
 	PasswordEncoder passwordEncoder;
 	
 	@GetMapping
-	public String dashboard(Model model) {
+	public String dashboard(Model model, HttpServletRequest request) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		
@@ -50,8 +52,11 @@ public class StudentController {
 		model.addAttribute("attendence", ((count-abs)*100)/count+"%");
 		model.addAttribute("student", s1);
 		
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+	        return "teacher/dashboard :: dashboard"; // fragment
+	    }
+		return "/student/index";
 
-		return "/student/dashboard";
 	}
 	
 	@GetMapping("/profile")

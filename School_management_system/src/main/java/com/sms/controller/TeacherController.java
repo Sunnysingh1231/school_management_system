@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
 import com.sms.model.Student;
@@ -238,13 +240,27 @@ public class TeacherController {
 	}
 	
 	@GetMapping("/assignments")
-	public String assignment(HttpServletRequest request) {
-
-	    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-	        return "teacher/pay_student :: pay"; // fragment
+	public String assignment(HttpServletRequest request, HttpSession session,Model model) {
+		
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		List<Assignment> allAssignments = teacherServiceInterface.findAllAsinmtByClsId(cls);
+		
+		ClassEntity classEntity = teacherServiceInterface.findClassByClassId(cls).get();
+		Teacher teacher = teacherServiceInterface.getCurrentTeacher();
+		
+		model.addAttribute("count", allAssignments.size());
+		
+		model.addAttribute("cls", classEntity.getClassName()+"-"+classEntity.getSection());
+		
+		model.addAttribute("assignments", allAssignments);
+		
+		
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+	        return "teacher/assignment :: assign"; // fragment
 	    }
 
-	    return "redirect:/teacher"; // full page
+	    return "redirect:/teacher";
 	}
 	
 	
@@ -286,6 +302,16 @@ public class TeacherController {
 	public String payStudentFee(@RequestParam int studentId,@RequestParam String[] feeIds) {
 		
 		teacherServiceInterface.makeStudentPaymebnt(studentId,feeIds);
+		
+		return "redirect:/teacher";
+	}
+	
+	@PostMapping("assignments/save")
+	public String createStudentAssignment(@ModelAttribute Assignment assignment,HttpSession session) {
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		
+		teacherServiceInterface.createStdAssignment(assignment, cls);
 		
 		return "redirect:/teacher";
 	}

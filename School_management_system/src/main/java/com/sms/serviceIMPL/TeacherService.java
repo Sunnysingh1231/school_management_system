@@ -13,12 +13,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
 import com.sms.model.Student;
 import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
 import com.sms.model.User;
+import com.sms.repository.AssignmentRepository;
 import com.sms.repository.AttendenceRepository;
 import com.sms.repository.ClassRepository;
 import com.sms.repository.FeeStructureRepository;
@@ -53,6 +55,9 @@ public class TeacherService implements TeacherServiceInterface {
 
 	@Autowired
 	private StudentFeeRepository studentFeeRepository;
+	
+	@Autowired
+	private AssignmentRepository assignmentRepository;
 
 
 	public Teacher getCurrentTeacher() {
@@ -215,6 +220,27 @@ public class TeacherService implements TeacherServiceInterface {
 			studentFeeRepository.save(sFee);
 		}
 
+	}
+	
+// ASSIGNMENT ---------------------------------------------------------------------------------------------------	
+	
+	@Override
+	public void createStdAssignment(Assignment assignment, int clsId) {
+		
+		ClassEntity classEntity = findClassByClassId(clsId).get();
+		
+		assignment.setSession(getAcademicSession());
+		assignment.setTeacher(getCurrentTeacher());
+		assignment.setClassEntity(classEntity);
+		assignment.setSchool(classEntity.getSchool());
+		
+		assignmentRepository.save(assignment);
+		
+	}
+	
+	@Override
+	public List<Assignment> findAllAsinmtByClsId(int clsId){
+		return assignmentRepository.findAllByClassEntityIdAndSession(clsId,getAcademicSession());
 	}
 
 	

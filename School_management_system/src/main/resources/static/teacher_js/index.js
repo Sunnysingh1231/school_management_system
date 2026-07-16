@@ -140,7 +140,6 @@ function validateFeeForm(event) {
 function initForms(event) {
 
     event.preventDefault();
-
     const form = document.getElementById("updateStudentForm");
 
     Swal.fire({

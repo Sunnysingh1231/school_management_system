@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insert title here</title>
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" th:href="@{/student/dashboard.css}">
+</head>
+<body>
+	<div class="dashboard-container">
+
+		<aside class="sidebar" id="sidebar">
+			<div class="sidebar-header">
+				<div class="sidebar-header-icon">
+					<i class="fas fa-graduation-cap"></i>
+				</div>
+				<div>
+					<h2>StudyHub</h2>
+					<p>Student Panel</p>
+				</div>
+			</div>
+
+			<ul class="sidebar-menu">
+				<li class="sidebar-menu-item"><a th:href="@{/student}"
+					th:classappend="${activePage == 'dashboard'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-chart-line"></i> <span>Dashboard</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a th:href="@{/student/profile}"
+					th:classappend="${activePage == 'profile'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-user-circle"></i> <span>Profile</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a
+					th:href="@{/student/attendence}"
+					th:classappend="${activePage == 'attendance'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-calendar-check"></i>
+						<span>Attendance</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a
+					th:href="@{/student/assignment}"
+					th:classappend="${activePage == 'assignment'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-tasks"></i> <span>Assignments</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a
+					th:href="@{/student/result-grade}"
+					th:classappend="${activePage == 'result_grade'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-award"></i> <span>Results/Grades</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a th:href="@{/student/fees}"
+					th:classappend="${activePage == 'fees'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-credit-card"></i> <span>Fees</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a
+					th:href="@{/student/time-table}"
+					th:classappend="${activePage == 'time_table'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-clock"></i> <span>Timetable</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a th:href="@{/student/notice}"
+					th:classappend="${activePage == 'notice'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-bell"></i> <span>Notifications</span>
+				</a></li>
+				<li class="sidebar-menu-item"><a th:href="@{/student/setting}"
+					th:classappend="${activePage == 'setting'} ? 'active'"
+					class="sidebar-menu-link"> <i class="fas fa-cog"></i> <span>Settings</span>
+				</a></li>
+			</ul>
+
+			<div class="sidebar-logout">
+				<form th:action="@{/logout}" method="post">
+					<!-- CSRF Token -->
+					<input type="hidden" th:name="${_csrf.parameterName}"
+						th:value="${_csrf.token}" />
+
+					<button type="submit" class="logout-btn">
+						<i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+					</button>
+				</form>
+			</div>
+		</aside>
+
+		<div class="main-content">
+			<nav class="navbar">
+				<div class="navbar-left">
+					<button class="hamburger-menu" id="hamburgerBtn">
+						<i class="fas fa-bars"></i>
+					</button>
+
+				</div>
+				<div class="navbar-right">
+					<button class="navbar-icon-btn">
+						<i class="fas fa-bell"></i> <span class="notification-badge">3</span>
+					</button>
+					<button class="navbar-icon-btn">
+						<i class="fas fa-envelope"></i>
+					</button>
+					<div class="user-profile">
+						<div class="user-avatar"
+							th:text="${#strings.substring(student.name,0,1).toUpperCase() + 
+              (student.name.contains(' ') ? 
+              #strings.substring(student.name, student.name.indexOf(' ')+1, student.name.indexOf(' ')+2).toUpperCase() 
+              : '')}">
+						</div>
+						<div class="user-info">
+							<p th:text="${student.name}">Arjun Joshi</p>
+							<p
+								th:text="${student.classEntity.className+' ('+student.classEntity.section+')'}"></p>
+						</div>
+
+					</div>
+				</div>
+			</nav>
+
+			<div th:replace="~{/student/dashboard::dashboard}"></div>
+		</div>
+
+	</div>
+	<script th:src="@{/student_js/index.js}">
+	
+	const toggleBtn = document.getElementById("menuToggle");
+	const sidebar = document.querySelector(".sidebar");
+	const overlay = document.getElementById("overlay");
+	const navLinks = document.querySelectorAll(".nav-item");
+	const contentArea = document.getElementById("contentArea");
+
+	// Sidebar toggle
+	toggleBtn.addEventListener("click", () => {
+	    sidebar.classList.toggle("active");
+	    overlay.classList.toggle("active");
+	});
+
+	// Overlay click
+	overlay.addEventListener("click", () => {
+	    sidebar.classList.remove("active");
+	    overlay.classList.remove("active");
+	});
+
+	// Active menu + close sidebar
+	navLinks.forEach(link => {
+	    link.addEventListener("click", () => {
+	        navLinks.forEach(item => item.classList.remove("active"));
+	        link.classList.add("active");
+
+	        sidebar.classList.remove("active");
+	        overlay.classList.remove("active");
+	    });
+	});
+	
+	
+	
+	
+	
+	</script>
+</body>
+</html>

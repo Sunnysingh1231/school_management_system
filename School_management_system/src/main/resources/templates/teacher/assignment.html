@@ -1,9 +1,139 @@
 <div th:fragment="assign">
 
-	<div class="main-area">
 
-		
+	<main class="main-area">
 
+		<!-- Header -->
+		<div class="top-header">
+
+			<div>
+				<h1>Assignments</h1>
+				<p>Manage student assignments</p>
+			</div>
+
+			<div class="nav-buttons">
+            <button onclick="history.back()" class="btn-primary"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+
+		</div>
+
+		<!-- Stats -->
+		<div class="stats-row">
+			<div class="stat-pill">
+				📄 Total : <strong th:text=${count}>28</strong>
+			</div>
+
+			<div class="stat-pill">
+				✅ Submitted : <strong>18</strong>
+			</div>
+
+			<div class="stat-pill">
+				⏳ Pending : <strong>7</strong>
+			</div>
+
+			<div class="stat-pill">
+				❌ Late : <strong>3</strong>
+			</div>
+		</div>
+
+		<!-- Assignment Form -->
+		<div class="glass-card">
+
+			<h3>Create Assignment</h3>
+
+			<br>
+
+			<form th:action="@{/teacher/assignments/save}" method="post"
+				th:object="${assignment}">
+
+				<div class="control-grid">
+
+					<div>
+						<label for="title">Assignment Title</label><br> <input
+							type="text" id="title" name="title"
+							placeholder="Assignment Title"
+							style="width: 300px; height: 30px; margin-top: 5px;" required>
+					</div>
+
+					<div>
+						<label for="subject">Subject</label><br> <input type="text"
+							id="subject" name="subject" placeholder="Subject"
+							style="width: 300px; height: 30px; margin-top: 5px;" required>
+					</div>
+
+					<div>
+						<label for="className">Class</label><br>
+
+						<!-- Display -->
+						<input type="text" id="className" th:value="${cls}"
+							style="width: 300px; height: 30px; margin-top: 5px;" readonly>
+
+						<!-- Value sent to server -->
+						<input type="hidden" name="className" th:value="${cls}">
+					</div>
+
+					<div>
+						<label for="dueDate">Due Date</label><br> <input type="date"
+							id="dueDate" name="dueDate"
+							style="width: 300px; height: 30px; margin-top: 5px;" required>
+					</div>
+
+				</div>
+
+				<br>
+
+				<div>
+					<label for="instructions">Instructions</label><br>
+					<textarea id="instructions" name="description"
+						placeholder="Write assignment instructions..."
+						style="width: 90%; height: 150px; border-radius: 12px; border: 1px solid #929292; padding: 15px; resize: none; outline: none;"
+						required></textarea>
+				</div>
+
+				<br>
+
+				<button type="submit" class="btn-primary">Save Assignment</button>
+
+			</form>
+	</main>
+	
+	<h3>Assignment List</h3>
+	<br>
+
+	<!-- Assignment List -->
+	<div class="table-container">
+		<table id="studentTable">
+			<thead>
+
+				<tr>
+					<th>SN</th>
+					<th>Title</th>
+					<th>Subject</th>
+					<th>Class</th>
+					<th>Due Date</th>
+					<th>Status</th>
+					<th>Action</th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+				<tr th:each="assign, count: ${assignments}">
+					<td th:text="${count.index+1}">2</td>
+					<td th:text="${assign.title}">Anjali Verma</td>
+					<td th:text="${assign.subject}">9-B</td>
+					<td
+						th:text="${assign.classEntity.className+'-'+assign.classEntity.section}">12</td>
+					<td th:text="${assign.dueDate}">9-B</td>
+					<td><span
+						th:class="${assign.active == true} ? 'badge' : 'badge red'"
+						th:text="${assign.active == true} ? 'Active' : 'Closed'">Active</span></td>
+					<td><a class="action-btn view-btn">View</a> <a
+						class="action-btn view-btn">Edit</a> <a
+						class="action-btn view-btn">Close</a>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 </div>

@@ -15,11 +15,15 @@ public class Assignment {
     private int id;
 
     private String title;
+    
+    private String subject;
+    
+    private String session;
 
     @Column(length = 3000)
     private String description;
 
-    private LocalDate assignDate;
+    private LocalDate assignDate = LocalDate.now();
 
     private LocalDate dueDate;
 
