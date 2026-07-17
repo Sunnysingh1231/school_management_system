@@ -1,6 +1,7 @@
 package com.sms.controller;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.Student;
 import com.sms.serviceInterface.StudentServiceInterface;
+import com.sms.serviceInterface.TeacherServiceInterface;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -27,6 +30,9 @@ public class StudentController {
 	
 	@Autowired
 	private StudentServiceInterface studentServiceInterface;
+	
+	@Autowired
+	private TeacherServiceInterface teacherServiceInterface;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -35,6 +41,7 @@ public class StudentController {
 	public String dashboard(Model model, HttpServletRequest request) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
+		
 		
 		List<Attendence> attendences = studentServiceInterface.findAttendenceByStudentId(s1.getId());
 		
@@ -52,10 +59,13 @@ public class StudentController {
 		model.addAttribute("attendence", ((count-abs)*100)/count+"%");
 		model.addAttribute("student", s1);
 		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
+		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/dashboard :: dashboard"; // fragment
 	    }
-		return "/student/index";
+		return "/student/dashboard";
 
 	}
 	
@@ -65,6 +75,9 @@ public class StudentController {
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		model.addAttribute("student", s1);
 		model.addAttribute("activePage", "profile");
+		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
 		
 		return "/student/profile";
 	}
@@ -94,10 +107,8 @@ public class StudentController {
 		
 		model.addAttribute("attendence6list", studentServiceInterface.findTop6AttendenceOfStudentByStudentId(s1.getId()));
 		
-		for(Attendence a1: studentServiceInterface.findTop6AttendenceOfStudentByStudentId(s1.getId())) {
-			System.out.println(a1.getStatus());
-		}
-		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
 		
 		return "/student/attendence";
 	}
@@ -108,7 +119,13 @@ public class StudentController {
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		model.addAttribute("student", s1);
 		
-		model.addAttribute("activePage", "assignment");
+//		these assignment are filter based on acadmic session
+		List<Assignment> assignments = teacherServiceInterface.findAllAsinmtByClsId(s1.getClassEntity().getId());
+		Collections.reverse(assignments);
+		model.addAttribute("assignments", assignments);
+		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
 		
 		return "/student/assignment";
 	}
@@ -121,6 +138,9 @@ public class StudentController {
 		
 		model.addAttribute("activePage", "result_grade");
 		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
+		
 		return "/student/result_grade";
 	}
 	
@@ -131,6 +151,9 @@ public class StudentController {
 		model.addAttribute("student", s1);
 		
 		model.addAttribute("activePage", "fees");
+		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
 		
 		return "/student/fees";
 	}
@@ -143,6 +166,9 @@ public class StudentController {
 		
 		model.addAttribute("activePage", "time_table");
 		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
+		
 		return "/student/time_table";
 	}
 	
@@ -154,6 +180,9 @@ public class StudentController {
 		
 		model.addAttribute("activePage", "notice");
 		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
+		
 		return "/student/notice";
 	}
 	
@@ -164,6 +193,9 @@ public class StudentController {
 		model.addAttribute("student", s1);
 		
 		model.addAttribute("activePage", "setting");
+		
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
 		
 		return "/student/setting";
 		
@@ -192,6 +224,7 @@ public class StudentController {
 		return "/student/password_edit";
 		
 	}
+	
 	
 	@PostMapping("/update")
 	public String updateProfile(@ModelAttribute Student student) {

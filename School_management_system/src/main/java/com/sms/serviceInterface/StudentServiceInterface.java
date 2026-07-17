@@ -17,4 +17,6 @@ public interface StudentServiceInterface {
 	List<Attendence> findTop6AttendenceOfStudentByStudentId(int id);
 	
 	Optional<Student> findStudentByStudentId(int id);
+
+	String getAcademicSession();
 }

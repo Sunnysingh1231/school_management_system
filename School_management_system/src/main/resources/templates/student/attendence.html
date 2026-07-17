@@ -41,6 +41,21 @@
 
     <!-- Summary Cards -->
     <div class="summary-section">
+    
+        <div class="summary-card">
+            <div class="summary-card-header">
+                <span class="summary-card-title">Attendance %</span>
+                <div class="summary-card-icon icon-attendance">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+            <div class="summary-card-value" th:text="${attendancePercent + '%'}">83%</div>
+
+            <span class="status-badge"
+                  th:classappend="${attendancePercent >= 75} ? 'badge-success' : 'badge-warning'">
+                <span th:text="${attendancePercent >= 75 ? 'Excellent' : 'Need Improvement'}"></span>
+            </span>
+        </div>
 
         <div class="summary-card">
             <div class="summary-card-header">
@@ -75,20 +90,6 @@
             <span class="status-badge badge-danger"></span>
         </div>
 
-        <div class="summary-card">
-            <div class="summary-card-header">
-                <span class="summary-card-title">Attendance %</span>
-                <div class="summary-card-icon icon-attendance">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-            </div>
-            <div class="summary-card-value" th:text="${attendancePercent + '%'}">83%</div>
-
-            <span class="status-badge"
-                  th:classappend="${attendancePercent >= 75} ? 'badge-success' : 'badge-warning'">
-                <span th:text="${attendancePercent >= 75 ? 'Excellent' : 'Need Improvement'}"></span>
-            </span>
-        </div>
 
     </div>
 

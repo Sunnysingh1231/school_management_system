@@ -37,7 +37,18 @@ public class StudentService implements StudentServiceInterface {
 		return s1;
 	}
 
+	@Override
+	public String getAcademicSession() {
+		LocalDate today = LocalDate.now();
+		int year = today.getYear();
+		int month = today.getMonthValue();
 
+		if (month >= 4) {
+			return year + "-" + (year + 1);
+		} else {
+			return (year - 1) + "-" + year;
+		}
+	}
 
 
 

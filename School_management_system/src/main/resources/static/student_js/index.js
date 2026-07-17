@@ -5,6 +5,9 @@ const overlay = document.getElementById("overlay");
 const navLinks = document.querySelectorAll(".nav-item");
 const contentArea = document.getElementById("contentArea");
 
+console.log(sidebar)
+console.log(toggleBtn)
+
 // Sidebar toggle
 toggleBtn.addEventListener("click", () => {
     sidebar.classList.toggle("active");

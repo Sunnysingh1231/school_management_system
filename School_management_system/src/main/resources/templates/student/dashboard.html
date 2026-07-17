@@ -1,4 +1,35 @@
-<div th:fragment = "dashboard">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - School Management System</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" th:href="@{/student/dashboard.css}">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+    
+	<div th:replace="~{/student/sidebar::sidebar}"> </div>
+    
+        
+
+        <!-- ==================== Main Content ==================== -->
+        <div class="main-content">
+            <!-- ==================== Top Navbar ==================== -->
+            <div th:replace="~{/student/navbar::navbar}"> </div>
+
             <!-- ==================== Dashboard Content ==================== -->
             <div class="dashboard-content">
                 <div class="page-header">
@@ -99,16 +130,47 @@
                         Attendance Overview
                     </div>
                     <div class="attendance-grid">
+                    
                         <div class="attendance-item">
                             <div class="attendance-label">Monthly Attendance</div>
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: 92%"></div>
                             </div>
-                            <div class="progress-text">
+                        	<div class="progress-text">
                                 <span>92%</span>
                                 <span>28/30 days</span>
                             </div>
-                            
+                        </div>
+                            <div class="attendance-item">
+                                <div class="attendance-label">Subject: Mathematics</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95%"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>95%</span>
+                                    <span>19/20 classes</span>
+                                </div>
+                            </div>
+                            <div class="attendance-item">
+                                <div class="attendance-label">Subject: Physics</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 88%"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>88%</span>
+                                    <span>17/20 classes</span>
+                                </div>
+                            </div>
+                            <div class="attendance-item">
+                                <div class="attendance-label">Subject: Chemistry</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 90%"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>90%</span>
+                                    <span>18/20 classes</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -288,8 +350,6 @@
                         </table>
                     </div>
 
-                 
-
                     <!-- Notifications Panel -->
                     <div class="notifications-panel">
                         <div class="section-title">
@@ -334,7 +394,7 @@
                             </div>
                             <div class="notification-time">
                                 <i class="fas fa-clock"></i> 3 days ago
-                            </div>
+							 </div>
                         </div>
 
                         <div class="notification-item">
@@ -354,4 +414,57 @@
             </div>
         </div>
 
-        
+        <script>
+            // Hamburger menu toggle for mobile
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const sidebar = document.getElementById('sidebar');
+
+            hamburgerBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+
+            // Close sidebar when clicking on a menu item (mobile)
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+
+            // Close sidebar when clicking outside of it (mobile)
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    if (!sidebar.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+
+            // Add smooth scroll behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            const menuLinks = document.querySelectorAll('.sidebar-menu-link');
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    // Remove active from all
+                    menuLinks.forEach(item => item.classList.remove('active'));
+
+                    // Add active to clicked one
+                    this.classList.add('active');
+                });
+            });
+        </script>
+</body>
+
+</html>
