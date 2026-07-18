@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.sms.model.Assignment;
 import com.sms.model.ClassEntity;
 import com.sms.model.Student;
 import com.sms.model.User;
@@ -28,6 +29,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer>{
 	Student findByEmail(String username);
 
 	Optional<Student> findByPhone(String emailOrPhone);
+
 
 
 	

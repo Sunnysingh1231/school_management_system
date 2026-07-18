@@ -2,419 +2,380 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - School Management System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard - School Management System</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Font Awesome Icons -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- External CSS -->
-    <link rel="stylesheet" th:href="@{/student/dashboard.css}">
+<!-- External CSS -->
+<link rel="stylesheet" th:href="@{/student/dashboard.css}">
 </head>
 
 <body>
 
-    <div class="dashboard-container">
-    
-	<div th:replace="~{/student/sidebar::sidebar}"> </div>
-    
-        
+	<div class="dashboard-container">
 
-        <!-- ==================== Main Content ==================== -->
-        <div class="main-content">
-            <!-- ==================== Top Navbar ==================== -->
-            <div th:replace="~{/student/navbar::navbar}"> </div>
+		<div th:replace="~{/student/sidebar::sidebar}"></div>
 
-            <!-- ==================== Dashboard Content ==================== -->
-            <div class="dashboard-content">
-                <div class="page-header">
-                    <h1 th:text="${'Welcome ' + #strings.arraySplit(student.name, ' ')[0] + ' ! 👋'}"></h1>
-                    <p>Here's your academic performance summary for this quarter</p>
-                </div>
 
-                <!-- Summary Cards -->
-                <div class="summary-section">
-                    <div class="summary-card">
-                        <div class="summary-card-header">
-                            <div class="summary-card-title">Total Attendance</div>
-                            <div class="summary-card-icon icon-attendance">
-                                <i class="fas fa-chart-pie"></i>
-                            </div>
-                        </div>
-                        <div class="summary-card-value" th:text="${attendence}">92%</div>
-                        <span class="status-badge badge-success">On Track</span>
-                    </div>
 
-                    <div class="summary-card">
-                        <div class="summary-card-header">
-                            <div class="summary-card-title">Upcoming Exams</div>
-                            <div class="summary-card-icon icon-exams">
-                                <i class="fas fa-book"></i>
-                            </div>
-                        </div>
-                        <div class="summary-card-value">5</div>
-                        <span class="status-badge badge-warning">Next in 15 days</span>
-                    </div>
+		<!-- ==================== Main Content ==================== -->
+		<div class="main-content">
+			<!-- ==================== Top Navbar ==================== -->
+			<div th:replace="~{/student/navbar::navbar}"></div>
 
-                    <div class="summary-card">
-                        <div class="summary-card-header">
-                            <div class="summary-card-title">Pending Assignments</div>
-                            <div class="summary-card-icon icon-assignments">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                        </div>
-                        <div class="summary-card-value">3</div>
-                        <span class="status-badge badge-warning">Due This Week</span>
-                    </div>
+			<!-- ==================== Dashboard Content ==================== -->
+			<div class="dashboard-content">
+				<div class="page-header">
+					<h1
+						th:text="${'Welcome ' + #strings.arraySplit(student.name, ' ')[0] + ' ! 👋'}"></h1>
+					<p>Here's your academic performance summary for this quarter</p>
+				</div>
 
-                    <div class="summary-card">
-                        <div class="summary-card-header">
-                            <div class="summary-card-title">Fees Status</div>
-                            <div class="summary-card-icon icon-fees">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                        </div>
-                        <div class="summary-card-value">Paid</div>
-                        <span class="status-badge badge-success">Current</span>
-                    </div>
-                </div>
+				<!-- Summary Cards -->
+				<div class="summary-section">
+					<div class="summary-card">
+						<div class="summary-card-header">
+							<div class="summary-card-title">Total Attendance</div>
+							<div class="summary-card-icon icon-attendance">
+								<i class="fas fa-chart-pie"></i>
+							</div>
+						</div>
+						<div class="summary-card-value" th:text="${attendence}">92%</div>
+						<span class="status-badge badge-success">On Track</span>
+					</div>
 
-                <!-- Student Profile Card -->
-                <div class="profile-card">
-                    <div class="profile-card-header">
-                        <div class="profile-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="profile-info">
-                            <h2 th:text="${student.name}">Arjun Joshi</h2>
-                            <p>Science Stream | Regular Student</p>
-                        </div>
-                    </div>
-                    <div class="profile-details">
-                        <div class="profile-detail-item">
-                            <span class="profile-detail-label">Roll Number</span>
-                            <span class="profile-detail-value" th:text="${student.rollNumber}">12-A-047</span>
-                        </div>
-                        <div class="profile-detail-item">
-                            <span class="profile-detail-label">Class</span>
-                            <span class="profile-detail-value" th:text="${student.classEntity.className+' - '+student.classEntity.section}">12-A</span>
-                        </div>
-                        <div class="profile-detail-item">
-                            <span class="profile-detail-label">Email</span>
-                            <span class="profile-detail-value" th:text="${student.email}">arjun.joshi@school.edu</span>
-                        </div>
-                        <div class="profile-detail-item">
-                            <span class="profile-detail-label">Phone</span>
-                            <span class="profile-detail-value" th:text="${student.phone}">+91 98765 43210</span>
-                        </div>
-                        <div class="profile-detail-item">
-                            <span class="profile-detail-label">Date of Birth</span>
-                            <span class="profile-detail-value" th:text="${student.dateOfBirth}">15 Mar 2008</span>
-                        </div>
-                        <div class="profile-detail-item">
-                            <span class="profile-detail-label">Guardian</span>
-                            <span class="profile-detail-value" th:text="${student.parentName}">Rajesh Joshi</span>
-                        </div>
-                    </div>
-                </div>
+					<div class="summary-card">
+						<div class="summary-card-header">
+							<div class="summary-card-title">Upcoming Exams</div>
+							<div class="summary-card-icon icon-exams">
+								<i class="fas fa-book"></i>
+							</div>
+						</div>
+						<div class="summary-card-value">5</div>
+						<span class="status-badge badge-warning">Next in 15 days</span>
+					</div>
 
-                <!-- Attendance Section -->
-                <div class="attendance-section">
-                    <div class="section-title">
-                        <i class="fas fa-calendar-check"></i>
-                        Attendance Overview
-                    </div>
-                    <div class="attendance-grid">
-                    
-                        <div class="attendance-item">
-                            <div class="attendance-label">Monthly Attendance</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 92%"></div>
-                            </div>
-                        	<div class="progress-text">
-                                <span>92%</span>
-                                <span>28/30 days</span>
-                            </div>
-                        </div>
-                            <div class="attendance-item">
-                                <div class="attendance-label">Subject: Mathematics</div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 95%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span>95%</span>
-                                    <span>19/20 classes</span>
-                                </div>
-                            </div>
-                            <div class="attendance-item">
-                                <div class="attendance-label">Subject: Physics</div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 88%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span>88%</span>
-                                    <span>17/20 classes</span>
-                                </div>
-                            </div>
-                            <div class="attendance-item">
-                                <div class="attendance-label">Subject: Chemistry</div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 90%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span>90%</span>
-                                    <span>18/20 classes</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+					<div class="summary-card">
+						<div class="summary-card-header">
+							<div class="summary-card-title">Pending Assignments</div>
+							<div class="summary-card-icon icon-assignments">
+								<i class="fas fa-tasks"></i>
+							</div>
+						</div>
+						<div class="summary-card-value">3</div>
+						<span class="status-badge badge-warning">Due This Week</span>
+					</div>
 
-                    <!-- Assignments Section -->
-                    <div class="assignments-section">
-                        <div class="assignments-list">
-                            <div class="section-title">
-                                <i class="fas fa-tasks"></i>
-                                Recent Assignments
-                            </div>
+					<div class="summary-card">
+						<div class="summary-card-header">
+							<div class="summary-card-title">Fees Status</div>
+							<div class="summary-card-icon icon-fees">
+								<i class="fas fa-wallet"></i>
+							</div>
+						</div>
+						<div class="summary-card-value">Paid</div>
+						<span class="status-badge badge-success">Current</span>
+					</div>
+				</div>
 
-                            <div class="assignment-item">
-                                <div class="assignment-header">
-                                    <div class="assignment-title">Trigonometry Problem Set</div>
-                                    <span class="assignment-status status-completed">
-                                        <i class="fas fa-check-circle"></i> Completed
-                                    </span>
-                                </div>
-                                <div class="assignment-details">
-                                    <span class="assignment-due">
-                                        <i class="fas fa-calendar-alt"></i> Due: Mar 28, 2026
-                                    </span>
-                                    <span>Subject: Mathematics</span>
-                                </div>
-                                <div class="assignment-actions">
-                                    <button class="btn-small">View</button>
-                                    <button class="btn-small">Download</button>
-                                </div>
-                            </div>
+				<!-- Student Profile Card -->
+				<div class="profile-card">
+					<div class="profile-card-header">
+						<div class="profile-avatar">
+							<i class="fas fa-user"></i>
+						</div>
+						<div class="profile-info">
+							<h2 th:text="${student.name}">Arjun Joshi</h2>
+							<p>Science Stream | Regular Student</p>
+						</div>
+					</div>
+					<div class="profile-details">
+						<div class="profile-detail-item">
+							<span class="profile-detail-label">Roll Number</span> <span
+								class="profile-detail-value" th:text="${student.rollNumber}">12-A-047</span>
+						</div>
+						<div class="profile-detail-item">
+							<span class="profile-detail-label">Class</span> <span
+								class="profile-detail-value"
+								th:text="${student.classEntity.className+' - '+student.classEntity.section}">12-A</span>
+						</div>
+						<div class="profile-detail-item">
+							<span class="profile-detail-label">Email</span> <span
+								class="profile-detail-value" th:text="${student.email}">arjun.joshi@school.edu</span>
+						</div>
+						<div class="profile-detail-item">
+							<span class="profile-detail-label">Phone</span> <span
+								class="profile-detail-value" th:text="${student.phone}">+91
+								98765 43210</span>
+						</div>
+						<div class="profile-detail-item">
+							<span class="profile-detail-label">Date of Birth</span> <span
+								class="profile-detail-value" th:text="${student.dateOfBirth}">15
+								Mar 2008</span>
+						</div>
+						<div class="profile-detail-item">
+							<span class="profile-detail-label">Guardian</span> <span
+								class="profile-detail-value" th:text="${student.parentName}">Rajesh
+								Joshi</span>
+						</div>
+					</div>
+				</div>
 
-                            <div class="assignment-item">
-                                <div class="assignment-header">
-                                    <div class="assignment-title">Physics Lab Report</div>
-                                    <span class="assignment-status status-pending">
-                                        <i class="fas fa-clock"></i> Pending
-                                    </span>
-                                </div>
-                                <div class="assignment-details">
-                                    <span class="assignment-due">
-                                        <i class="fas fa-calendar-alt"></i> Due: Mar 30, 2026
-                                    </span>
-                                    <span>Subject: Physics</span>
-                                </div>
-                                <div class="assignment-actions">
-                                    <button class="btn-small">View</button>
-                                    <button class="btn-small submit">Submit</button>
-                                </div>
-                            </div>
+				<!-- Attendance Section -->
+				<div class="attendance-section">
+					<div class="section-title">
+						<i class="fas fa-calendar-check"></i> Attendance Overview
+					</div>
+					<div class="attendance-grid">
 
-                            <div class="assignment-item">
-                                <div class="assignment-header">
-                                    <div class="assignment-title">Organic Chemistry Essay</div>
-                                    <span class="assignment-status status-pending">
-                                        <i class="fas fa-clock"></i> Pending
-                                    </span>
-                                </div>
-                                <div class="assignment-details">
-                                    <span class="assignment-due">
-                                        <i class="fas fa-calendar-alt"></i> Due: Apr 02, 2026
-                                    </span>
-                                    <span>Subject: Chemistry</span>
-                                </div>
-                                <div class="assignment-actions">
-                                    <button class="btn-small">View</button>
-                                    <button class="btn-small submit">Submit</button>
-                                </div>
-                            </div>
-                        </div>
+						<div class="attendance-item">
+							<div class="attendance-label">Monthly Attendance</div>
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 92%"></div>
+							</div>
+							<div class="progress-text">
+								<span>92%</span> <span>28/30 days</span>
+							</div>
+						</div>
+						<div class="attendance-item">
+							<div class="attendance-label">Subject: Mathematics</div>
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 95%"></div>
+							</div>
+							<div class="progress-text">
+								<span>95%</span> <span>19/20 classes</span>
+							</div>
+						</div>
+						<div class="attendance-item">
+							<div class="attendance-label">Subject: Physics</div>
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 88%"></div>
+							</div>
+							<div class="progress-text">
+								<span>88%</span> <span>17/20 classes</span>
+							</div>
+						</div>
+						<div class="attendance-item">
+							<div class="attendance-label">Subject: Chemistry</div>
+							<div class="progress-bar">
+								<div class="progress-fill" style="width: 90%"></div>
+							</div>
+							<div class="progress-text">
+								<span>90%</span> <span>18/20 classes</span>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                        <div class="assignments-list">
-                            <div class="section-title">
-                                <i class="fas fa-star"></i>
-                                Quick Stats
-                            </div>
+				<!-- Assignments Section -->
+				<div class="assignments-section">
+					<div class="assignments-list">
+						<div class="section-title">
+							<i class="fas fa-tasks"></i> Recent Assignments
+						</div>
 
-                            <div class="assignment-item">
-                                <div class="assignment-header">
-                                    <div class="assignment-title">Cumulative GPA</div>
-                                </div>
-                                <div
-                                    style="font-size: 32px; font-weight: 700; color: var(--primary-color); margin: 15px 0;">
-                                    3.85 / 4.0
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill"
-                                        style="width: 96%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
-                                </div>
-                            </div>
+						<div class="assignment-item" th:each="a : ${assignments}">
+							<div class="assignment-header">
+								<div class="assignment-title"
+									th:text="${#strings.length(a.assignment.title) > 20 ? #strings.substring(a.assignment.title, 0, 19) + '...' : a.assignment.title}">Trigonometry
+									Problem</div>
+								<span
+									th:class="${a.isComplete} ? 'assignment-status status-pending' : 'assignment-status status-completed'">
+									<i class="fas fa-check-circle"></i> <span
+									th:text="${a.isComplete} ? 'Pending' : 'Completed'"></span>
+								</span>
+							</div>
+							<div class="assignment-details">
+								<span th:text="${a.assignment.subject}">Subject:
+									Mathematics</span> <span class="assignment-due"> <i
+									class="fas fa-calendar-alt"></i> <span
+									th:text="'Due: '+${a.assignment.dueDate}"></span>
+								</span>
+							</div>
+							<div class="assignment-actions">
+								<button class="btn-small">View</button>
+								<button class="btn-small">Download</button>
+							</div>
+						</div>
+						<div class="assignments-list"
+							th:if="${#lists.isEmpty(assignments)}"
+							style="text-align: center;">
+							<div>
+								<p>No assignments available.</p>
+							</div>
+						</div>
+					</div>
 
-                            <div class="assignment-item">
-                                <div class="assignment-header">
-                                    <div class="assignment-title">Last Exam Score</div>
-                                </div>
-                                <div
-                                    style="font-size: 32px; font-weight: 700; color: var(--secondary-color); margin: 15px 0;">
-                                    87%
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill"
-                                        style="width: 87%; background: linear-gradient(90deg, #8b5cf6, #d946ef);"></div>
-                                </div>
-                            </div>
+					<div class="assignments-list">
+						<div class="section-title">
+							<i class="fas fa-star"></i> Quick Stats
+						</div>
 
-                            <div class="assignment-item">
-                                <div class="assignment-header">
-                                    <div class="assignment-title">Assignment Completion</div>
-                                </div>
-                                <div
-                                    style="font-size: 32px; font-weight: 700; color: var(--accent-color); margin: 15px 0;">
-                                    15 / 18
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill"
-                                        style="width: 83%; background: linear-gradient(90deg, #ec4899, #f472b6);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+						<div class="assignment-item">
+							<div class="assignment-header">
+								<div class="assignment-title">Cumulative GPA</div>
+							</div>
+							<div
+								style="font-size: 32px; font-weight: 700; color: var(--primary-color); margin: 15px 0;">
+								3.85 / 4.0</div>
+							<div class="progress-bar">
+								<div class="progress-fill"
+									style="width: 96%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+							</div>
+						</div>
 
-                    <!-- Timetable Section -->
-                    <div class="timetable-container">
-                        <div class="section-title">
-                            <i class="fas fa-clock"></i>
-                            Weekly Timetable
-                        </div>
-                        <table class="timetable">
-                            <thead>
-                                <tr>
-                                    <th>Time Slot</th>
-                                    <th>Monday</th>
-                                    <th>Tuesday</th>
-                                    <th>Wednesday</th>
-                                    <th>Thursday</th>
-                                    <th>Friday</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="time-slot">09:00 - 10:00</td>
-                                    <td class="subject-name">Mathematics</td>
-                                    <td class="subject-name">English</td>
-                                    <td class="subject-name">Physics</td>
-                                    <td class="subject-name">Chemistry</td>
-                                    <td class="subject-name">Biology</td>
-                                </tr>
-                                <tr>
-                                    <td class="time-slot">10:00 - 11:00</td>
-                                    <td class="subject-name">Physics</td>
-                                    <td class="subject-name">Mathematics</td>
-                                    <td class="subject-name">Chemistry</td>
-                                    <td class="subject-name">English</td>
-                                    <td class="subject-name">Mathematics</td>
-                                </tr>
-                                <tr>
-                                    <td class="time-slot">11:00 - 11:30</td>
-                                    <td colspan="5"
-                                        style="text-align: center; color: var(--warning-color); font-weight: 600;">Break
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="time-slot">11:30 - 12:30</td>
-                                    <td class="subject-name">Chemistry</td>
-                                    <td class="subject-name">Physics</td>
-                                    <td class="subject-name">English</td>
-                                    <td class="subject-name">Biology</td>
-                                    <td class="subject-name">Physics</td>
-                                </tr>
-                                <tr>
-                                    <td class="time-slot">12:30 - 01:30</td>
-                                    <td class="subject-name">Biology</td>
-                                    <td class="subject-name">Chemistry</td>
-                                    <td class="subject-name">Mathematics</td>
-                                    <td class="subject-name">Physics</td>
-                                    <td class="subject-name">English</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+						<div class="assignment-item">
+							<div class="assignment-header">
+								<div class="assignment-title">Last Exam Score</div>
+							</div>
+							<div
+								style="font-size: 32px; font-weight: 700; color: var(--secondary-color); margin: 15px 0;">
+								87%</div>
+							<div class="progress-bar">
+								<div class="progress-fill"
+									style="width: 87%; background: linear-gradient(90deg, #8b5cf6, #d946ef);"></div>
+							</div>
+						</div>
 
-                    <!-- Notifications Panel -->
-                    <div class="notifications-panel">
-                        <div class="section-title">
-                            <i class="fas fa-bell"></i>
-                            Recent Notifications
-                        </div>
+						<div class="assignment-item">
+							<div class="assignment-header">
+								<div class="assignment-title">Assignment Completion</div>
+							</div>
+							<div
+								style="font-size: 32px; font-weight: 700; color: var(--accent-color); margin: 15px 0;">
+								15 / 18</div>
+							<div class="progress-bar">
+								<div class="progress-fill"
+									style="width: 83%; background: linear-gradient(90deg, #ec4899, #f472b6);"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                        <div class="notification-item">
-                            <div class="notification-title">
-                                <span class="notification-dot"></span>
-                                New Assignment Posted
-                            </div>
-                            <div class="notification-msg">
-                                Your Mathematics teacher posted a new assignment "Calculus Chapter 5" due on April 5,
-                                2026.
-                            </div>
-                            <div class="notification-time">
-                                <i class="fas fa-clock"></i> 2 hours ago
-                            </div>
-                        </div>
+				<!-- Timetable Section -->
+				<div class="timetable-container">
+					<div class="section-title">
+						<i class="fas fa-clock"></i> Weekly Timetable
+					</div>
+					<table class="timetable">
+						<thead>
+							<tr>
+								<th>Time Slot</th>
+								<th>Monday</th>
+								<th>Tuesday</th>
+								<th>Wednesday</th>
+								<th>Thursday</th>
+								<th>Friday</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="time-slot">09:00 - 10:00</td>
+								<td class="subject-name">Mathematics</td>
+								<td class="subject-name">English</td>
+								<td class="subject-name">Physics</td>
+								<td class="subject-name">Chemistry</td>
+								<td class="subject-name">Biology</td>
+							</tr>
+							<tr>
+								<td class="time-slot">10:00 - 11:00</td>
+								<td class="subject-name">Physics</td>
+								<td class="subject-name">Mathematics</td>
+								<td class="subject-name">Chemistry</td>
+								<td class="subject-name">English</td>
+								<td class="subject-name">Mathematics</td>
+							</tr>
+							<tr>
+								<td class="time-slot">11:00 - 11:30</td>
+								<td colspan="5"
+									style="text-align: center; color: var(--warning-color); font-weight: 600;">Break
+								</td>
+							</tr>
+							<tr>
+								<td class="time-slot">11:30 - 12:30</td>
+								<td class="subject-name">Chemistry</td>
+								<td class="subject-name">Physics</td>
+								<td class="subject-name">English</td>
+								<td class="subject-name">Biology</td>
+								<td class="subject-name">Physics</td>
+							</tr>
+							<tr>
+								<td class="time-slot">12:30 - 01:30</td>
+								<td class="subject-name">Biology</td>
+								<td class="subject-name">Chemistry</td>
+								<td class="subject-name">Mathematics</td>
+								<td class="subject-name">Physics</td>
+								<td class="subject-name">English</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
-                        <div class="notification-item">
-                            <div class="notification-title">
-                                <span class="notification-dot"></span>
-                                Exam Schedule Released
-                            </div>
-                            <div class="notification-msg">
-                                The final exam schedule for Q4 has been released. Check your timetable for details.
-                            </div>
-                            <div class="notification-time">
-                                <i class="fas fa-clock"></i> 1 day ago
-                            </div>
-                        </div>
+				<!-- Notifications Panel -->
+				<div class="notifications-panel">
+					<div class="section-title">
+						<i class="fas fa-bell"></i> Recent Notifications
+					</div>
 
-                        <div class="notification-item">
-                            <div class="notification-title">
-                                <span class="notification-dot"></span>
-                                Result Published
-                            </div>
-                            <div class="notification-msg">
-                                Your Q3 final exam results have been published. Your overall score is 87%.
-                            </div>
-                            <div class="notification-time">
-                                <i class="fas fa-clock"></i> 3 days ago
-							 </div>
-                        </div>
+					<div class="notification-item">
+						<div class="notification-title">
+							<span class="notification-dot"></span> New Assignment Posted
+						</div>
+						<div class="notification-msg">Your Mathematics teacher
+							posted a new assignment "Calculus Chapter 5" due on April 5,
+							2026.</div>
+						<div class="notification-time">
+							<i class="fas fa-clock"></i> 2 hours ago
+						</div>
+					</div>
 
-                        <div class="notification-item">
-                            <div class="notification-title">
-                                <span class="notification-dot"></span>
-                                Fee Reminder
-                            </div>
-                            <div class="notification-msg">
-                                Your fees for Q2 are due on April 15, 2026. Please make the payment before the deadline.
-                            </div>
-                            <div class="notification-time">
-                                <i class="fas fa-clock"></i> 5 days ago
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+					<div class="notification-item">
+						<div class="notification-title">
+							<span class="notification-dot"></span> Exam Schedule Released
+						</div>
+						<div class="notification-msg">The final exam schedule for Q4
+							has been released. Check your timetable for details.</div>
+						<div class="notification-time">
+							<i class="fas fa-clock"></i> 1 day ago
+						</div>
+					</div>
 
-        <script>
+					<div class="notification-item">
+						<div class="notification-title">
+							<span class="notification-dot"></span> Result Published
+						</div>
+						<div class="notification-msg">Your Q3 final exam results
+							have been published. Your overall score is 87%.</div>
+						<div class="notification-time">
+							<i class="fas fa-clock"></i> 3 days ago
+						</div>
+					</div>
+
+					<div class="notification-item">
+						<div class="notification-title">
+							<span class="notification-dot"></span> Fee Reminder
+						</div>
+						<div class="notification-msg">Your fees for Q2 are due on
+							April 15, 2026. Please make the payment before the deadline.</div>
+						<div class="notification-time">
+							<i class="fas fa-clock"></i> 5 days ago
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
             // Hamburger menu toggle for mobile
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const sidebar = document.getElementById('sidebar');

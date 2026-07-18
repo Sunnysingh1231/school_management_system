@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,6 +246,8 @@ public class TeacherController {
 		
 		Integer cls = (Integer) session.getAttribute("clsId");
 		List<Assignment> allAssignments = teacherServiceInterface.findAllAsinmtByClsId(cls);
+		Collections.reverse(allAssignments);
+
 		
 		ClassEntity classEntity = teacherServiceInterface.findClassByClassId(cls).get();
 		Teacher teacher = teacherServiceInterface.getCurrentTeacher();

@@ -164,26 +164,36 @@
 						<!-- Card 1 -->
 						<div class="assignment-card" th:each="a : ${assignments}">
 							<div class="assignment-card-header">
-								<h3 th:text="${a.title}">Trigonometry Problems</h3>
+								<h3 th:text="${a.assignment.title}">Trigonometry Problems</h3>
 								<span
-									th:class="${a.active == true} ? 'status completed' : 'status pending'"
-									th:text="${a.active == true} ? 'Active' : 'Closed'">Completed</span>
+									th:class="${a.isComplete} ? 'status pending' : 'status completed'"
+									th:text="${a.isComplete} ? 'Pending' : 'Completed'">Completed</span>
 							</div>
 
-							<p class="subject" th:text="${a.subject}">Mathematics</p>
-							<p class="desc" th:text="${a.description}">Solve all
+							<p class="subject" th:text="${a.assignment.subject}">Mathematics</p>
+							<p class="desc" th:text="${a.assignment.description}">Solve all
 								questions from Chapter 5.</p>
 
 							<div class="assignment-footer">
 								<span><i class="fas fa-calendar"></i> <span
-									th:text="${a.dueDate}"></span></span>
+									th:text="${a.assignment.dueDate}"></span></span>
 								<button class="btn-view">View</button>
+
+								<form th:action="@{/student/submit-Assignment}" method="post">
+
+									<input type="hidden" name="assignmentId" th:value="${a.assignment.id}" />
+
+									<button type="button" class="btn-view" onclick="submitAssignment(this)" th:disabled="${!a.isComplete}">Complete</button>
+
+								</form>
+
 							</div>
 						</div>
 
 
 					</div>
-					<div class="assignments-list" th:if="${#lists.isEmpty(assignments)}" style = "text-align: center;">
+					<div class="assignments-list"
+						th:if="${#lists.isEmpty(assignments)}" style="text-align: center;">
 						<div>
 							<p>No assignments available.</p>
 						</div>
@@ -246,6 +256,30 @@
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+function submitAssignment(button){
+
+    Swal.fire({
+        title: "Complete Assignment?",
+        text: "Are you sure you want to mark this assignment as completed?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Complete",
+        cancelButtonText: "Cancel"
+    }).then((result)=>{
+
+        if(result.isConfirmed){
+
+            button.closest("form").submit();
+
+        }
+
+    });
+
+}
+</script>
 </body>
 
 </html>

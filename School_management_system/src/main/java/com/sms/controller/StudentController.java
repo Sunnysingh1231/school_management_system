@@ -1,6 +1,7 @@
 package com.sms.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.Student;
+import com.sms.model.StudentAssignment;
 import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
 
@@ -61,6 +63,36 @@ public class StudentController {
 		
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
+		
+		List<Assignment> assignments = studentServiceInterface.findTop3AssignByClsId(s1.getClassEntity().getId());
+		Collections.reverse(assignments);
+		
+		List<StudentAssignment> sAssignments = studentServiceInterface.findStdAssignBtStdId(s1.getId());
+		List<StudentAssignment> nAssignments = new ArrayList<>();
+		
+//		sAssignments.
+//		
+		for(Assignment a : assignments) {
+			
+			StudentAssignment s = new StudentAssignment();
+			
+			s.setAssignment(a);
+			s.setSchool(a.getSchool());
+			s.setSession(a.getSession());
+			s.setStudent(s1);
+			
+			for(StudentAssignment sa : sAssignments) {
+				if(s.getAssignment().equals(sa.getAssignment())) {
+					s.setIsComplete(false);
+				}
+			}
+			nAssignments.add(s);
+			
+		}
+		
+		model.addAttribute("assignments", nAssignments);
+		
+		
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/dashboard :: dashboard"; // fragment
@@ -122,7 +154,32 @@ public class StudentController {
 //		these assignment are filter based on acadmic session
 		List<Assignment> assignments = teacherServiceInterface.findAllAsinmtByClsId(s1.getClassEntity().getId());
 		Collections.reverse(assignments);
-		model.addAttribute("assignments", assignments);
+		
+		List<StudentAssignment> sAssignments = studentServiceInterface.findStdAssignBtStdId(s1.getId());
+		List<StudentAssignment> nAssignments = new ArrayList<>();
+		
+//		sAssignments.
+//		
+		for(Assignment a : assignments) {
+			
+			StudentAssignment s = new StudentAssignment();
+			
+			s.setAssignment(a);
+			s.setSchool(a.getSchool());
+			s.setSession(a.getSession());
+			s.setStudent(s1);
+			
+			for(StudentAssignment sa : sAssignments) {
+				if(s.getAssignment().equals(sa.getAssignment())) {
+					s.setIsComplete(false);
+				}
+			}
+			
+			nAssignments.add(s);
+			
+		}
+		
+		model.addAttribute("assignments", nAssignments);
 		
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
@@ -270,5 +327,17 @@ public class StudentController {
 	    }
 
 	    return "redirect:/student/profile";
+	}
+	
+	@PostMapping("/submit-Assignment")
+	public String assignmentComplete(@RequestParam int assignmentId) {
+		
+		Student s1 = studentServiceInterface.getCurrentStudent();
+		
+		studentServiceInterface.markAssignmentComplete(assignmentId, s1.getId());
+		
+//		System.out.println(assignmentId);
+		
+		return "redirect:/student/assignment";
 	}
 }

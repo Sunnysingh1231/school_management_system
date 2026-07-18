@@ -12,4 +12,6 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Integer>
 
 	List<Assignment> findAllByClassEntityIdAndSession(int clsId, String sess);
 
+	List<Assignment> findTop3ByClassEntityIdAndSession(int clsId, String academicSession);
+
 }
