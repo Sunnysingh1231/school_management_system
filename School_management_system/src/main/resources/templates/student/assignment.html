@@ -123,12 +123,69 @@
 	background: var(--secondary-color);
 	color: white;
 }
+
+.overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4);
+	display: none;
+	z-index: 100;
+}
+
+.overlay.active {
+	display: block;
+	animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+from { opacity:0;
+	
+}
+
+to {
+	opacity: 1;
+}
+
+}
+.modal-box {
+	position: absolute;
+	background: white;
+	top: 50%;
+	left: 50%;
+	width: 480px;
+	height: 300px;
+	padding: 25px;
+	border-radius: 10px;
+	margin-left: 140px;
+	transform: scale(0.8);
+	z-index: 101;
+	transform: translate(-50%, -50%);
+	display: none;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px
+		-2px 6px 0px inset;
+}
+
+.modal-box.active {
+	animation: fadeIn 0.3s ease forwards;
+	display: block;
+}
+
+@media ( max-width : 768px) {
+	.modal-box {
+		margin-left: 0px;
+		width: 320px;
+		height: 300px;
+	}
+}
 </style>
 
 
 </head>
 
 <body>
+
+
 
 	<div class="dashboard-container">
 
@@ -153,37 +210,51 @@
 
 					<!-- Filter Buttons -->
 					<div class="assignment-filters">
-						<button class="filter-btn active">All</button>
-						<button class="filter-btn">Pending</button>
-						<button class="filter-btn">Completed</button>
+						<a href="/student/assignment"><button
+								class="filter-btn fb1 active" type="button">All</button></a>
+						<button class="filter-btn fb2" onclick = "loadPendingAssignments(this)">Pending</button>
+						<button class="filter-btn fb3"
+							onclick="loadCompletedAssignments(this)">Completed</button>
 					</div>
 
 					<!-- Assignment Cards -->
-					<div class="assignment-grid">
+					<div class="assignment-grid" id="assignment-grid">
 
-						<!-- Card 1 -->
 						<div class="assignment-card" th:each="a : ${assignments}">
 							<div class="assignment-card-header">
-								<h3 th:text="${a.assignment.title}">Trigonometry Problems</h3>
+								<h3 id="tit" th:value="${a.assignment.title}"
+									th:text="${a.assignment.title}">Trigonometry Problems</h3>
 								<span
 									th:class="${a.isComplete} ? 'status pending' : 'status completed'"
 									th:text="${a.isComplete} ? 'Pending' : 'Completed'">Completed</span>
 							</div>
 
 							<p class="subject" th:text="${a.assignment.subject}">Mathematics</p>
-							<p class="desc" th:text="${a.assignment.description}">Solve all
-								questions from Chapter 5.</p>
+							<p class="desc" th:text="${a.assignment.description}">Solve
+								all questions from Chapter 5.</p>
 
 							<div class="assignment-footer">
 								<span><i class="fas fa-calendar"></i> <span
 									th:text="${a.assignment.dueDate}"></span></span>
-								<button class="btn-view">View</button>
+								<button type="button" class="btn-view" id="btn-view"
+									onclick="viewAssignmentDetail(this)"
+									th:data-title="${a.assignment.title}"
+									th:data-status="${a.isComplete} ? 'Pending' : 'Completed'"
+									th:data-subject="${a.assignment.subject}"
+									th:data-description="${a.assignment.description}"
+									th:data-publish-date="${a.assignment.assignDate}"
+									th:data-due-date="${a.assignment.dueDate}"
+									th:value="${a.assignment.id}">View</button>
 
 								<form th:action="@{/student/submit-Assignment}" method="post">
 
-									<input type="hidden" name="assignmentId" th:value="${a.assignment.id}" />
+									<input type="hidden" name="assignmentId"
+										th:value="${a.assignment.id}" /> <input type="hidden"
+										name="studentId" th:value="${student.id}">
 
-									<button type="button" class="btn-view" onclick="submitAssignment(this)" th:disabled="${!a.isComplete}">Complete</button>
+									<button type="button" class="btn-view"
+										onclick="submitAssignment(this)"
+										th:disabled="${!a.isComplete}">Complete</button>
 
 								</form>
 
@@ -205,6 +276,10 @@
 			</div>
 
 		</div>
+
+		<div class="overlay" id="overlay"></div>
+		<div class="modal-box" id="modal-box"></div>
+
 		<script>
         // Hamburger menu toggle for mobile
         const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -255,10 +330,14 @@
                 this.classList.add('active');
             });
         });
+        
+        
+        
+        
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
+		<script>
 function submitAssignment(button){
 
     Swal.fire({
@@ -270,7 +349,7 @@ function submitAssignment(button){
         cancelButtonText: "Cancel"
     }).then((result)=>{
 
-        if(result.isConfirmed){
+        if(result.isConfirmed){  
 
             button.closest("form").submit();
 
@@ -278,6 +357,185 @@ function submitAssignment(button){
 
     });
 
+}
+
+let overly = document.getElementById('overlay')
+let detail = document.getElementById('modal-box')
+let btn = document.getElementById('btn-view')
+
+function viewAssignmentDetail(button){
+	overly.classList.add("active")
+	detail.classList.add("active")
+	
+	detail.innerHTML = "";
+	
+	let div = document.createElement('div');
+	div.classList.add('assignment-card-header');
+	
+	let h3v = document.createElement('h3');
+	h3v.textContent ="Title: "+button.dataset.title;
+
+	let span = document.createElement('span');
+	span.classList.add('status');
+	span.classList.add('completed');
+	span.textContent =button.dataset.status;
+
+	let h5 = document.createElement('h5');
+	h5.classList.add('subject');
+	h5.textContent = 'Subject: '+button.dataset.subject;
+
+	let p = document.createElement('p');
+	p.classList.add('desc');
+	p.textContent = 'Description: '+button.dataset.description;
+
+	div.appendChild(h3v);
+	div.appendChild(span);
+
+	let div2 = document.createElement('div');
+	div.classList.add('assignment-footer');
+	div2.style.display = "flex";
+	div2.style.justifyContent = "center";
+	div2.style.marginTop = "40px";
+	
+	let span2 = document.createElement('span');
+	span2.textContent ="Publish Date: "+button.dataset.publishDate;
+	let br = document.createElement("br");
+	let span3 = document.createElement('span');
+	span3.textContent ="Due Date: "+button.dataset.dueDate;
+	
+	let btn = document.createElement('button');
+	btn.classList.add('btn-view');
+	btn.textContent = 'Ok';
+	
+	div2.appendChild(btn);
+	
+	detail.append(h5,div,p,span2,br,span3,div2);
+	
+	btn.addEventListener('click', (e) => {
+		overly.classList.remove('active')
+		detail.classList.remove("active")
+	});
+	
+}
+overly.addEventListener('click', (e) => {
+	overly.classList.remove('active')
+	detail.classList.remove("active")
+});
+
+const card1 = document.querySelector(".fb1");
+const card2 = document.querySelector(".fb2");
+const card3 = document.querySelector(".fb3");
+card1.addEventListener('click', (e) => {
+	card1.classList.add('active')
+	card2.classList.remove("active")
+	card3.classList.remove("active")
+});
+card2.addEventListener('click', (e) => {
+	card2.classList.add('active')
+	card1.classList.remove("active")
+	card3.classList.remove("active")
+});
+card3.addEventListener('click', (e) => {
+	card3.classList.add('active')
+	card2.classList.remove("active")
+	card1.classList.remove("active")
+});
+
+function loadCompletedAssignments(status) {
+
+    fetch("/student/complete-assignment")
+        .then(response => response.json())
+        .then(data => {
+
+            const container = document.getElementById("assignment-grid");
+            container.innerHTML = "";
+
+            data.forEach(a => {
+            	
+                container.innerHTML += `
+                    <div class="assignment-card">
+
+                        <div class="assignment-card-header">
+                            <h3>${a.title}</h3>
+                            <span class="status completed">Completed</span>
+                        </div>
+
+                        <p class="subject">${a.subject}</p>
+
+                        <p class="desc">${a.description}</p>
+
+                        <div class="assignment-footer">
+
+                            <span>
+                                <i class="fas fa-calendar"></i>
+                                ${a.dueDate}
+                            </span>
+
+                            <button
+                                class="btn-view"
+                                onclick="viewAssignmentDetail(this)">
+                                View
+                            </button>
+                        </div>
+
+                    </div>
+                `;
+
+            });
+
+        });
+}
+
+function loadPendingAssignments(status) {
+
+    fetch("/student/pending-assignment")
+        .then(response => response.json())
+        .then(data => {
+
+            const container = document.getElementById("assignment-grid");
+            container.innerHTML = "";
+
+            data.forEach(a => {
+            	
+            	console.log(a.id)
+
+                container.innerHTML += `
+                    <div class="assignment-card">
+
+                        <div class="assignment-card-header">
+                            <h3>${a.title}</h3>
+                            <span class="status pending">Pending</span>
+                        </div>
+
+                        <p class="subject">${a.subject}</p>
+
+                        <p class="desc">${a.description}</p>
+
+                        <div class="assignment-footer">
+
+                            <span>
+                                <i class="fas fa-calendar"></i>
+                                ${a.dueDate}
+                            </span>
+
+                            <button
+                                class="btn-view"
+                               
+                                onclick="viewAssignmentDetail(this)">
+                                View
+                            </button>
+                        </div>
+
+                    </div>
+                `;
+
+            });
+
+        });
+}
+
+function showAll() {
+    assignmentGrid.innerHTML = defaultHtml;
 }
 </script>
 </body>

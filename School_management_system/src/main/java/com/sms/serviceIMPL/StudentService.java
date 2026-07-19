@@ -2,6 +2,8 @@ package com.sms.serviceIMPL;
 
 import com.sms.repository.AssignmentRepository;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,10 +15,12 @@ import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
+import com.sms.model.StudentAssignmentDto;
 import com.sms.repository.AttendenceRepository;
 import com.sms.repository.StudentAssignmentRepository;
 import com.sms.repository.StudentRepository;
 import com.sms.serviceInterface.StudentServiceInterface;
+import com.sms.serviceInterface.TeacherServiceInterface;
 
 import lombok.Data;
 
@@ -30,9 +34,12 @@ public class StudentService implements StudentServiceInterface {
 
 	@Autowired
 	private AttendenceRepository attendenceRepository;
-	
+
 	@Autowired
 	private StudentAssignmentRepository studentAssignmentRepository;
+	
+	@Autowired
+	private TeacherServiceInterface teacherServiceInterface;
 
 	StudentService(AssignmentRepository assignmentRepository) {
 		this.assignmentRepository = assignmentRepository;
@@ -53,7 +60,7 @@ public class StudentService implements StudentServiceInterface {
 		int month = today.getMonthValue();
 
 		if (month >= 4) {
-			return year + "-" + (year + 1);
+			return year + "-" + (year +1);
 		} else {
 			return (year - 1) + "-" + year;
 		}
@@ -82,30 +89,109 @@ public class StudentService implements StudentServiceInterface {
 	public Optional<Student> findStudentByStudentId(int id) {
 		return studentRepository.findById(id);
 	}
+
+//	ASSIGNMENT----------------------------------------------------------------------------------------------------
 	
 	@Override
-	public List<Assignment> findTop3AssignByClsId(int clsId){
+	public List<Assignment> findTop3AssignByClsId(int clsId) {
 		return assignmentRepository.findTop3ByClassEntityIdAndSession(clsId, getAcademicSession());
 	}
-	
+
 	@Override
-	public List<StudentAssignment> findStdAssignBtStdId(int id){
+	public List<StudentAssignment> findStdAssignBtStdId(int id) {
 		return studentAssignmentRepository.findAllByStudentIdAndSession(id, getAcademicSession());
 	}
 
 	@Override
 	public void markAssignmentComplete(int id, int stdId) {
-		
+
 		Assignment a = assignmentRepository.findById(id).get();
 		Student s = findStudentByStudentId(stdId).get();
-		
+
 		StudentAssignment sa = new StudentAssignment();
 		sa.setAssignment(a);
 		sa.setStudent(s);
 		sa.setSchool(a.getSchool());
 		sa.setSession(getAcademicSession());
+
+		studentAssignmentRepository.save(sa);
+
+	}
+
+	@Override
+	public List<StudentAssignment> findAllStudentAssignment(Student student) {
 		
-	    studentAssignmentRepository.save(sa);
+		Student s1 = student;
+
+		List<Assignment> assignments = teacherServiceInterface.findAllAsinmtByClsId(s1.getClassEntity().getId());
+		Collections.reverse(assignments);
+		List<StudentAssignment> sAssignments =findStdAssignBtStdId(s1.getId());
 		
+		List<StudentAssignment> nAssignments = new ArrayList<>();
+
+		for (Assignment a : assignments) {
+
+			StudentAssignment s = new StudentAssignment();
+
+			s.setAssignment(a);
+			s.setSchool(a.getSchool());
+			s.setSession(a.getSession());
+			s.setStudent(s1);
+
+			for (StudentAssignment sa : sAssignments) {
+				if (s.getAssignment().equals(sa.getAssignment())) {
+					s.setIsComplete(false);
+				}
+			}
+
+			nAssignments.add(s);
+
+		}
+
+		return nAssignments;
+	}
+	
+	@Override
+	public List<StudentAssignmentDto> studentAssignmentDtos(Student student){
+		Student s1 = student;
+		return studentAssignmentRepository.findAssignmentDtosByStudentId(s1.getId(), getAcademicSession());
+	}
+	
+	@Override
+	public List<StudentAssignmentDto> studentPendingAssignment(Student student){
+		
+		Student s1 = student;
+		List<StudentAssignmentDto> ca = studentAssignmentDtos(s1);
+		
+		List<Assignment> assignments = teacherServiceInterface.findAllAsinmtByClsId(s1.getClassEntity().getId());
+		Collections.reverse(assignments);
+		
+		List<StudentAssignmentDto> ps = new ArrayList<>();
+		
+		for(Assignment a : assignments) {
+			
+			StudentAssignmentDto ps2 = new StudentAssignmentDto();
+			boolean f = false;
+			
+			for(StudentAssignmentDto asd : ca) {
+				if(a.getId() == asd.getId()) {
+					f = true;
+				}
+			}
+			if(!f) {
+				ps2.setId(a.getId());
+				ps2.setTitle(a.getTitle());
+				ps2.setSubject(a.getSubject());
+				ps2.setDescription(a.getDescription());
+				ps2.setAssignDate(a.getAssignDate());
+				ps2.setDueDate(a.getDueDate());
+				
+				ps.add(ps2);
+			}
+			
+		}
+		
+		
+		return ps;
 	}
 }

@@ -135,6 +135,33 @@ function validateFeeForm(event) {
 
 }
 
+//	< !--Fee - student js-- >
+function validateFeeForm(event) {
+
+    event.preventDefault();
+
+    
+
+        
+    Swal.fire({
+        title: "Publish Assignment",
+        text: "Do you want to publish this assignment?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Publish",
+        cancelButtonText: "Cancel"
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            document.getElementById("publish").submit();
+        }
+
+    });
+
+    return false;
+
+}
+
 
 //    < !-- ================= PROFILE UPDATE SUCCESS ================= -->
 

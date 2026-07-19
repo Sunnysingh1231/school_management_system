@@ -7,6 +7,7 @@ import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
+import com.sms.model.StudentAssignmentDto;
 
 public interface StudentServiceInterface {
 
@@ -27,4 +28,10 @@ public interface StudentServiceInterface {
 	List<StudentAssignment> findStdAssignBtStdId(int id);
 
 	void markAssignmentComplete(int id, int stdId);
+
+	List<StudentAssignment> findAllStudentAssignment(Student student);
+
+	List<StudentAssignmentDto> studentAssignmentDtos(Student student);
+
+	List<StudentAssignmentDto> studentPendingAssignment(Student student);
 }

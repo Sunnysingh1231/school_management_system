@@ -2,210 +2,247 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - School Management System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard - School Management System</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Font Awesome Icons -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- External CSS -->
-    <link rel="stylesheet" th:href="@{/student/dashboard.css}">
-    
-    <style>
-    	/* ================= ASSIGNMENT PAGE ================= */
+<!-- External CSS -->
+<link rel="stylesheet" th:href="@{/student/dashboard.css}">
+
+<style>
+/* ================= ASSIGNMENT PAGE ================= */
 
 /* ================= FEES PAGE ================= */
-
 .fees-status-card {
-    background: var(--bg-secondary);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    box-shadow: var(--shadow-md);
+	background: var(--bg-secondary);
+	padding: 20px;
+	border-radius: 12px;
+	margin-bottom: 30px;
+	box-shadow: var(--shadow-md);
 }
 
 /* Table */
 .fees-table-container {
-    background: var(--bg-secondary);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: var(--shadow-md);
-    overflow-x: auto;
+	background: var(--bg-secondary);
+	padding: 20px;
+	border-radius: 12px;
+	box-shadow: var(--shadow-md);
+	overflow-x: auto;
 }
 
 .fees-table {
-    width: 100%;
-    border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
 
 .fees-table th {
-    text-align: left;
-    padding: 12px;
-    background: var(--bg-primary);
+	text-align: left;
+	padding: 12px;
+	background: var(--bg-primary);
 }
 
 .fees-table td {
-    padding: 12px;
-    border-bottom: 1px solid var(--border-color);
+	padding: 12px;
+	border-bottom: 1px solid var(--border-color);
 }
 
 .fees-table tr:hover {
-    background: var(--bg-primary);
+	background: var(--bg-primary);
 }
 
 /* Status */
 .paid {
-    color: var(--success-color);
-    font-weight: 600;
+	color: var(--success-color);
+	font-weight: 600;
 }
 
 .pending {
-    color: var(--warning-color);
-    font-weight: 600;
+	color: var(--warning-color);
+	font-weight: 600;
 }
 
 /* Pay Button */
 .pay-btn-container {
-    margin-top: 20px;
-    text-align: right;
+	margin-top: 20px;
+	text-align: right;
 }
 
 .pay-btn {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
+	background: linear-gradient(135deg, var(--primary-color),
+		var(--secondary-color));
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 8px;
+	font-size: 14px;
+	cursor: pointer;
 }
 
 .pay-btn:hover {
-    opacity: 0.9;
+	opacity: 0.9;
 }
-    
-    </style>
-    
-    
+.badge {
+	background: #10b981;
+	color: white;
+	padding: 2px 10px;
+	border-radius: 20px;
+	font-size: 0.7rem;
+	font-weight: bold;
+}
+
+.glass-card a {
+	height: 35px;
+	background: #3a10b9;
+	color: white;
+	padding: 2px 10px;
+	border-radius: 20px;
+	font-size: 1rem;
+	display: flex;
+	align-items: center;
+}
+
+.badge.red {
+	background: #ef4444;
+}
+</style>
+
+
 </head>
 
 <body>
 
-    <div class="dashboard-container">
-    
-	<div th:replace="~{/student/sidebar::sidebar}"> </div>
-    
-        
+	<div class="dashboard-container">
 
-        <!-- ==================== Main Content ==================== -->
-        <div class="main-content">
-            <!-- ==================== Top Navbar ==================== -->
-            <div th:replace="~{/student/navbar::navbar}"> </div>
+		<div th:replace="~{/student/sidebar::sidebar}"></div>
+
+
+
+		<!-- ==================== Main Content ==================== -->
+		<div class="main-content">
+			<!-- ==================== Top Navbar ==================== -->
+			<div th:replace="~{/student/navbar::navbar}"></div>
 
 			<div class="main-content">
 
-        <div class="dashboard-content">
+				<div class="dashboard-content">
 
-            <!-- Header -->
-            <div class="page-header">
-                <h1>Fees 💰</h1>
-                <p>Track your fee payments and dues</p>
-            </div>
+					<!-- Header -->
+					<div class="page-header">
+						<h1>Fees 💰</h1>
+						<p>Track your fee payments and dues</p>
+					</div>
 
-            <!-- Summary Cards -->
-            <div class="summary-section">
+					<!-- Summary Cards -->
+					<div class="summary-section">
 
-                <div class="summary-card">
-                    <div class="summary-card-title">Total Fees</div>
-                    <div class="summary-card-value">₹50,000</div>
-                </div>
+						<div class="summary-card">
+							<div class="summary-card-title">Total Fees</div>
+							<div class="summary-card-value"><span th:text = "'₹'+${paid+pending}"></span></div>
+						</div>
 
-                <div class="summary-card">
-                    <div class="summary-card-title">Paid Amount</div>
-                    <div class="summary-card-value">₹35,000</div>
-                </div>
+						<div class="summary-card">
+							<div class="summary-card-title">Paid Amount</div>
+							<div class="summary-card-value"><span th:text = "'₹'+${paid}"></span></div>
+						</div>
 
-                <div class="summary-card">
-                    <div class="summary-card-title">Pending</div>
-                    <div class="summary-card-value">₹15,000</div>
-                </div>
+						<div class="summary-card">
+							<div class="summary-card-title">Pending</div>
+							<div class="summary-card-value"><span th:text = "'₹'+${pending}"></span></div>
+						</div>
 
-            </div>
+					</div>
 
-            <!-- Payment Status -->
-            <div class="fees-status-card">
-                <h3>Payment Progress</h3>
+					<!-- Payment Status -->
+					<div class="fees-status-card">
+						<h3>Payment Progress</h3>
 
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 70%"></div>
-                </div>
+						<div class="progress-bar">
+							<div class="progress-fill" th:style="'width:' + ${(paid*100/(pending+paid))} + '%'"></div>
+						</div>
 
-                <p>70% Paid</p>
-            </div>
+						<p th:text = "${(paid*100/(pending+paid))}+'% Paid'">70% Paid</p>
+					</div>
 
-            <!-- Fees Table -->
-            <div class="fees-table-container">
+					<!-- Fees Table -->
+					<div class="fees-table-container">
+						<form id="feeForm" th:action="@{/teacher/student/fees/payment}"
+							method="post" onsubmit="return validateFeeForm(event)">
 
-                <table class="fees-table">
-                    <thead>
-                        <tr>
-                            <th>Fee Type</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Due Date</th>
-                        </tr>
-                    </thead>
+							<input type="hidden" name="studentId" th:value="${student.id}">
 
-                    <tbody>
-                        <tr>
-                            <td>Tuition Fee</td>
-                            <td>₹20,000</td>
-                            <td class="paid">Paid</td>
-                            <td>-</td>
-                        </tr>
+							<!-- Fee Table -->
+							<div class="glass-card">
 
-                        <tr>
-                            <td>Exam Fee</td>
-                            <td>₹5,000</td>
-                            <td class="paid">Paid</td>
-                            <td>-</td>
-                        </tr>
+								<table class="fees-table">
+									<thead>
+										<tr>
+											<th>Month</th>
+											<th>Amount</th>
+											<th>Status</th>
+											<th style="text-align: right;">Select</th>
+										</tr>
+									</thead>
 
-                        <tr>
-                            <td>Library Fee</td>
-                            <td>₹5,000</td>
-                            <td class="pending">Pending</td>
-                            <td>15 Apr 2026</td>
-                        </tr>
+									<tbody>
+										<tr th:each="fee : ${fees}">
 
-                        <tr>
-                            <td>Transport Fee</td>
-                            <td>₹20,000</td>
-                            <td class="pending">Pending</td>
-                            <td>20 Apr 2026</td>
-                        </tr>
-                    </tbody>
-                </table>
+											<!-- Month -->
+											<td th:text="${fee.month}"></td>
 
-            </div>
+											<!-- Amount -->
+											<td>₹<span th:text="${fee.amount}"></span></td>
 
-            <!-- Pay Button -->
-            <div class="pay-btn-container">
-                <button class="pay-btn">
-                    <i class="fas fa-credit-card"></i> Pay Now
-                </button>
-            </div>
+											<!-- Status -->
+											<td><span
+												th:class="${fee.status == 'PAID'} ? 'badge' : 'badge red'"
+												th:text="${fee.status}"> </span></td>
 
-        </div>
-    </div>
-            
-        </div>
-<script>
+											<!-- Checkbox -->
+											<td style="text-align: right;"><input type="checkbox"
+												class="fee-check" name="feeIds" value="${fee.month}"
+												th:data-amount="${fee.amount}"
+												th:disabled="${fee.status == 'PAID'}" onchange="updateTotal()">
+											</td>
+
+										</tr>
+									</tbody>
+								</table>
+
+								<!-- Total Section -->
+								<div
+									style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+
+									<h3>
+										Total Selected: ₹<span id="total">0</span>
+									</h3>
+
+									<div style="display: flex; gap: 10px;"
+										class="pay-btn-container">
+										<button type="button" class="pay-btn" onclick="selectAll()">Select
+											All</button>
+										<button type="submit" class="pay-btn">
+											<i class="fas fa-credit-card"> </i> Pay Selected
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script>
         // Hamburger menu toggle for mobile
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebar = document.getElementById('sidebar');
@@ -255,8 +292,74 @@
                 this.classList.add('active');
             });
         });
-    </script>
         
+        function updateTotal() {
+
+            let total = 0;
+
+            document.querySelectorAll('.fee-check:checked').forEach(function(checkbox) {
+
+                total += parseFloat(checkbox.dataset.amount);
+            });
+
+            document.getElementById('total').textContent = total.toFixed(2);
+
+        }
+
+        function selectAll() {
+
+            // Get only enabled checkboxes
+            const checkboxes = document.querySelectorAll('.fee-check:not(:disabled)');
+
+            // Check if all enabled checkboxes are already selected
+            const allSelected = Array.from(checkboxes).every(function(checkbox) {
+                return checkbox.checked;
+            });
+
+            // Toggle only enabled checkboxes
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = !allSelected;
+            });
+
+            updateTotal();
+
+        }
+//    	< !--Fee - student js-- >
+        function validateFeeForm(event) {
+
+            event.preventDefault();
+
+            const checked = document.querySelectorAll(".fee-check:checked");
+
+            if (checked.length === 0) {
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "No Month Selected",
+                    text: "Please select at least one month."
+                });
+
+                return false;
+            }
+            Swal.fire({
+            	title: "Payment Unavailable",
+                text: "We're sorry, but no payment gateway has been integrated yet. Please contact the class teacher.",
+                icon: "error",
+                confirmButtonText: "OK"
+               // cancelButtonText: "Cancel"
+            })
+            //.then((result) => {
+
+             //   if (result.isConfirmed) {
+             //       document.getElementById("feeForm").submit();
+             //   }
+
+            //});
+
+            return false;
+
+        }
+    </script>
 </body>
 
 </html>

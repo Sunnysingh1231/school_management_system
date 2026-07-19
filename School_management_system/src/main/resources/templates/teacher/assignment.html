@@ -12,8 +12,10 @@
 			</div>
 
 			<div class="nav-buttons">
-            <button onclick="history.back()" class="btn-primary"><i class="fas fa-arrow-left"></i> Back</button>
-        </div>
+				<button onclick="history.back()" class="btn-primary">
+					<i class="fas fa-arrow-left"></i> Back
+				</button>
+			</div>
 
 		</div>
 
@@ -43,8 +45,9 @@
 
 			<br>
 
-			<form th:action="@{/teacher/assignments/save}" method="post"
-				th:object="${assignment}">
+			<form id="publish" th:action="@{/teacher/assignments/save}"
+				method="post" th:object="${assignment}"
+				onsubmit="return validateFeeForm(event)">
 
 				<div class="control-grid">
 
@@ -92,11 +95,12 @@
 
 				<br>
 
-				<button type="submit" class="btn-primary">Save Assignment</button>
+				<button type="submit" class="btn-primary">Publish
+					Assignment</button>
 
 			</form>
 	</main>
-	
+
 	<h3>Assignment List</h3>
 	<br>
 
@@ -135,5 +139,10 @@
 			</tbody>
 		</table>
 	</div>
-
+	<div class="assignments-list" th:if="${#lists.isEmpty(assignments)}"
+		style="text-align: center;">
+		<div>
+			<p>No assignments available.</p>
+		</div>
+	</div>
 </div>

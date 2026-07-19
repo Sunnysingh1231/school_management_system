@@ -1,5 +1,6 @@
 package com.sms.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,17 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
+import com.sms.model.StudentAssignmentDto;
+import com.sms.model.StudentFee;
 import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 @Controller
 @RequestMapping("student")
 public class StudentController {
@@ -151,40 +155,30 @@ public class StudentController {
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		model.addAttribute("student", s1);
 		
-//		these assignment are filter based on acadmic session
-		List<Assignment> assignments = teacherServiceInterface.findAllAsinmtByClsId(s1.getClassEntity().getId());
-		Collections.reverse(assignments);
-		
-		List<StudentAssignment> sAssignments = studentServiceInterface.findStdAssignBtStdId(s1.getId());
-		List<StudentAssignment> nAssignments = new ArrayList<>();
-		
-//		sAssignments.
-//		
-		for(Assignment a : assignments) {
-			
-			StudentAssignment s = new StudentAssignment();
-			
-			s.setAssignment(a);
-			s.setSchool(a.getSchool());
-			s.setSession(a.getSession());
-			s.setStudent(s1);
-			
-			for(StudentAssignment sa : sAssignments) {
-				if(s.getAssignment().equals(sa.getAssignment())) {
-					s.setIsComplete(false);
-				}
-			}
-			
-			nAssignments.add(s);
-			
-		}
-		
-		model.addAttribute("assignments", nAssignments);
+		model.addAttribute("assignments", studentServiceInterface.findAllStudentAssignment(s1));
 		
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
 		
 		return "/student/assignment";
+	}
+	
+	@GetMapping("/complete-assignment")
+	@ResponseBody
+	public List<StudentAssignmentDto> completeAssignment() {
+		
+		Student s1 = studentServiceInterface.getCurrentStudent();
+		
+		return studentServiceInterface.studentAssignmentDtos(s1);
+	}
+	
+	@GetMapping("/pending-assignment")
+	@ResponseBody
+	public List<StudentAssignmentDto> pendingAssignment() {
+		
+		Student s1 = studentServiceInterface.getCurrentStudent();
+		
+		return studentServiceInterface.studentPendingAssignment(s1);
 	}
 	
 	@GetMapping("/result-grade")
@@ -207,7 +201,22 @@ public class StudentController {
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		model.addAttribute("student", s1);
 		
-		model.addAttribute("activePage", "fees");
+		List<StudentFee> studentFees = teacherServiceInterface.findStudentFeeDetail(s1);
+		model.addAttribute("fees", studentFees);
+		
+		BigDecimal paid = new BigDecimal("0.0");
+		BigDecimal pending = new BigDecimal("0.0");
+		for(StudentFee sf : studentFees) {
+			if(sf.getStatus().equals("PAID")) {
+				paid = paid.add(sf.getAmount());
+			}
+			else {
+				pending = pending.add(sf.getAmount());
+			}
+		}
+		
+		model.addAttribute("paid", paid);
+		model.addAttribute("pending", pending);
 		
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
@@ -330,14 +339,10 @@ public class StudentController {
 	}
 	
 	@PostMapping("/submit-Assignment")
-	public String assignmentComplete(@RequestParam int assignmentId) {
-		
-		Student s1 = studentServiceInterface.getCurrentStudent();
-		
-		studentServiceInterface.markAssignmentComplete(assignmentId, s1.getId());
-		
-//		System.out.println(assignmentId);
-		
+	public String assignmentComplete(@RequestParam int assignmentId, @RequestParam int studentId) {
+				
+		studentServiceInterface.markAssignmentComplete(assignmentId, studentId);
+				
 		return "redirect:/student/assignment";
 	}
 }
