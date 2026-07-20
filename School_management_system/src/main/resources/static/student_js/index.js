@@ -1,63 +1,32 @@
 
-const toggleBtn = document.getElementById("menuToggle");
-const sidebar = document.querySelector(".sidebar");
-const overlay = document.getElementById("overlay");
-const navLinks = document.querySelectorAll(".nav-item");
-const contentArea = document.getElementById("contentArea");
 
-console.log(sidebar)
-console.log(toggleBtn)
 
-// Sidebar toggle
-toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("active");
-    overlay.classList.toggle("active");
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+hamburgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.classList.add("no-scroll");
+    overlay.style.display = "flex";
 });
 
-// Overlay click
-overlay.addEventListener("click", () => {
-    sidebar.classList.remove("active");
-    overlay.classList.remove("active");
+// Close sidebar when clicking outside of it (mobile)
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.classList.remove("no-scroll");
+            overlay.style.display = "none";
+        }
+    }
 });
 
-// Active menu + close sidebar
-navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-        navLinks.forEach(item => item.classList.remove("active"));
-        link.classList.add("active");
-
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
+const menuLinks = document.querySelectorAll('.sidebar-menu-link');
+menuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        menuLinks.forEach(item => item.classList.remove('active'));
+        this.classList.add('active');
     });
 });
-
-
-
-// ================= LOAD PAGE =================  -->
-function loadPage(event, url) {
-    event.preventDefault();
-
-    contentArea.innerHTML = "Loading...";
-
-    fetch(url, {
-        headers: { "X-Requested-With": "XMLHttpRequest" }
-    })
-        .then(res => res.text())
-        .then(html => {
-            contentArea.innerHTML = html;
-            history.pushState(null, "", url);
-        });
-}
-
-// ================= BACK BUTTON =================  -->
-window.onpopstate = function() {
-    contentArea.innerHTML = "Loading...";
-
-    fetch(location.pathname, {
-        headers: { "X-Requested-With": "XMLHttpRequest" }
-    })
-        .then(res => res.text())
-        .then(html => {
-            contentArea.innerHTML = html;
-        });
-};

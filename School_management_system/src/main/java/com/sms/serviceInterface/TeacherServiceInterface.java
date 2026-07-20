@@ -45,9 +45,11 @@ public interface TeacherServiceInterface {
 	
 	List<StudentFee> findStudentFeeDetail(Student student);
 	
-	void makeStudentPaymebnt(int id, String[] month);
 	void createStdAssignment(Assignment assignment,int clsId);
+	
 	List<Assignment> findAllAsinmtByClsId(int clsId);
+	
+	void makeStudentPaymentbnt(int id, String[] month);
 	
 	
 }

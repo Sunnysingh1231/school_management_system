@@ -14,78 +14,13 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<link rel="stylesheet" th:href="@{/student/dashboard.css}">
+<link rel="stylesheet" href="@{/student/dashboard.css}">
+<link rel="stylesheet" href="@{/student/sidebar.css}">
 </head>
 <body>
 	<div class="dashboard-container">
 
-		<aside class="sidebar" id="sidebar">
-			<div class="sidebar-header">
-				<div class="sidebar-header-icon">
-					<i class="fas fa-graduation-cap"></i>
-				</div>
-				<div>
-					<h2>StudyHub</h2>
-					<p>Student Panel</p>
-				</div>
-			</div>
-
-			<ul class="sidebar-menu">
-				<li class="sidebar-menu-item"><a th:href="@{/student}"
-					th:classappend="${activePage == 'dashboard'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-chart-line"></i> <span>Dashboard</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a th:href="@{/student/profile}"
-					th:classappend="${activePage == 'profile'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-user-circle"></i> <span>Profile</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a
-					th:href="@{/student/attendence}"
-					th:classappend="${activePage == 'attendance'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-calendar-check"></i>
-						<span>Attendance</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a
-					th:href="@{/student/assignment}"
-					th:classappend="${activePage == 'assignment'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-tasks"></i> <span>Assignments</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a
-					th:href="@{/student/result-grade}"
-					th:classappend="${activePage == 'result_grade'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-award"></i> <span>Results/Grades</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a th:href="@{/student/fees}"
-					th:classappend="${activePage == 'fees'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-credit-card"></i> <span>Fees</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a
-					th:href="@{/student/time-table}"
-					th:classappend="${activePage == 'time_table'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-clock"></i> <span>Timetable</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a th:href="@{/student/notice}"
-					th:classappend="${activePage == 'notice'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-bell"></i> <span>Notifications</span>
-				</a></li>
-				<li class="sidebar-menu-item"><a th:href="@{/student/setting}"
-					th:classappend="${activePage == 'setting'} ? 'active'"
-					class="sidebar-menu-link"> <i class="fas fa-cog"></i> <span>Settings</span>
-				</a></li>
-			</ul>
-
-			<div class="sidebar-logout">
-				<form th:action="@{/logout}" method="post">
-					<!-- CSRF Token -->
-					<input type="hidden" th:name="${_csrf.parameterName}"
-						th:value="${_csrf.token}" />
-
-					<button type="submit" class="logout-btn">
-						<i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-					</button>
-				</form>
-			</div>
-		</aside>
+		<div th:replace="~{/student/sidebar::sidebar}"> </div>
 
 		<div class="main-content">
 			<nav class="navbar">

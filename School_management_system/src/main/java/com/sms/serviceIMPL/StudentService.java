@@ -2,9 +2,12 @@ package com.sms.serviceIMPL;
 
 import com.sms.repository.AssignmentRepository;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,10 @@ import com.sms.model.Attendence;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
 import com.sms.model.StudentAssignmentDto;
+import com.sms.model.StudentFee;
 import com.sms.repository.AttendenceRepository;
 import com.sms.repository.StudentAssignmentRepository;
+import com.sms.repository.StudentFeeRepository;
 import com.sms.repository.StudentRepository;
 import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
@@ -40,6 +45,9 @@ public class StudentService implements StudentServiceInterface {
 	
 	@Autowired
 	private TeacherServiceInterface teacherServiceInterface;
+	
+	@Autowired
+	private StudentFeeRepository studentFeeRepository;
 
 	StudentService(AssignmentRepository assignmentRepository) {
 		this.assignmentRepository = assignmentRepository;
@@ -88,6 +96,18 @@ public class StudentService implements StudentServiceInterface {
 	@Override
 	public Optional<Student> findStudentByStudentId(int id) {
 		return studentRepository.findById(id);
+	}
+	
+//	DASHBOARD----------------------------------------------------------------------------------------------------
+	
+	@Override
+	public boolean findCurrentMongthStudentFeeStatus(int stdId) {
+		
+		String month = LocalDate.now()
+		        .getMonth()
+		        .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		
+		return studentFeeRepository.existsByStudentIdAndSessionAndMonth(stdId, getAcademicSession(), month);
 	}
 
 //	ASSIGNMENT----------------------------------------------------------------------------------------------------

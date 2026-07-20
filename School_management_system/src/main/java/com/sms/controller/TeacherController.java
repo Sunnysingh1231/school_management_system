@@ -304,7 +304,7 @@ public class TeacherController {
 	@PostMapping("/student/fees/payment")
 	public String payStudentFee(@RequestParam int studentId,@RequestParam String[] feeIds) {
 		
-		teacherServiceInterface.makeStudentPaymebnt(studentId,feeIds);
+		teacherServiceInterface.makeStudentPaymentbnt(studentId,feeIds);
 		
 		return "redirect:/teacher";
 	}

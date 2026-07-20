@@ -34,4 +34,6 @@ public interface StudentServiceInterface {
 	List<StudentAssignmentDto> studentAssignmentDtos(Student student);
 
 	List<StudentAssignmentDto> studentPendingAssignment(Student student);
+
+	boolean findCurrentMongthStudentFeeStatus(int stdId);
 }

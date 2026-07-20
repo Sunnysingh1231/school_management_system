@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SmS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" th:href="@{index.css}">
 <link rel="stylesheet" th:href="@{header.css}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<link rel="stylesheet" th:href="@{navbar.css}">
 </head>
 <body>
 
@@ -17,10 +17,10 @@
 	<section class="hero">
 		<div class="hero-text">
 			<h1>Smart School Management Made Simple</h1>
-			<p>Manage students, attendance, assignments, and performance all
+			<p>Manage students, attendance, assignments, Payment and performance all
 				in one powerful platform.</p>
 			<div class="hero-buttons">
-				<button class="btn btn-login">Get Started</button>
+				<a href = "/login"><button class="btn btn-login">Get Started</button></a>
 				<button class="btn btn-back">Explore Features</button>
 			</div>
 		</div>
@@ -76,23 +76,29 @@
 
 	<!-- WHY -->
 	<section class="why">
-		<h2 class="section-title">Why Choose StudyHub?</h2>
-		<p>StudyHub simplifies school management with real-time updates,
-			secure data handling, and an intuitive interface — all in one
-			platform.</p>
+		<h2 class="section-title">Why Choose School Management App?</h2>
+		<p>
+		    Our School Management App is a complete solution for managing schools efficiently.
+		    It enables administrators to manage students, teachers, classes, attendance, fees,
+		    assignments, examinations, and academic records from a single platform. Teachers can
+		    upload assignments, mark attendance, and track student performance, while students and
+		    parents receive real-time updates. With a secure, user-friendly interface and
+		    cloud-based access, the system simplifies daily school operations, saves time, and
+		    improves communication between administrators, teachers, students, and parents.
+		</p>
 	</section>
 
 	<!-- FOOTER -->
 	<footer class="footer">
 		<div class="footer-grid">
 			<div>
-				<h3>StudyHub</h3>
+				<h3>School Management</h3>
 				<p>Modern school management system.</p>
 			</div>
 
 			<div>
 				<h4>Quick Links</h4>
-				<a href="#">Home</a> <a href="#">Features</a> <a href="#">Login</a>
+				<a href="/">Home</a> <a href="#">Features</a> <a href="/login">Login</a>
 			</div>
 
 			<div>
@@ -105,18 +111,5 @@
 		<div class="footer-bottom">© 2026 StudyHub. All rights reserved.
 		</div>
 	</footer>
-
-	<script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
-
 </body>
 </html>

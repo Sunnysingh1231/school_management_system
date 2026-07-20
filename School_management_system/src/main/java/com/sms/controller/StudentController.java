@@ -2,9 +2,11 @@ package com.sms.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,13 +45,26 @@ public class StudentController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	@GetMapping("/test")
+	@ResponseBody
+	public String test() {
+		
+		Student s1 = studentServiceInterface.getCurrentStudent();
+		
+		String month = LocalDate.now()
+		        .getMonth()
+		        .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		return month;
+	}
+	
 	@GetMapping
 	public String dashboard(Model model, HttpServletRequest request) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		
-		
 		List<Attendence> attendences = studentServiceInterface.findAttendenceByStudentId(s1.getId());
+		
+		boolean currentFee = studentServiceInterface.findCurrentMongthStudentFeeStatus(s1.getId());
 		
 		int count = attendences.size() == 0 ? 1 : attendences.size();
 		int abs = 0;
@@ -62,8 +77,9 @@ public class StudentController {
 		
 		
 		model.addAttribute("activePage", "dashboard");
-		model.addAttribute("attendence", ((count-abs)*100)/count+"%");
+		model.addAttribute("attendence", ((count-abs)*100)/count);
 		model.addAttribute("student", s1);
+		model.addAttribute("currentFee", currentFee);
 		
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
@@ -73,7 +89,7 @@ public class StudentController {
 		
 		List<StudentAssignment> sAssignments = studentServiceInterface.findStdAssignBtStdId(s1.getId());
 		List<StudentAssignment> nAssignments = new ArrayList<>();
-		
+		Short pa = (short) (assignments.size()-sAssignments.size());
 //		sAssignments.
 //		
 		for(Assignment a : assignments) {
@@ -95,6 +111,8 @@ public class StudentController {
 		}
 		
 		model.addAttribute("assignments", nAssignments);
+		model.addAttribute("pendingAssignment", pa);
+		model.addAttribute("totalAssignment", assignments.size());
 		
 		
 		

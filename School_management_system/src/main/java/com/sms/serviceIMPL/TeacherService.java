@@ -200,7 +200,7 @@ public class TeacherService implements TeacherServiceInterface {
 	}
 
 	@Override
-	public void makeStudentPaymebnt(int id, String[] month) {
+	public void makeStudentPaymentbnt(int id, String[] month) {
 
 		Student student = studentRepository.findById(id).get();
 

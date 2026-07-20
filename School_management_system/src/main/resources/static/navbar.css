@@ -1,75 +1,52 @@
-body{
-            margin:0;
-            top: 0;
-            /* font-family: Comic Sans MS; */
-            background:#fdf6e3;
-        }
-        /* Navbar */
-        nav{
-            display: flex;
-            background:#4ecdc4;
-            padding:15px 0px;
-            left: 10px;
-            text-align:center;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            height: 40px;
-            top: 0;
-            z-index: 1000;
-        }
-        nav div{
-            margin: 0px 0px;
-        }
+/* ================= NAVBAR ================= */
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 30px;
+	/* background:white; */
+	background: linear-gradient(135deg, var(--primary), var(--secondary));
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
 
+.logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-weight: 600;
+	font-size: 20px;
+}
 
+.logo i {
+	color: var(--primary);
+}
 
-        .btn{
-            border-radius: 25px;
-            padding: 10px 20px;
-            font-size:18px;
-            /* font-weight:bold; */
-            border: none;
-            cursor: pointer;
-            color: #000000;
-            transition: 0.3s ease;
-            margin: 20px;
-            background:#ffcc00;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            text-decoration: none;
-        }
+.nav-buttons {
+	display: flex;
+	gap: 15px;
+}
 
-        .btn:hover{
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-            color:#ff7eb3;    
-        }
+.btn {
+	padding: 10px 18px;
+	border-radius: 25px;
+	border: none;
+	cursor: pointer;
+	font-weight: 500;
+	transition: 0.3s;
+}
 
-        @media (max-width: 768px){
-            nav{
-                height: 40px;
-            }
-            nav div{
-                margin: 0px 10px;
-            }
-        }
+.btn-back {
+	background: #e2e8f0;
+}
 
-        
-        @media (max-width: 360px) {
+.btn-login {
+	background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
+	color: white;
+}
 
-            .btn{
-                margin: 8px;
-            }
-            
-        }
-
-        /* Smooth dropdown animation */
-        @keyframes dropdown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.btn:hover {
+	transform: translateY(-2px);
+}

@@ -136,7 +136,7 @@ function validateFeeForm(event) {
 }
 
 //	< !--Fee - student js-- >
-function validateFeeForm(event) {
+function publishNewAssignment(event) {
 
     event.preventDefault();
 

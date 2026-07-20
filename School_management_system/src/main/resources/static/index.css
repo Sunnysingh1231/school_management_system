@@ -19,58 +19,6 @@ body {
 	color: var(--text);
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 15px 30px;
-	/* background:white; */
-	background: linear-gradient(135deg, var(--primary), var(--secondary));
-	position: sticky;
-	top: 0;
-	z-index: 1000;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.logo {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	font-weight: 600;
-	font-size: 20px;
-}
-
-.logo i {
-	color: var(--primary);
-}
-
-.nav-buttons {
-	display: flex;
-	gap: 15px;
-}
-
-.btn {
-	padding: 10px 18px;
-	border-radius: 25px;
-	border: none;
-	cursor: pointer;
-	font-weight: 500;
-	transition: 0.3s;
-}
-
-.btn-back {
-	background: #e2e8f0;
-}
-
-.btn-login {
-	background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
-	color: white;
-}
-
-.btn:hover {
-	transform: translateY(-2px);
-}
 
 /* ================= HERO ================= */
 .hero {
@@ -110,9 +58,7 @@ body {
 }
 
 @keyframes float {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: translateY(0);
     }
 
@@ -164,7 +110,6 @@ body {
 }
 
 .why p {
-	max-width: 600px;
 	margin: auto;
 	color: #64748b;
 }
@@ -214,9 +159,23 @@ body {
 }
 
 /* ================= RESPONSIVE ================= */
+@media ( max-width :900px) {
+	.features, .hero, .features, .why {
+		padding: 20px 40px;
+	}
+	.why p {
+		margin-top: -30px;
+		color: #64748b;
+	}
+}
+
 @media ( max-width :768px) {
 	.hero {
 		flex-direction: column;
 		text-align: center;
+		padding: 20px 40px;
+	}
+	.features, .hero {
+		padding: 20px 40px;
 	}
 }
