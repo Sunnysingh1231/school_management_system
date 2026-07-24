@@ -1,35 +1,40 @@
 <div th:fragment="navbar">
 
-    <!-- ==================== Top Navbar ==================== -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <button class="hamburger-menu" id="hamburgerBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-        </div>
-        
-        <div class="navbar-right">
-            <button class="navbar-icon-btn">
-                <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
-            </button>
-           <!--  <button class="navbar-icon-btn">
+	<!-- ==================== Top Navbar ==================== -->
+	<nav class="navbar">
+		<div class="navbar-left">
+			<button class="hamburger-menu" id="hamburgerBtn">
+				<i class="fas fa-bars"></i>
+			</button>
+
+		</div>
+		<div class="navbar-mid">
+			<div class="container">
+				<div class="name" th:text = "${student.school.name}">John Doe</div>
+			</div>
+		</div>
+		<div class="navbar-right">
+			<button class="navbar-icon-btn">
+				<i class="fas fa-bell"></i> <span class="notification-badge">3</span>
+			</button>
+			<!--  <button class="navbar-icon-btn">
                 <i class="fas fa-envelope"></i>
             </button> -->
-            <div class="user-profile">
-                <div class="user-avatar" th:text="${#strings.substring(student.name,0,1).toUpperCase() + 
+			<div class="user-profile">
+				<div class="user-avatar"
+					th:text="${#strings.substring(student.name,0,1).toUpperCase() + 
               (student.name.contains(' ') ? 
               #strings.substring(student.name, student.name.indexOf(' ')+1, student.name.indexOf(' ')+2).toUpperCase() 
               : '')}">
-                </div>
-                <div class="user-info">
-                    <p th:text="${student.name}">Arjun Joshi</p>
-                    <p th:text="${student.classEntity.className+'-'+student.classEntity.section+' ('+sess+')'}"></p>
-                </div>
+				</div>
+				<div class="user-info">
+					<p th:text="${student.name}">Arjun Joshi</p>
+					<p
+						th:text="${student.classEntity.className+'-'+student.classEntity.section+' ('+sess+')'}"></p>
+				</div>
 
-            </div>
-        </div>
-        
-    </nav>
+			</div>
+		</div>
+
+	</nav>
 </div>
