@@ -84,12 +84,13 @@ public class StudentController {
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
 		
+		int tAssignments = studentServiceInterface.findAllStudentAssignment(s1).size();
 		List<Assignment> assignments = studentServiceInterface.findTop3AssignByClsId(s1.getClassEntity().getId());
 		Collections.reverse(assignments);
 		
 		List<StudentAssignment> sAssignments = studentServiceInterface.findStdAssignBtStdId(s1.getId());
 		List<StudentAssignment> nAssignments = new ArrayList<>();
-		Short pa = (short) (assignments.size()-sAssignments.size());
+		Short pa = (short) (tAssignments-sAssignments.size());
 //		sAssignments.
 //		
 		for(Assignment a : assignments) {
@@ -112,7 +113,7 @@ public class StudentController {
 		
 		model.addAttribute("assignments", nAssignments);
 		model.addAttribute("pendingAssignment", pa);
-		model.addAttribute("totalAssignment", assignments.size());
+		model.addAttribute("totalAssignment", tAssignments);
 		
 		
 		

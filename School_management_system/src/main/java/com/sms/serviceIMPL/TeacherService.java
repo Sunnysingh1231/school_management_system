@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
+import com.sms.model.Notification;
+import com.sms.model.NotificationReceiver;
 import com.sms.model.Student;
 import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
@@ -24,6 +26,7 @@ import com.sms.repository.AssignmentRepository;
 import com.sms.repository.AttendenceRepository;
 import com.sms.repository.ClassRepository;
 import com.sms.repository.FeeStructureRepository;
+import com.sms.repository.NotificationRepository;
 import com.sms.repository.SchoolRepository;
 import com.sms.repository.StudentFeeRepository;
 import com.sms.repository.StudentRepository;
@@ -58,6 +61,9 @@ public class TeacherService implements TeacherServiceInterface {
 	
 	@Autowired
 	private AssignmentRepository assignmentRepository;
+	
+	@Autowired
+	private NotificationRepository notificationRepository;
 
 
 	public Teacher getCurrentTeacher() {
@@ -242,7 +248,45 @@ public class TeacherService implements TeacherServiceInterface {
 	public List<Assignment> findAllAsinmtByClsId(int clsId){
 		return assignmentRepository.findAllByClassEntityIdAndSession(clsId,getAcademicSession());
 	}
-
 	
+// NOTIFICATION --------------------------------------------------------------------------------
+
+	@Override
+	public List<Notification> findAllNotification(int clsId){
+
+		return notificationRepository.findAllByClassEntityId(clsId);
+		
+	}
+	
+	@Override
+	public void createNotification(int clsId, Notification notice){
+
+		notice.setTeacher(getCurrentTeacher());
+		notice.setClassEntity(findClassByClassId(clsId).get());
+		
+		notice.setSchool(getCurrentTeacher().getSchool());
+				
+		List<Student> students = findAllStdByClsId(clsId);
+		
+		for(Student student : students) {
+			
+			NotificationReceiver receiver = NotificationReceiver.builder()
+	                .notification(notice)
+	                .student(student)
+	                .status("UNREAD")
+	                .build();
+
+			notice.getReceivers().add(receiver);
+		}
+		
+		notificationRepository.save(notice);
+	}
+	
+	@Override
+	public void deleteNotification(int id){
+
+		 notificationRepository.deleteById(id);
+		
+	}
 
 }

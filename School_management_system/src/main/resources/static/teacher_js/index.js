@@ -200,3 +200,70 @@ function attendenceForm(event) {
 
     });
 }
+
+let overly = document.getElementById('asoverlay')
+let detail = document.getElementById('modal-box')
+let btn = document.getElementById('btn-view')
+
+function viewAssignmentDetail(button){
+	overly.classList.add("active")
+	detail.classList.add("active")
+	
+	detail.innerHTML = "";
+	
+	let h3v = document.createElement('h3');
+	h3v.textContent ="Title: "+button.dataset.title;
+	
+	let p1 = document.createElement('p');
+	p1.textContent ="Title: "+button.dataset.message;
+	
+	let span3 = document.createElement('span');
+	span3.textContent ="Due Date: "+button.dataset.dueDate;
+	
+	let div2 = document.createElement('div');
+	div2.classList.add('as');
+	div2.style.display = "flex";
+	div2.style.justifyContent = "center";
+	div2.style.marginTop = "40px";
+				
+	let btnn = document.createElement('button');
+	btnn.classList.add('btn-primary');
+	btnn.textContent = 'Ok';
+		
+	div2.appendChild(btnn);
+	detail.append(h3v,p1,span3, div2);
+		
+	btnn.addEventListener('click', (e) => {
+		overly.classList.remove('active')
+		detail.classList.remove("active")
+	});
+				
+}
+overly.addEventListener('click', (e) => {
+	overly.classList.remove('active')
+	detail.classList.remove("active")
+});
+
+//	< !--delete notice js-- >
+function deleteNotice(event) {
+
+    event.preventDefault();
+
+    Swal.fire({
+        title: "Delete Notification",
+        text: "Do you want to delete this Notice Permanentally ?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Delete",
+        cancelButtonText: "Cancel"
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            document.getElementById("deleteNotice").submit();
+        }
+
+    });
+
+    return false;
+
+}

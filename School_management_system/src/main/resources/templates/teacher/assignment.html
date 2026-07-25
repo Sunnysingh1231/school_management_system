@@ -47,7 +47,7 @@
 
 			<form id="publish" th:action="@{/teacher/assignments/save}"
 				method="post" th:object="${assignment}"
-				onsubmit="return validateFeeForm(event)">
+				onsubmit="return publishNewAssignment(event)">
 
 				<div class="control-grid">
 

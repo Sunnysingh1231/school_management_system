@@ -3,6 +3,7 @@ package com.sms.controller;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.http.HttpRequest;
+import java.security.AllPermission;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,7 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
+import com.sms.model.Notification;
 import com.sms.model.Student;
+import com.sms.model.StudentAssignmentDto;
 import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
 import com.sms.repository.StudentRepository;
@@ -266,6 +269,26 @@ public class TeacherController {
 	    return "redirect:/teacher";
 	}
 	
+	@GetMapping("/notification")
+	public String notice(HttpServletRequest request, HttpSession session, Model model) {
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		
+		List<Notification> notifications = teacherServiceInterface.findAllNotification(cls);
+		Collections.reverse(notifications);
+		System.out.println(notifications.size());
+		
+		model.addAttribute("notifications", notifications);
+		
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+	        return "teacher/notification :: notice"; // fragment
+	    }
+
+	    return "redirect:/teacher";
+	}
+	
+	
+	
 	
 	
 //	POST MAPPING-----------------------------------------------------------------------------------------------------
@@ -319,4 +342,36 @@ public class TeacherController {
 		return "redirect:/teacher";
 	}
 	
+	@PostMapping("/notifications/send")
+	public String saveNotice(@ModelAttribute Notification notice,HttpSession session) {
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		
+		System.out.println(notice.getMessage());
+		
+		teacherServiceInterface.createNotification(cls, notice);
+				
+		return "redirect:/teacher";
+	}
+	
+	@PostMapping("/notifications/delete")
+	public String deleteNotice(@ModelAttribute Notification notice,HttpSession session) {
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		
+		System.out.println(notice.getMessage());
+		
+		teacherServiceInterface.createNotification(cls, notice);
+				
+		return "redirect:/teacher";
+	}
+	
+	@PostMapping("/notification/delete")
+	public String deleteNotyice(@RequestParam int id) {
+		
+		System.out.println(id);
+		teacherServiceInterface.deleteNotification(id);
+		
+		return "redirect:/teacher";
+	}
 }

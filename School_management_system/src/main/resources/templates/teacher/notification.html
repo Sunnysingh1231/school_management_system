@@ -1,0 +1,144 @@
+<div th:fragment="notice">
+
+	<div class="main-area">
+
+		<form th:action="@{/teacher/notifications/send}" method="post" th:object = "${notice}">
+
+			<div class="top-header">
+				<div>
+					<h2>📩 Send Notification</h2>
+				</div>
+
+				<div style="display: flex; gap: 10px;">
+					<div class="header-actions">
+						<button type="submit" class="btn-primary">
+					<i class="fas fa-paper-plane"></i> Send Message
+				</button>
+						<button onclick="history.back()" class="btn-primary">
+					<i class="fas fa-arrow-left"></i> Back
+				</button>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="glass-card">
+
+				<div class="control-grid">
+
+					<!-- Recipient -->
+
+					<div>
+
+						<label
+							style="display: block; margin-bottom: 8px; font-weight: 600;">Send
+							To</label> <select id="sendType" name="sendType"
+							onchange="toggleStudent()">
+
+							<option value="ALL">All Students</option>
+
+							<option value="ONE">Particular Student</option>
+
+						</select>
+
+					</div>
+
+					<!-- Student -->
+
+					<div id="studentBox" style="display: none;">
+
+						<label
+							style="display: block; margin-bottom: 8px; font-weight: 600;">Select
+							Student</label> <select name="studentId" style="width: 100%;">
+
+							<option value="">Choose Student</option>
+
+							<option th:each="student:${students}" th:value="${student.id}"
+								th:text="${student.name+' - '+student.rollNumber}"></option>
+
+						</select>
+
+					</div>
+
+					<div>
+
+						<label
+							style="display: block; margin-bottom: 8px; font-weight: 600;">Message
+							Title</label> <input type="text" maxlength="100" name="title"
+							placeholder="Enter title" style="height: 30px; margin-top: 5px;"
+							required>
+
+					</div>
+
+				</div>
+
+				<br> <br>
+
+				<div>
+
+					<label>Message</label>
+
+					<textarea id="message" name="message" rows="8" maxlength="500"
+						placeholder="Write your message..." onkeyup="countCharacter()"
+						required
+						style="width: 100%; padding: 14px; border: 1px solid #d1d5db; border-radius: 12px; resize: vertical; outline: none; font-size: 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, .05);"></textarea>
+
+					<div class="char-count">
+
+						<span id="count">0</span>/500 Characters
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</form>
+
+	</div>
+
+	<h3>Message List</h3>
+	<br>
+
+	<!-- Assignment List -->
+	<div class="table-container">
+		<table id="studentTable">
+			<thead>
+
+				<tr>
+					<th>SN</th>
+					<th>Title</th>
+					<th>Date</th>
+					<th>Action</th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+				<tr th:each="assign, count: ${notifications}">
+					<td th:text="${count.index+1}">2</td>
+					<td th:text="${assign.title}">Anjali Verma</td>
+					<td th:text="${assign.createdAt}">9-B</td>
+					<td>
+						<button class="action-btn view-btn" 
+							th:data-title="${assign.title}"
+							th:data-message="${assign.message}"
+							th:data-due-date="${assign.createdAt}"
+							onclick="viewAssignmentDetail(this)">View</button> 
+						<button class="action-btn view-btn">Edit</button> 
+	
+						<form id = "deleteNotice" th:action="@{/teacher/notification/delete}" method="post" onsubmit="return deleteNotice(event)">
+                			<input type="hidden" name="id" th:value="${assign.id}">
+                			<button class="action-btn view-btn">Delete</button>
+            			</form>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:if="${#lists.isEmpty(notifications)}"
+		style="text-align: center;">
+		<div>
+			<p>No Message available.</p>
+		</div>
+	</div>
+</div>

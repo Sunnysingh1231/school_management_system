@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
+import com.sms.model.Notification;
 import com.sms.model.Student;
 import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
@@ -50,6 +51,10 @@ public interface TeacherServiceInterface {
 	List<Assignment> findAllAsinmtByClsId(int clsId);
 	
 	void makeStudentPaymentbnt(int id, String[] month);
+	
+	List<Notification> findAllNotification(int clsId);
+	void createNotification(int clsId, Notification notice);
+	void deleteNotification(int id);
 	
 	
 }
