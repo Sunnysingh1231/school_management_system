@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
+import com.sms.model.NotificationReceiver;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
 import com.sms.model.StudentAssignmentDto;
@@ -263,7 +265,12 @@ public class StudentController {
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		model.addAttribute("student", s1);
 		
+		List<NotificationReceiver> notificationList = studentServiceInterface.studentNotice(s1);
+		Collections.reverse(notificationList);
+		
 		model.addAttribute("activePage", "notice");
+		
+		model.addAttribute("notificationList", notificationList);
 		
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
@@ -363,5 +370,13 @@ public class StudentController {
 		studentServiceInterface.markAssignmentComplete(assignmentId, studentId);
 				
 		return "redirect:/student/assignment";
+	}
+	
+	@PostMapping("/read-notice")
+	public String readNotice(@RequestParam int noticeId) {
+				
+		studentServiceInterface.readNotice(noticeId);
+				
+		return "redirect:/student/notice";
 	}
 }

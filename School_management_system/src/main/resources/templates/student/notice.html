@@ -39,6 +39,7 @@
     border: 1px solid var(--border-color);
     position: relative;
     transition: 0.3s;
+    
 }
 
 .notice-card:hover {
@@ -113,6 +114,19 @@
         align-items: flex-start;
     }
 }
+.notice-footer {
+    margin-left: auto;   /* Pushes the footer (and button) to the right */
+}
+
+.btn-view {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--primary-color);
+    color: white;
+}
+
     
     </style>
     
@@ -147,18 +161,24 @@
             <div class="notice-container">
 
                 <!-- Notice Item -->
-                <div class="notice-card unread">
+                <div th:class="${notice.status == 'UNREAD'} ? 'notice-card unread' : 'notice-card'" th:each = "notice : ${notificationList}">
                     <div class="notice-icon">
                         <i class="fas fa-bullhorn"></i>
                     </div>
 
                     <div class="notice-content">
-                        <h3>New Assignment Uploaded</h3>
-                        <p>Your Mathematics teacher uploaded "Algebra Assignment". Submit before deadline.</p>
+                        <h3 th:text = "${notice.notification.title}">New Assignment Uploaded</h3>
+                        <p th:text = "${notice.notification.message}">Your Mathematics teacher uploaded "Algebra Assignment". Submit before deadline.</p>
                         <span class="notice-date"><i class="fas fa-clock"></i> 2 hours ago</span>
                     </div>
 
-                    <span class="status-dot"></span>
+                    <span class="status-dot" th:if="${notice.status} == 'UNREAD'"></span>
+                    <div class="notice-footer">
+					    <form th:action = "@{/student/read-notice}" method = "post">
+					    	<input type="hidden" name="noticeId" th:value="${notice.id}">
+					    	<button class="btn-view">View</button>
+					    </form>
+					</div>
                 </div>
 
                 <!-- Notice Item -->

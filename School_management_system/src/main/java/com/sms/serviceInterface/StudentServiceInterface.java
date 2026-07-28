@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
+import com.sms.model.NotificationReceiver;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
 import com.sms.model.StudentAssignmentDto;
@@ -36,4 +37,8 @@ public interface StudentServiceInterface {
 	List<StudentAssignmentDto> studentPendingAssignment(Student student);
 
 	boolean findCurrentMongthStudentFeeStatus(int stdId);
+
+	List<NotificationReceiver> studentNotice(Student student);
+
+	void readNotice(int id);
 }
