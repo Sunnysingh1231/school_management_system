@@ -61,16 +61,41 @@
 }
 
 /* Different Colors */
-.notice-icon.exam {
-    background: var(--secondary-color);
+.notice-icon.general {
+    background: #E3F2FD;
+    color: #1976D2;
+}
+
+.notice-icon.academic {
+    background: #EDE7F6;
+    color: #5E35B1;
 }
 
 .notice-icon.fee {
-    background: var(--warning-color);
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+.notice-icon.examination {
+    background: #FFF3E0;
+    color: #F57C00;
+}
+.notice-icon.holiday {
+    background: #E0F7FA;
+    color: #0097A7;
 }
 
-.notice-icon.result {
-    background: var(--success-color);
+.notice-icon.event {
+    background: #FCE4EC;
+    color: #D81B60;
+}
+
+.notice-icon.timetable {
+    background: #E8EAF6;
+    color: #3949AB;
+}
+.notice-icon.reminder {
+    background: #FFF8E1;
+    color: #FFB300;
 }
 
 /* Content */
@@ -110,7 +135,6 @@
 /* Responsive */
 @media (max-width: 768px) {
     .notice-card {
-        flex-direction: column;
         align-items: flex-start;
     }
 }
@@ -125,6 +149,67 @@
     cursor: pointer;
     background: var(--primary-color);
     color: white;
+}
+.asoverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+	z-index:101;
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.3s ease;
+}
+
+.asoverlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@keyframes fadeIn {
+	from { 
+		opacity:0;
+	}
+
+	to {
+		opacity: 1;
+	}
+
+}
+.modal-box {
+    position: fixed;
+    background: white;
+    top: 50%;
+    left: 50%;
+    width: 480px;
+    height: 300px;
+    padding: 25px;
+    border-radius: 10px;
+    margin-left: 140px;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    display: none;
+
+    /* Enable scrolling when content overflows */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+                rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+                rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.modal-box.active {
+    animation: fadeIn 0.3s ease forwards;
+    display: block;
+}
+
+@media ( max-width : 768px) {
+	.modal-box {
+		margin-left: 0px;
+		width: 320px;
+		height: 300px;
+	}
 }
 
     
@@ -162,71 +247,136 @@
 
                 <!-- Notice Item -->
                 <div th:class="${notice.status == 'UNREAD'} ? 'notice-card unread' : 'notice-card'" th:each = "notice : ${notificationList}">
-                    <div class="notice-icon">
+                    <div class="notice-icon general" th:if = "${notice.notification.type} == 'General'">
                         <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="notice-icon academic" th:if = "${notice.notification.type} == 'Academic'">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="notice-icon holiday" th:if = "${notice.notification.type} == 'Holiday'">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <div class="notice-icon examination" th:if = "${notice.notification.type} == 'Examination'">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="notice-icon fee" th:if = "${notice.notification.type} == 'Fee'">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="notice-icon event" th:if = "${notice.notification.type} == 'Event'">
+                        <i class="fas fa-calendar-days"></i>
+                    </div>
+                    <div class="notice-icon timetable" th:if = "${notice.notification.type} == 'Timetable'">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="notice-icon reminder" th:if = "${notice.notification.type} == 'Reminder'">
+                        <i class="fas fa-bell"></i>
                     </div>
 
                     <div class="notice-content">
-                        <h3 th:text = "${notice.notification.title}">New Assignment Uploaded</h3>
-                        <p th:text = "${notice.notification.message}">Your Mathematics teacher uploaded "Algebra Assignment". Submit before deadline.</p>
-                        <span class="notice-date"><i class="fas fa-clock"></i> 2 hours ago</span>
+                        <h3 th:text="${#strings.abbreviate(notice.notification.title, 16)}"></h3>
+                        
+                        <span class="notice-date"><i class="fas fa-clock"></i><span th:text = "${#temporals.format(notice.notification.createdAt, ' dd-MM-yyyy')}"></span></span>
                     </div>
 
-                    <span class="status-dot" th:if="${notice.status} == 'UNREAD'"></span>
+                    <span class="status-dot" th:if="${notice.status} == 'UNREAD'"></span> 
                     <div class="notice-footer">
 					    <form th:action = "@{/student/read-notice}" method = "post">
 					    	<input type="hidden" name="noticeId" th:value="${notice.id}">
-					    	<button class="btn-view">View</button>
+					    	<button class="btn-view" 
+					    		th:data-title="${notice.notification.title}"
+								th:data-message="${notice.notification.message}"
+								th:data-type="${notice.notification.type}"
+								th:data-date="${#temporals.format(notice.notification.createdAt, 'dd-MM-yyyy')}"
+					    		type = "button" onclick = "viewNoticeDetail(this)">View</button>
 					    </form>
 					</div>
                 </div>
-
-                <!-- Notice Item -->
-                <div class="notice-card">
-                    <div class="notice-icon exam">
-                        <i class="fas fa-book"></i>
-                    </div>
-
-                    <div class="notice-content">
-                        <h3>Exam Schedule Released</h3>
-                        <p>Final exam schedule is now available. Check your timetable.</p>
-                        <span class="notice-date"><i class="fas fa-clock"></i> 1 day ago</span>
-                    </div>
-                </div>
-
-                <!-- Notice Item -->
-                <div class="notice-card">
-                    <div class="notice-icon fee">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-
-                    <div class="notice-content">
-                        <h3>Fee Reminder</h3>
-                        <p>Your fees are due on April 15, 2026. Please pay before due date.</p>
-                        <span class="notice-date"><i class="fas fa-clock"></i> 3 days ago</span>
-                    </div>
-                </div>
-
-                <!-- Notice Item -->
-                <div class="notice-card">
-                    <div class="notice-icon result">
-                        <i class="fas fa-award"></i>
-                    </div>
-
-                    <div class="notice-content">
-                        <h3>Result Published</h3>
-                        <p>Your semester results are now available. Check your grades.</p>
-                        <span class="notice-date"><i class="fas fa-clock"></i> 5 days ago</span>
-                    </div>
-                </div>
-
+				<div class="assignments-list"
+						th:if="${#lists.isEmpty(notificationList)}" style="text-align: center;">
+						<div>
+							<p>No Notification available.</p>
+						</div>
+					</div>
             </div>
 
         </div>
     </div>
             
         </div>
+        <div class="asoverlay" id="asoverlay"></div>
+		<div class="modal-box" id="modal-box"></div>
 <script th:src="@{/student_js/index.js}"></script>
+<script >
+
+let overly = document.getElementById('asoverlay')
+let detail = document.getElementById('modal-box')
+
+function viewNoticeDetail(button){
+	overly.classList.add("active")
+	detail.classList.add("active")
+	
+	currentForm = button.closest("form");
+	
+	detail.innerHTML = "";
+	
+	let div = document.createElement('div');
+	div.classList.add('assignment-card-header');
+	
+	let h3v = document.createElement('h3');
+	h3v.textContent ="Title: "+button.dataset.title;
+
+	let span = document.createElement('span');
+	span.classList.add('status');
+	span.classList.add('completed');
+	span.textContent =button.dataset.status;
+
+	let h5 = document.createElement('h5');
+	h5.classList.add('subject');
+	h5.textContent = 'Type: '+button.dataset.type;
+
+	let p = document.createElement('p');
+	p.classList.add('desc');
+	p.textContent = 'Message: '+button.dataset.message;
+
+	div.appendChild(h3v);
+	div.appendChild(span);
+
+	let div2 = document.createElement('div');
+	div2.classList.add('assignment-footer');
+	div2.style.display = "flex";
+	div2.style.justifyContent = "center";
+	div2.style.marginTop = "40px";
+	
+	let span2 = document.createElement('span');
+	span2.textContent ="Publish Date: "+button.dataset.date;
+	let br = document.createElement("br");
+
+	
+	let btn = document.createElement('button');
+	btn.classList.add('btn-view');
+	btn.textContent = 'Ok';
+	
+	div2.appendChild(btn);
+	
+	detail.append(h5,br,div,p,br,div2);
+	
+	btn.addEventListener('click', (e) => {
+		overly.classList.remove('active')
+		detail.classList.remove("active")
+		
+		currentForm.submit();
+		
+	});
+	
+}
+overly.addEventListener('click', (e) => {
+	overly.classList.remove('active')
+	detail.classList.remove("active")
+	button.closest("form").submit();
+	
+});
+
+</script>
         
 </body>
 

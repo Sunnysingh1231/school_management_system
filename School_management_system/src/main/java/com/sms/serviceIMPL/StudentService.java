@@ -119,7 +119,7 @@ public class StudentService implements StudentServiceInterface {
 	
 	@Override
 	public List<Assignment> findTop3AssignByClsId(int clsId) {
-		return assignmentRepository.findTop3ByClassEntityIdAndSession(clsId, getAcademicSession());
+		return assignmentRepository.findTop3ByClassEntityIdAndSessionOrderByAssignDateDescIdDesc(clsId, getAcademicSession());
 	}
 
 	@Override

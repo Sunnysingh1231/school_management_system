@@ -37,6 +37,9 @@ public class Notification {
 
     @Column(nullable = false, length = 150)
     private String title;
+    
+    @Column(nullable = false, length = 15)
+    private String type;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String message;

@@ -88,8 +88,7 @@ public class StudentController {
 		
 		int tAssignments = studentServiceInterface.findAllStudentAssignment(s1).size();
 		List<Assignment> assignments = studentServiceInterface.findTop3AssignByClsId(s1.getClassEntity().getId());
-		Collections.reverse(assignments);
-		
+				
 		List<StudentAssignment> sAssignments = studentServiceInterface.findStdAssignBtStdId(s1.getId());
 		List<StudentAssignment> nAssignments = new ArrayList<>();
 		Short pa = (short) (tAssignments-sAssignments.size());
@@ -264,6 +263,8 @@ public class StudentController {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		model.addAttribute("student", s1);
+		String sesson = studentServiceInterface.getAcademicSession();
+		model.addAttribute("sess", sesson);
 		
 		List<NotificationReceiver> notificationList = studentServiceInterface.studentNotice(s1);
 		Collections.reverse(notificationList);
@@ -272,8 +273,6 @@ public class StudentController {
 		
 		model.addAttribute("notificationList", notificationList);
 		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
 		
 		return "/student/notice";
 	}
@@ -376,6 +375,9 @@ public class StudentController {
 	public String readNotice(@RequestParam int noticeId) {
 				
 		studentServiceInterface.readNotice(noticeId);
+		
+		System.out.println("All fine...");
+		
 				
 		return "redirect:/student/notice";
 	}
