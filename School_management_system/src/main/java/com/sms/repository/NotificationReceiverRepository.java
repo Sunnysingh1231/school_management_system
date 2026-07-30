@@ -20,4 +20,8 @@ public interface NotificationReceiverRepository extends JpaRepository<Notificati
 		    WHERE nr.student = :student
 		    """)
 		List<NotificationReceiver> findAllByStudent(@Param("student") Student student);
+	
+	List<NotificationReceiver> findTop3ByStudentOrderByNotificationCreatedAtDesc(Student student);
+	
+	
 }

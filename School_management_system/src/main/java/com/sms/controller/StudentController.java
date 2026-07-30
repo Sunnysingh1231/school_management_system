@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
+import com.sms.model.Notification;
 import com.sms.model.NotificationReceiver;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
@@ -116,6 +118,14 @@ public class StudentController {
 		model.addAttribute("pendingAssignment", pa);
 		model.addAttribute("totalAssignment", tAssignments);
 		
+		
+		List<NotificationReceiver> n = studentServiceInterface.top3notification(s1);
+		
+		for(NotificationReceiver ee : n) {
+			System.out.println(ee.getId());
+		}
+		
+		model.addAttribute("top3notification", n);
 		
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {

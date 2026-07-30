@@ -59,8 +59,8 @@
 								<i class="fas fa-book"></i>
 							</div>
 						</div>
-						<div class="summary-card-value">5</div>
-						<span class="status-badge badge-warning">Next in 15 days</span>
+						<div class="summary-card-value">Notify Soon...</div>
+						<span class="status-badge badge-warning">Loading...</span>
 					</div>
 
 					<div class="summary-card">
@@ -130,50 +130,7 @@
 				</div>
 
 				<!-- Attendance Section -->
-				<div class="attendance-section">
-					<div class="section-title">
-						<i class="fas fa-calendar-check"></i> Attendance Overview
-					</div>
-					<div class="attendance-grid">
-
-						<div class="attendance-item">
-							<div class="attendance-label">Monthly Attendance</div>
-							<div class="progress-bar">
-								<div class="progress-fill" style="width: 92%"></div>
-							</div>
-							<div class="progress-text">
-								<span>92%</span> <span>28/30 days</span>
-							</div>
-						</div>
-						<div class="attendance-item">
-							<div class="attendance-label">Subject: Mathematics</div>
-							<div class="progress-bar">
-								<div class="progress-fill" style="width: 95%"></div>
-							</div>
-							<div class="progress-text">
-								<span>95%</span> <span>19/20 classes</span>
-							</div>
-						</div>
-						<div class="attendance-item">
-							<div class="attendance-label">Subject: Physics</div>
-							<div class="progress-bar">
-								<div class="progress-fill" style="width: 88%"></div>
-							</div>
-							<div class="progress-text">
-								<span>88%</span> <span>17/20 classes</span>
-							</div>
-						</div>
-						<div class="attendance-item">
-							<div class="attendance-label">Subject: Chemistry</div>
-							<div class="progress-bar">
-								<div class="progress-fill" style="width: 90%"></div>
-							</div>
-							<div class="progress-text">
-								<span>90%</span> <span>18/20 classes</span>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 
 				<!-- Assignments Section -->
 				<div class="assignments-section">
@@ -214,50 +171,7 @@
 						</div>
 					</div>
 
-					<div class="assignments-list">
-						<div class="section-title">
-							<i class="fas fa-star"></i> Quick Stats
-						</div>
-
-						<div class="assignment-item">
-							<div class="assignment-header">
-								<div class="assignment-title">Cumulative GPA</div>
-							</div>
-							<div
-								style="font-size: 32px; font-weight: 700; color: var(--primary-color); margin: 15px 0;">
-								3.85 / 4.0</div>
-							<div class="progress-bar">
-								<div class="progress-fill"
-									style="width: 96%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
-							</div>
-						</div>
-
-						<div class="assignment-item">
-							<div class="assignment-header">
-								<div class="assignment-title">Last Exam Score</div>
-							</div>
-							<div
-								style="font-size: 32px; font-weight: 700; color: var(--secondary-color); margin: 15px 0;">
-								87%</div>
-							<div class="progress-bar">
-								<div class="progress-fill"
-									style="width: 87%; background: linear-gradient(90deg, #8b5cf6, #d946ef);"></div>
-							</div>
-						</div>
-
-						<div class="assignment-item">
-							<div class="assignment-header">
-								<div class="assignment-title">Assignment Completion</div>
-							</div>
-							<div
-								style="font-size: 32px; font-weight: 700; color: var(--accent-color); margin: 15px 0;">
-								15 / 18</div>
-							<div class="progress-bar">
-								<div class="progress-fill"
-									style="width: 83%; background: linear-gradient(90deg, #ec4899, #f472b6);"></div>
-							</div>
-						</div>
-					</div>
+					
 				</div>
 
 				<!-- Timetable Section -->
@@ -325,51 +239,25 @@
 						<i class="fas fa-bell"></i> Recent Notifications
 					</div>
 
-					<div class="notification-item">
+					<div class="notification-item" th:each = "notice : ${top3notification}">
 						<div class="notification-title">
-							<span class="notification-dot"></span> New Assignment Posted
+							<span class="notification-dot" th:if = "${notice.status} == 'UNREAD'"></span ><span th:text="${#strings.abbreviate(notice.notification.title, 24)}"></span>
 						</div>
-						<div class="notification-msg">Your Mathematics teacher
+						<div class="notification-msg" th:text = "${#strings.abbreviate(notice.notification.message, 34)}">Your Mathematics teacher
 							posted a new assignment "Calculus Chapter 5" due on April 5,
 							2026.</div>
 						<div class="notification-time">
-							<i class="fas fa-clock"></i> 2 hours ago
+							<i class="fas fa-clock"></i> <span th:text = "${#temporals.format(notice.notification.createdAt, 'dd-MM-yyyy')}"></span>
 						</div>
 					</div>
-
-					<div class="notification-item">
-						<div class="notification-title">
-							<span class="notification-dot"></span> Exam Schedule Released
-						</div>
-						<div class="notification-msg">The final exam schedule for Q4
-							has been released. Check your timetable for details.</div>
-						<div class="notification-time">
-							<i class="fas fa-clock"></i> 1 day ago
-						</div>
-					</div>
-
-					<div class="notification-item">
-						<div class="notification-title">
-							<span class="notification-dot"></span> Result Published
-						</div>
-						<div class="notification-msg">Your Q3 final exam results
-							have been published. Your overall score is 87%.</div>
-						<div class="notification-time">
-							<i class="fas fa-clock"></i> 3 days ago
-						</div>
-					</div>
-
-					<div class="notification-item">
-						<div class="notification-title">
-							<span class="notification-dot"></span> Fee Reminder
-						</div>
-						<div class="notification-msg">Your fees for Q2 are due on
-							April 15, 2026. Please make the payment before the deadline.</div>
-						<div class="notification-time">
-							<i class="fas fa-clock"></i> 5 days ago
+					<div class="assignments-list"
+						th:if="${#lists.isEmpty(top3notification)}" style="text-align: center;">
+						<div>
+							<p>No Notification available.</p>
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>

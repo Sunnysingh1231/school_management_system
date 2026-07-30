@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
+import com.sms.model.Notification;
 import com.sms.model.NotificationReceiver;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
@@ -41,4 +42,6 @@ public interface StudentServiceInterface {
 	List<NotificationReceiver> studentNotice(Student student);
 
 	void readNotice(int id);
+
+	List<NotificationReceiver> top3notification(Student s);
 }

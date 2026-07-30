@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
+import com.sms.model.Notification;
 import com.sms.model.NotificationReceiver;
 import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
@@ -23,6 +24,7 @@ import com.sms.model.StudentAssignmentDto;
 import com.sms.model.StudentFee;
 import com.sms.repository.AttendenceRepository;
 import com.sms.repository.NotificationReceiverRepository;
+import com.sms.repository.NotificationRepository;
 import com.sms.repository.StudentAssignmentRepository;
 import com.sms.repository.StudentFeeRepository;
 import com.sms.repository.StudentRepository;
@@ -50,6 +52,9 @@ public class StudentService implements StudentServiceInterface {
 	
 	@Autowired
 	private StudentFeeRepository studentFeeRepository;
+	
+	@Autowired
+	private NotificationRepository notificationRepository;
 	
 	@Autowired
 	private NotificationReceiverRepository notificationReceiverRepository;
@@ -233,5 +238,10 @@ public class StudentService implements StudentServiceInterface {
 		nr.setStatus("READ");
 		notificationReceiverRepository.save(nr);
 		
+	}
+	
+	@Override
+	public List<NotificationReceiver> top3notification(Student s){
+		return notificationReceiverRepository.findTop3ByStudentOrderByNotificationCreatedAtDesc(s);
 	}
 }
