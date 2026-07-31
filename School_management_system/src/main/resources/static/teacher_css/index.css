@@ -583,3 +583,40 @@ tbody tr+tr {
 		height: 300px;
 	}
 }
+
+.timetable-card{
+    margin-bottom:30px;
+}
+
+.timetable{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+.timetable th,
+.timetable td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+.timetable input,
+.timetable select{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+}
+
+.time-input{
+    width:90px !important;
+}
+
+@media(max-width:768px){
+
+    .timetable{
+        min-width:900px;
+    }
+
+}

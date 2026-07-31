@@ -1,19 +1,13 @@
 package com.sms.controller;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.http.HttpRequest;
-import java.security.AllPermission;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,25 +16,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.ctc.wstx.shaded.msv.relaxng_datatype.Datatype;
 import com.sms.model.Assignment;
 import com.sms.model.Attendence;
 import com.sms.model.ClassEntity;
 import com.sms.model.Notification;
+import com.sms.model.Period;
 import com.sms.model.Student;
-import com.sms.model.StudentAssignmentDto;
-import com.sms.model.StudentFee;
 import com.sms.model.Teacher;
-import com.sms.repository.StudentRepository;
-import com.sms.serviceIMPL.TeacherService;
+import com.sms.model.Timetable;
 import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
+import com.sms.serviceInterface.TimetableInterface;
 import com.sms.serviceInterface.UserServiceInterface;
+import com.twilio.rest.assistants.v1.Session;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -53,10 +46,10 @@ public class TeacherController {
 	private TeacherServiceInterface teacherServiceInterface;
 	
 	@Autowired
-	private UserServiceInterface userServiceInterface;
+	private StudentServiceInterface studentServiceInterface;
 	
 	@Autowired
-	private StudentServiceInterface studentServiceInterface;
+	private TimetableInterface timetableInterface;
 	
 
 //	GET MAPPING------------------------------------------------------------------------
@@ -276,7 +269,6 @@ public class TeacherController {
 		
 		List<Notification> notifications = teacherServiceInterface.findAllNotification(cls);
 		Collections.reverse(notifications);
-		System.out.println(notifications.size());
 		
 		model.addAttribute("notifications", notifications);
 		
@@ -287,7 +279,37 @@ public class TeacherController {
 	    return "redirect:/teacher";
 	}
 	
+	@GetMapping("/time-table")
+	public String timeTable(HttpServletRequest request, HttpSession session, Model model) {
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		
+		
+		
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+	        return "teacher/time_table :: timetable"; // fragment
+	    }
+
+	    return "redirect:/teacher";
+	}
 	
+	@GetMapping("/kkk")
+	@ResponseBody
+	public List<Timetable> getAll(HttpSession session){
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		
+		return timetableInterface.findAlltimetable(cls);
+	}
+	
+//	@GetMapping("/k")
+//	@ResponseBody
+//	public void cls(HttpSession session){
+//		
+//		
+//		
+//		System.out.println(ce.getClassName());
+//	}
 	
 	
 	
@@ -358,9 +380,7 @@ public class TeacherController {
 	public String deleteNotice(@ModelAttribute Notification notice,HttpSession session) {
 		
 		Integer cls = (Integer) session.getAttribute("clsId");
-		
-		System.out.println(notice.getMessage());
-		
+				
 		teacherServiceInterface.createNotification(cls, notice);
 				
 		return "redirect:/teacher";
@@ -369,9 +389,24 @@ public class TeacherController {
 	@PostMapping("/notification/delete")
 	public String deleteNotyice(@RequestParam int id) {
 		
-		System.out.println(id);
 		teacherServiceInterface.deleteNotification(id);
 		
+		return "redirect:/teacher";
+	}
+	
+	@PostMapping("/save-time-table")
+	public String setTimeTable(
+			@RequestParam(required = false) List<String> subject,
+			@RequestParam(required = false) List<LocalTime> st,
+			@RequestParam(required = false) List<LocalTime> et,
+			@RequestParam(required = false) List<String> days,
+			@RequestParam int periods,
+			HttpSession session) {
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		ClassEntity ce = teacherServiceInterface.findClassByClassId(cls).get();
+		
+		timetableInterface.saveTimrTable(st, et, subject, days, periods, ce);
 		return "redirect:/teacher";
 	}
 }

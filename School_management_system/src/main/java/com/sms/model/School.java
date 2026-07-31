@@ -41,7 +41,6 @@ public class School {
 	
 	private LocalDateTime createdAt;
 	
-//	@JsonManagedReference
 	@JsonIgnore
 	@OneToMany(mappedBy = "school", fetch = FetchType.LAZY)
 	private Set<User> users;

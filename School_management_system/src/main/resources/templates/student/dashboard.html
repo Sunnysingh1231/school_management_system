@@ -158,8 +158,8 @@
 								</span>
 							</div>
 							<div class="assignment-actions">
-								<button class="btn-small">View</button>
-								<button class="btn-small">Download</button>
+								<!--  <button class="btn-small">View</button>
+								<button class="btn-small">Download</button>  -->
 							</div>
 						</div>
 						<div class="assignments-list"
@@ -170,6 +170,31 @@
 							</div>
 						</div>
 					</div>
+					
+					<!-- Notifications Panel -->
+				<div class="notifications-panel">
+					<div class="section-title">
+						<i class="fas fa-bell"></i> Recent Notifications
+					</div>
+
+					<div class="notification-item" th:each = "notice : ${top3notification}">
+						<div class="notification-title">
+							<span class="notification-dot" th:if = "${notice.status} == 'UNREAD'"></span ><span th:text="${#strings.abbreviate(notice.notification.title, 24)}"></span>
+						</div>
+						<div class="notification-msg" th:text = "${#strings.abbreviate(notice.notification.message, 34)}">Your Mathematics teacher
+							posted a new assignment "Calculus Chapter 5" due on April 5,
+							2026.</div>
+						<div class="notification-time">
+							<i class="fas fa-clock"></i> <span th:text = "${#temporals.format(notice.notification.createdAt, 'dd-MM-yyyy')}"></span>
+						</div>
+					</div>
+					<div class="assignments-list"
+						th:if="${#lists.isEmpty(top3notification)}" style="text-align: center;">
+						<div>
+							<p>No Notification available.</p>
+						</div>
+					</div>
+				</div>
 
 					
 				</div>
@@ -233,30 +258,7 @@
 					</table>
 				</div>
 
-				<!-- Notifications Panel -->
-				<div class="notifications-panel">
-					<div class="section-title">
-						<i class="fas fa-bell"></i> Recent Notifications
-					</div>
-
-					<div class="notification-item" th:each = "notice : ${top3notification}">
-						<div class="notification-title">
-							<span class="notification-dot" th:if = "${notice.status} == 'UNREAD'"></span ><span th:text="${#strings.abbreviate(notice.notification.title, 24)}"></span>
-						</div>
-						<div class="notification-msg" th:text = "${#strings.abbreviate(notice.notification.message, 34)}">Your Mathematics teacher
-							posted a new assignment "Calculus Chapter 5" due on April 5,
-							2026.</div>
-						<div class="notification-time">
-							<i class="fas fa-clock"></i> <span th:text = "${#temporals.format(notice.notification.createdAt, 'dd-MM-yyyy')}"></span>
-						</div>
-					</div>
-					<div class="assignments-list"
-						th:if="${#lists.isEmpty(top3notification)}" style="text-align: center;">
-						<div>
-							<p>No Notification available.</p>
-						</div>
-					</div>
-				</div>
+				
 				
 			</div>
 		</div>

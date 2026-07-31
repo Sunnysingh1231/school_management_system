@@ -1,0 +1,67 @@
+<div th:fragment="timetable">
+
+	<form th:action ="@{/teacher/save-time-table}" method = "post">
+	
+	<div class="main-area">
+
+		<div class="top-header">
+			<div>
+				<h2>Create Timetable</h2>
+				<p>Configure timetable for all classes</p>
+			</div>
+		</div>
+
+		<div class="glass-card">
+
+			<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+<!-- 
+				<div>
+					<label>Number of Classes</label><br> <select id="classCount">
+						<option value="">Select</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="110">10</option>
+						
+
+					</select>
+				</div>
+ -->
+				<div>
+					<label>Periods Per Day</label><br> <input type="number"
+						id="periodCount" min="1" max="12" value="8">
+				</div>
+
+				<div>
+					<label>Days</label><br> <select id="dayCount">
+						<option value="5">Monday-Friday</option>
+						<option value="6" selected>Monday-Saturday</option>
+						<option value="7">Monday-Sunday</option>
+					</select>
+
+				</div>
+
+				<div style="align-self: end;">
+					<button class="btn-primary" type = "button" onclick="generate()">Generate</button>
+				</div>
+				
+				<div style="align-self: end;">
+					<button class="btn-primary" type = "submit">Save & Post</button>
+				</div>
+
+			</div>
+
+		</div>
+
+		<br>
+		<input value = "math" type = "hidden" name = "ect">
+
+		<div id="result"></div>
+	</form>
+	</div>

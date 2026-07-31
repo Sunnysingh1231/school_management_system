@@ -32,6 +32,8 @@ import com.sms.model.Student;
 import com.sms.model.StudentAssignment;
 import com.sms.model.StudentAssignmentDto;
 import com.sms.model.StudentFee;
+import com.sms.model.Timetable;
+import com.sms.repository.TimeTableRepository;
 import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
 
@@ -48,6 +50,9 @@ public class StudentController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private TimeTableRepository timeTableRepository;
 	
 	@GetMapping("/test")
 	@ResponseBody
@@ -259,13 +264,23 @@ public class StudentController {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		model.addAttribute("student", s1);
-		
 		model.addAttribute("activePage", "time_table");
-		
 		String sesson = studentServiceInterface.getAcademicSession();
 		model.addAttribute("sess", sesson);
 		
+		List<Timetable> t1 = timeTableRepository.findAllByClassEntityId(s1.getClassEntity().getId());
+		model.addAttribute("timetable", t1);
+		
 		return "/student/time_table";
+	}
+	
+	@GetMapping("/k")
+	@ResponseBody
+	public List<Timetable> cls(){
+		
+		List<Timetable> t1 = timeTableRepository.findAllByClassEntityId(57);
+		
+		return t1;
 	}
 	
 	@GetMapping("/notice")

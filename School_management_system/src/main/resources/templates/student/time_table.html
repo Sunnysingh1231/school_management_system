@@ -109,64 +109,35 @@
             <!-- Timetable Card -->
             <div class="timetable-card">
 
-                <table class="custom-timetable">
+                <table class="custom-timetable" th:if="${!#lists.isEmpty(timetable)}">
                     <thead>
                         <tr>
-                            <th>Time</th>
-                            <th>Monday</th>
-                            <th>Tuesday</th>
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th>
+                        	<th class="time">Days</th>
+                            <th class="time" th:each = "rd,c : ${timetable[1].periods}" th:text = "'P'+${c.index+1}">Time</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td class="time">09:00 - 10:00</td>
-                            <td>Math</td>
-                            <td>English</td>
-                            <td>Physics</td>
-                            <td>Chemistry</td>
-                            <td>Biology</td>
-                        </tr>
 
-                        <tr>
-                            <td class="time">10:00 - 11:00</td>
-                            <td>Physics</td>
-                            <td>Math</td>
-                            <td>Chemistry</td>
-                            <td>English</td>
-                            <td>Math</td>
-                        </tr>
-
-                        <tr>
-                            <td class="time break">Break</td>
-                            <td colspan="5" class="break-cell">☕ Break Time</td>
-                        </tr>
-
-                        <tr>
-                            <td class="time">11:30 - 12:30</td>
-                            <td>Chemistry</td>
-                            <td>Physics</td>
-                            <td>English</td>
-                            <td>Biology</td>
-                            <td>Physics</td>
-                        </tr>
-
-                        <tr>
-                            <td class="time">12:30 - 01:30</td>
-                            <td>Biology</td>
-                            <td>Chemistry</td>
-                            <td>Math</td>
-                            <td>Physics</td>
-                            <td>English</td>
+                        <tr th:each = "table, c : ${timetable}">
+                        
+                            <td class="time break" th:text = "${table.day}" ></td>
+                            <td th:each = "sub : ${table.periods}">
+                            	<span th:if = "${sub.startTime}" th:text = "${sub.startTime}+' - '+${sub.endTime}"></span><br>
+                            	<h4 th:text = "${sub.subject}" th:class = "${sub.subject} == 'Break' ? 'break-cell' : 'time'"></h4>
+                            </td>
+                            
                         </tr>
                     </tbody>
                 </table>
-
+				<div class="assignments-list" th:if="${#lists.isEmpty(timetable)}"
+		style="text-align: center;">
+		<div>
+			<p>No assignments available.</p>
+		</div>
+	</div>
             </div>
-
+			
         </div>
     </div>
             

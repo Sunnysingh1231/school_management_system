@@ -267,3 +267,86 @@ function deleteNotice(event) {
     return false;
 
 }
+
+// ================= time table =================  -->
+
+const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+function generate(){
+
+   // const classes=parseInt(document.getElementById("classCount").value);
+
+    const periods=parseInt(document.getElementById("periodCount").value);
+	
+
+    const totalDays=parseInt(document.getElementById("dayCount").value);
+
+    let html="";
+
+    for(let c=1;c<=1;c++){
+
+        html+=`
+        <div class="glass-card timetable-card">
+		<input type = "hidden" value = ${periods} name = "periods">
+            <h3>Class ${c}</h3>
+
+            <div class="table-container">
+
+            <table class="timetable">
+
+            <thead>
+
+            <tr>
+
+                <th>Day</th>
+
+                ${Array.from({length:periods},(_,i)=>`<th>P${i+1}</th>`).join("")}
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+        `;
+		console.log(periods)
+        for(let d=0;d<totalDays;d++){
+
+            html+=`<tr><td>${days[d]}</td>
+			<input type = "hidden" value = ${days[d]} name = "days">
+			`;
+			
+            for(let p=1;p<=periods;p++){
+
+                html+=`
+
+                <td>
+
+                    <input class="time-input" type = "time" placeholder="09:00" name = "st">
+					<input class="time-input" type = "time" placeholder="09:00" name = "et">
+					<br>
+
+                    <input placeholder="Subject" name = "subject">
+                </td>
+
+                `;
+
+            }
+
+            html+="</tr>";
+
+        }
+
+        html+=`
+            </tbody>
+
+            </table>
+
+            </div>
+
+        </div>
+        `;
+
+    }
+
+    document.getElementById("result").innerHTML=html;
+}
