@@ -103,6 +103,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	gap:10px;
 }
 
 /* Buttons */
@@ -124,29 +125,27 @@
 }
 
 .asoverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-	z-index:101;
-    opacity: 0;
-    pointer-events: none;
-
-    transition: opacity 0.3s ease;
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 101;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
 }
 
 .asoverlay.active {
-    opacity: 1;
-    pointer-events: auto;
+	opacity: 1;
+	pointer-events: auto;
 }
 
-@keyframes fadeIn {
-	from { 
-		opacity:0;
-	}
+@keyframes fadeIn {from { opacity:0;
+	
+}
 
-	to {
-		opacity: 1;
-	}
+to {
+	opacity: 1;
+}
 
 }
 .modal-box {
@@ -166,6 +165,8 @@
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
 		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px
 		-2px 6px 0px inset;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .modal-box.active {
@@ -227,14 +228,16 @@
 						<div class="assignment-card" th:each="a : ${assignments}">
 							<div class="assignment-card-header">
 								<h3 id="tit" th:value="${a.assignment.title}"
-									th:text="${a.assignment.title}">Trigonometry Problems</h3>
+									th:text="${#strings.abbreviate(a.assignment.title, 20)}">Trigonometry
+									Problems</h3>
 								<span
 									th:class="${a.isComplete} ? 'status pending' : 'status completed'"
 									th:text="${a.isComplete} ? 'Pending' : 'Completed'">Completed</span>
 							</div>
 
 							<p class="subject" th:text="${a.assignment.subject}">Mathematics</p>
-							<p class="desc" th:text="${a.assignment.description}">Solve
+							<p class="desc"
+								th:text="${#strings.abbreviate(a.assignment.description, 32)}">Solve
 								all questions from Chapter 5.</p>
 
 							<div class="assignment-footer">
@@ -285,8 +288,8 @@
 		<div class="modal-box" id="modal-box"></div>
 
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script th:src="@{/student_js/index.js}"></script>
-	<script>
+		<script th:src="@{/student_js/index.js}"></script>
+		<script>
 		function submitAssignment(button){
 		
 		    Swal.fire({
@@ -347,7 +350,7 @@
 			div2.style.marginTop = "40px";
 			
 			let span2 = document.createElement('span');
-			span2.textContent ="Publish Date: "+button.dataset.publishDate;
+			span2.textContent ="From : "+button.dataset.publishDate;
 			let br = document.createElement("br");
 			let span3 = document.createElement('span');
 			span3.textContent ="Due Date: "+button.dataset.dueDate;
@@ -405,13 +408,21 @@
 		                    <div class="assignment-card">
 		
 		                        <div class="assignment-card-header">
-		                            <h3>${a.title}</h3>
+		                        <h3>
+		                        ${a.title.length > 20
+		                          ? a.title.slice(0, 20) + "..."
+		                          : a.title}
+		                      </h3>
 		                            <span class="status completed">Completed</span>
 		                        </div>
 		
 		                        <p class="subject">${a.subject}</p>
 		
-		                        <p class="desc">${a.description}</p>
+		                        <p class="desc">
+		                        ${a.description.length > 32
+		                          ? a.description.substring(0, 32) + "..."
+		                          : a.description}
+		                      </p>
 		
 		                        <div class="assignment-footer">
 		
@@ -421,10 +432,15 @@
 		                            </span>
 		
 		                            <button
-		                                class="btn-view"
-		                                onclick="viewAssignmentDetail(this)">
-		                                View
-		                            </button>
+		                            class="btn-view"
+			                            data-title="${a.title}"
+			                            data-description="${a.description}"
+	                            	    data-subject="${a.subject}"
+	                            	    data-publish-date="${a.assignDate}"
+	                            	    data-due-date="${a.dueDate}"
+			                            onclick="viewAssignmentDetail(this)">
+			                            View
+			                        </button>
 		                        </div>
 		
 		                    </div>
@@ -452,13 +468,21 @@
 		                    <div class="assignment-card">
 		
 		                        <div class="assignment-card-header">
-		                            <h3>${a.title}</h3>
+		                        <h3>
+		                        ${a.title.length > 20
+		                          ? a.title.slice(0, 20) + "..."
+		                          : a.title}
+		                      </h3>
 		                            <span class="status pending">Pending</span>
 		                        </div>
 		
 		                        <p class="subject">${a.subject}</p>
 		
-		                        <p class="desc">${a.description}</p>
+		                        <p class="desc">
+		                        ${a.description.length > 32
+		                          ? a.description.substring(0, 32) + "..."
+		                          : a.description}
+		                      </p>
 		
 		                        <div class="assignment-footer">
 		
@@ -468,11 +492,15 @@
 		                            </span>
 		
 		                            <button
-		                                class="btn-view"
-		                               
-		                                onclick="viewAssignmentDetail(this)">
-		                                View
-		                            </button>
+			                            class="btn-view"
+			                            	data-title="${a.title}"
+				                            data-description="${a.description}"
+		                            	    data-subject="${a.subject}"
+		                            	    data-publish-date="${a.assignDate}"
+		                            	    data-due-date="${a.dueDate}"
+			                            onclick="viewAssignmentDetail(this)">
+			                            View
+			                        </button>
 		                        </div>
 		
 		                    </div>

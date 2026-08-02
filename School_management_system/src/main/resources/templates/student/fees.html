@@ -91,6 +91,7 @@
 .pay-btn:hover {
 	opacity: 0.9;
 }
+
 .badge {
 	background: #10b981;
 	color: white;
@@ -148,17 +149,23 @@
 
 						<div class="summary-card">
 							<div class="summary-card-title">Total Fees</div>
-							<div class="summary-card-value"><span th:text = "'₹'+${paid+pending}"></span></div>
+							<div class="summary-card-value">
+								<span th:text="'₹'+${paid+pending}"></span>
+							</div>
 						</div>
 
 						<div class="summary-card">
 							<div class="summary-card-title">Paid Amount</div>
-							<div class="summary-card-value"><span th:text = "'₹'+${paid}"></span></div>
+							<div class="summary-card-value">
+								<span th:text="'₹'+${paid}"></span>
+							</div>
 						</div>
 
 						<div class="summary-card">
 							<div class="summary-card-title">Pending</div>
-							<div class="summary-card-value"><span th:text = "'₹'+${pending}"></span></div>
+							<div class="summary-card-value">
+								<span th:text="'₹'+${pending}"></span>
+							</div>
 						</div>
 
 					</div>
@@ -168,10 +175,11 @@
 						<h3>Payment Progress</h3>
 
 						<div class="progress-bar">
-							<div class="progress-fill" th:style="'width:' + ${(paid*100/(pending+paid))} + '%'"></div>
+							<div class="progress-fill"
+								th:style="'width:' + ${(paid*100/(pending+paid))} + '%'"></div>
 						</div>
 
-						<p th:text = "${(paid*100/(pending+paid))}+'% Paid'">70% Paid</p>
+						<p th:text="${(paid*100/(pending+paid))}+'% Paid'">70% Paid</p>
 					</div>
 
 					<!-- Fees Table -->
@@ -212,23 +220,23 @@
 											<td style="text-align: right;"><input type="checkbox"
 												class="fee-check" name="feeIds" value="${fee.month}"
 												th:data-amount="${fee.amount}"
-												th:disabled="${fee.status == 'PAID'}" onchange="updateTotal()">
-											</td>
+												th:disabled="${fee.status == 'PAID'}"
+												onchange="updateTotal()"></td>
 
 										</tr>
 									</tbody>
 								</table>
-
+								<h3>
+									Total Pay: ₹<span id="total">0</span>
+								</h3>
 								<!-- Total Section -->
 								<div
 									style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
 
-									<h3>
-										Total Selected: ₹<span id="total">0</span>
-									</h3>
 
-									<div style="display: flex; gap: 10px;"
-										class="pay-btn-container">
+
+									<div style="display: flex; gap: 10px; margin:auto;"
+										class="profile-bottom-actions">
 										<button type="button" class="pay-btn" onclick="selectAll()">Select
 											All</button>
 										<button type="submit" class="pay-btn">
@@ -245,74 +253,77 @@
 		</div>
 		<script th:src="@{/student_js/index.js}"></script>
 		<script>
-        
-        function updateTotal() {
+			function updateTotal() {
 
-            let total = 0;
+				let total = 0;
 
-            document.querySelectorAll('.fee-check:checked').forEach(function(checkbox) {
+				document.querySelectorAll('.fee-check:checked').forEach(
+						function(checkbox) {
 
-                total += parseFloat(checkbox.dataset.amount);
-            });
+							total += parseFloat(checkbox.dataset.amount);
+						});
 
-            document.getElementById('total').textContent = total.toFixed(2);
+				document.getElementById('total').textContent = total.toFixed(2);
 
-        }
+			}
 
-        function selectAll() {
+			function selectAll() {
 
-            // Get only enabled checkboxes
-            const checkboxes = document.querySelectorAll('.fee-check:not(:disabled)');
+				// Get only enabled checkboxes
+				const checkboxes = document
+						.querySelectorAll('.fee-check:not(:disabled)');
 
-            // Check if all enabled checkboxes are already selected
-            const allSelected = Array.from(checkboxes).every(function(checkbox) {
-                return checkbox.checked;
-            });
+				// Check if all enabled checkboxes are already selected
+				const allSelected = Array.from(checkboxes).every(
+						function(checkbox) {
+							return checkbox.checked;
+						});
 
-            // Toggle only enabled checkboxes
-            checkboxes.forEach(function(checkbox) {
-                checkbox.checked = !allSelected;
-            });
+				// Toggle only enabled checkboxes
+				checkboxes.forEach(function(checkbox) {
+					checkbox.checked = !allSelected;
+				});
 
-            updateTotal();
+				updateTotal();
 
-        }
-//    	< !--Fee - student js-- >
-        function validateFeeForm(event) {
+			}
+			//    	< !--Fee - student js-- >
+			function validateFeeForm(event) {
 
-            event.preventDefault();
+				event.preventDefault();
 
-            const checked = document.querySelectorAll(".fee-check:checked");
+				const checked = document.querySelectorAll(".fee-check:checked");
 
-            if (checked.length === 0) {
+				if (checked.length === 0) {
 
-                Swal.fire({
-                    icon: "warning",
-                    title: "No Month Selected",
-                    text: "Please select at least one month."
-                });
+					Swal.fire({
+						icon : "warning",
+						title : "No Month Selected",
+						text : "Please select at least one month."
+					});
 
-                return false;
-            }
-            Swal.fire({
-            	title: "Payment Unavailable",
-                text: "We're sorry, but no payment gateway has been integrated yet. Please contact the class teacher.",
-                icon: "error",
-                confirmButtonText: "OK"
-               // cancelButtonText: "Cancel"
-            })
-            //.then((result) => {
+					return false;
+				}
+				Swal
+						.fire({
+							title : "Payment Unavailable",
+							text : "We're sorry, but no payment gateway has been integrated yet. Please contact the class teacher.",
+							icon : "error",
+							confirmButtonText : "OK"
+						// cancelButtonText: "Cancel"
+						})
+				//.then((result) => {
 
-             //   if (result.isConfirmed) {
-             //       document.getElementById("feeForm").submit();
-             //   }
+				//   if (result.isConfirmed) {
+				//       document.getElementById("feeForm").submit();
+				//   }
 
-            //});
+				//});
 
-            return false;
+				return false;
 
-        }
-    </script>
+			}
+		</script>
 </body>
 
 </html>

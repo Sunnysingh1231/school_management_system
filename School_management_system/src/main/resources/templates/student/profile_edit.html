@@ -2,243 +2,244 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - School Management System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard - School Management System</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Font Awesome Icons -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- External CSS -->
-    <link rel="stylesheet" th:href="@{/student/dashboard.css}">
-    
-    <style>
-    	:root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-            --bg: #f8fafc;
-        }
+<!-- External CSS -->
+<link rel="stylesheet" th:href="@{/student/dashboard.css}">
 
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-        }
+<style>
+:root {
+	--primary: #6366f1;
+	--secondary: #8b5cf6;
+	--bg: #f8fafc;
+}
 
-        /* CARD */
-        .container {
-            min-width: 500px;
-            margin: 20px auto;
-            /* border: 2px solid red; */
-        }
+body {
+	margin: 0;
+	font-family: 'Poppins', sans-serif;
+}
 
-        .card {
-            /* width: 500px; */
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            backdrop-filter: blur(15px);
-            padding: 25px;
-            border-radius: 20px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            /* border: 2px solid red; */
-        }
+/* CARD */
+.container {
+	margin: 120px 20px 0px 300px;
+	/* border: 2px solid red; */
+}
 
-        /* TITLE */
-        .title {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.card {
+	max-width: 500px;
+	margin:auto;
+	background: linear-gradient(135deg, var(--primary), var(--secondary));
+	backdrop-filter: blur(15px);
+	padding: 25px;
+	border-radius: 20px;
+	color: white;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	/* border: 2px solid red; */
+}
 
-        /* GRID (NEW) */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
+/* TITLE */
+.title {
+	text-align: center;
+	margin-bottom: 20px;
+}
 
-        /* INPUT */
-        .input-group {
-            display: flex;
-            flex-direction: column;
-        }
+/* GRID (NEW) */
+.form-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 15px;
+}
 
-        .input-group label {
-            font-size: 14px;
-        }
+/* INPUT */
+.input-group {
+	display: flex;
+	flex-direction: column;
+}
 
-        .input-group input,
-        .input-group select,textarea {
-            width: 90%;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            margin-top: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            /* opacity: 75%; */
-        }
+.input-group label {
+	font-size: 14px;
+}
 
-        .input-group select {
-            color: black;
-        }
+.input-group input, .input-group select, textarea {
+	width: 90%;
+	padding: 10px;
+	border-radius: 10px;
+	border: none;
+	margin-top: 5px;
+	background: rgba(255, 255, 255, 0.2);
+	color: white;
+	/* opacity: 75%; */
+}
 
-        /* BUTTON */
-        
-        .btncont{
-        width:100%;
-        	display:flex;
-        	margin:auto;
-        	gap:20px;
-        }
-        
-        .btncont .btn:nth-child(2){
-        	background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 25px;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            grid-column: span 2;
-            /* FULL WIDTH */
-        }
+.input-group select {
+	color: black;
+}
 
-        .btn:hover {
-            transform: translateY(-2px);
-        }
+/* BUTTON */
+.btncont {
+	width: 100%;
+	display: flex;
+	margin: auto;
+	gap: 20px;
+}
 
-        /* RESPONSIVE */
-        @media(max-width:600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
+.btncont .btn:nth-child(2) {
+	background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
+}
 
-            .btn {
-                grid-column: span 1;
-            }
-        }
+.btn {
+	width: 100%;
+	padding: 12px;
+	border: none;
+	border-radius: 25px;
+	background: linear-gradient(135deg, #1e3c72, #2a5298);
+	color: white;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 10px;
+	grid-column: span 2;
+	/* FULL WIDTH */
+}
 
-        @media(max-width:500px) {
-            .container {
-                width: 90%;
-            }
-        }
-    </style>
-    
-    
+.btn:hover {
+	transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media ( max-width :768px) {
+	.container {
+		margin: 100px auto;
+		width: 90%;
+		/* border: 2px solid red; */
+	}
+	.form-grid {
+		grid-template-columns: 1fr;
+	}
+	.btn {
+		grid-column: span 1;
+	}
+}
+</style>
+
+
 </head>
 
 <body>
 
-    <div class="dashboard-container">
-    
-	<div th:replace="~{/student/sidebar::sidebar}"> </div>
-    
-        
+	<div class="dashboard-container">
 
-        <!-- ==================== Main Content ==================== -->
-        <div class="main-content">
-            <!-- ==================== Top Navbar ==================== -->
-            <div th:replace="~{/student/navbar::navbar}"> </div>
+		<div th:replace="~{/student/sidebar::sidebar}"></div>
+
+
+
+		<!-- ==================== Main Content ==================== -->
+		<div class="main-content">
+			<!-- ==================== Top Navbar ==================== -->
+			<div th:replace="~{/student/navbar::navbar}"></div>
 
 			<div class="container">
-        <form th:action="@{/student/update}" th:object="${student}" method="post">
-            <div class="card">
+				<form th:action="@{/student/update}" th:object="${student}"
+					method="post">
+					<div class="card">
 
-                <h2 class="title">Edit Student</h2>
+						<h2 class="title">Edit Student</h2>
 
-                <!-- Hidden ID -->
-                <input type="hidden" th:field="*{id}">
+						<!-- Hidden ID -->
+						<input type="hidden" th:field="*{id}">
 
-                <!-- GRID START -->
-                <div class="form-grid">
+						<!-- GRID START -->
+						<div class="form-grid">
 
-                    <div class="input-group">
-                        <label>Name</label>
-                        <input type="text" th:field="*{name}" required>
-                    </div>
+							<div class="input-group">
+								<label>Name</label> <input type="text" th:field="*{name}"
+									required>
+							</div>
 
-                    <div class="input-group">
-                        <label>Email</label>
-                        <input type="email" th:field="*{email}" required>
-                    </div>
+							<div class="input-group">
+								<label>Email</label> <input type="email" th:field="*{email}"
+									required>
+							</div>
 
-                    <div class="input-group">
-                        <label>Phone</label>
-                        <input type="text" th:field="*{phone}" required>
-                    </div>
+							<div class="input-group">
+								<label>Phone</label> <input type="text" th:field="*{phone}"
+									required>
+							</div>
 
-                    <div class="input-group">
-                        <label>Class</label>
-                        <input type="text" th:field="*{classEntity.className}" readonly>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Class</label>
-                        <input type="text" th:field="*{classEntity.section}" readonly>
-                    </div>
+							<div class="input-group">
+								<label>Class</label> <input type="text"
+									th:field="*{classEntity.className}" readonly>
+							</div>
 
-                    <div class="input-group">
-                        <label>Gender</label>
-                        <select th:field="*{gender}">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+							<div class="input-group">
+								<label>Class</label> <input type="text"
+									th:field="*{classEntity.section}" readonly>
+							</div>
 
-                    <div class="input-group">
-                        <label>Date of Birth</label>
-                        <input type="date" th:field="*{dateOfBirth}">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Parent Name</label>
-                        <input type="text" th:field="*{parentName}">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Parent Phone: </label>
-                        <input type="text" th:field="*{parentPhone}">
-                    </div>
-                    
-                    <div class="input-group">
-					    <label>Address:</label>
-					    <textarea th:field="*{address}" rows="3" placeholder="Enter full address"></textarea>
-					</div>
+							<div class="input-group">
+								<label>Gender</label> <select th:field="*{gender}">
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
 
-                    <!-- BUTTON 
+							<div class="input-group">
+								<label>Date of Birth</label> <input type="date"
+									th:field="*{dateOfBirth}">
+							</div>
+
+							<div class="input-group">
+								<label>Parent Name</label> <input type="text"
+									th:field="*{parentName}">
+							</div>
+
+							<div class="input-group">
+								<label>Parent Phone: </label> <input type="text"
+									th:field="*{parentPhone}">
+							</div>
+
+							<div class="input-group">
+								<label>Address:</label>
+								<textarea th:field="*{address}" rows="3"
+									placeholder="Enter full address"></textarea>
+							</div>
+
+							<!-- BUTTON 
                     
                     
                     
                     <button class="btn">Update Student</button>
                     -->
 
-                </div>
-                <!-- GRID END -->
-                
-                <div class="btncont">
-                    
-                    	<button class="btn" onclick="history.back()">Back</button>
-                    	<button type="submit" class="btn">Update Student</button>
-                    
-                    </div>
+						</div>
+						<!-- GRID END -->
 
-            </div>
-        </form>
-    </div>
-            
-        </div>
-<script>
+						<div class="btncont">
+
+							<button class="btn" onclick="history.back()">Back</button>
+							<button type="button" class="btn" onclick="saveProfile(this)">Update Student</button>
+
+						</div>
+
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
         // Hamburger menu toggle for mobile
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebar = document.getElementById('sidebar');
@@ -265,18 +266,6 @@
                 }
             }
         });
-
-        // Add smooth scroll behavior
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
         const menuLinks = document.querySelectorAll('.sidebar-menu-link');
 
         menuLinks.forEach(link => {
@@ -288,8 +277,28 @@
                 this.classList.add('active');
             });
         });
-    </script>
         
+        function saveProfile(button){
+		    Swal.fire({
+		        title: "Update Profile?",
+		        text: "Are you sure you want to update your profile?",
+		        icon: "question",
+		        showCancelButton: true,
+		        confirmButtonText: "Yes, Update",
+		        cancelButtonText: "Cancel"
+		    }).then((result)=>{
+		
+		        if(result.isConfirmed){  
+		
+		            button.closest("form").submit();
+		
+		        }
+		
+		    });
+		
+		}
+    </script>
+
 </body>
 
 </html>

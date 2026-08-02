@@ -90,9 +90,6 @@ public class StudentController {
 		model.addAttribute("student", s1);
 		model.addAttribute("currentFee", currentFee);
 		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
-		
 		int tAssignments = studentServiceInterface.findAllStudentAssignment(s1).size();
 		List<Assignment> assignments = studentServiceInterface.findTop3AssignByClsId(s1.getClassEntity().getId());
 				
@@ -132,6 +129,9 @@ public class StudentController {
 		
 		model.addAttribute("top3notification", n);
 		
+		List<Timetable> t1 = timeTableRepository.findAllByClassEntityId(s1.getClassEntity().getId());
+		model.addAttribute("timetable", t1);
+		
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/dashboard :: dashboard"; // fragment
@@ -143,12 +143,8 @@ public class StudentController {
 	@GetMapping("/profile")
 	public String profile(Model model) {
 		
-		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
-		model.addAttribute("activePage", "profile");
 		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
+		model.addAttribute("activePage", "profile");
 		
 		return "/student/profile";
 	}
@@ -157,7 +153,6 @@ public class StudentController {
 	public String attendence(Model model) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
 		
 		List<Attendence> attendences = studentServiceInterface.findAttendenceByStudentId(s1.getId());
 		
@@ -178,9 +173,6 @@ public class StudentController {
 		
 		model.addAttribute("attendence6list", studentServiceInterface.findTop6AttendenceOfStudentByStudentId(s1.getId()));
 		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
-		
 		return "/student/attendence";
 	}
 	
@@ -188,12 +180,9 @@ public class StudentController {
 	public String assignment(Model model) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
 		
+		model.addAttribute("activePage", "assignment");
 		model.addAttribute("assignments", studentServiceInterface.findAllStudentAssignment(s1));
-		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
 		
 		return "/student/assignment";
 	}
@@ -219,13 +208,7 @@ public class StudentController {
 	@GetMapping("/result-grade")
 	public String resultGrade(Model model) {
 		
-		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
-		
 		model.addAttribute("activePage", "result_grade");
-		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
 		
 		return "/student/result_grade";
 	}
@@ -234,7 +217,6 @@ public class StudentController {
 	public String fees(Model model) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
 		
 		List<StudentFee> studentFees = teacherServiceInterface.findStudentFeeDetail(s1);
 		model.addAttribute("fees", studentFees);
@@ -250,11 +232,12 @@ public class StudentController {
 			}
 		}
 		
+		model.addAttribute("activePage", "fees");
+
 		model.addAttribute("paid", paid);
 		model.addAttribute("pending", pending);
 		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
+		
 		
 		return "/student/fees";
 	}
@@ -263,10 +246,7 @@ public class StudentController {
 	public String timeTable(Model model) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
 		model.addAttribute("activePage", "time_table");
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
 		
 		List<Timetable> t1 = timeTableRepository.findAllByClassEntityId(s1.getClassEntity().getId());
 		model.addAttribute("timetable", t1);
@@ -287,9 +267,6 @@ public class StudentController {
 	public String notice(Model model) {
 		
 		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
 		
 		List<NotificationReceiver> notificationList = studentServiceInterface.studentNotice(s1);
 		Collections.reverse(notificationList);
@@ -302,16 +279,17 @@ public class StudentController {
 		return "/student/notice";
 	}
 	
+	@GetMapping("/chat")
+	public String chat(Model model) {
+		
+		return "/student/chat";
+		
+	}
+	
 	@GetMapping("/setting")
 	public String setting(Model model) {
 		
-		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
-		
 		model.addAttribute("activePage", "setting");
-		
-		String sesson = studentServiceInterface.getAcademicSession();
-		model.addAttribute("sess", sesson);
 		
 		return "/student/setting";
 		
@@ -319,9 +297,6 @@ public class StudentController {
 	
 	@GetMapping("/profile-edit")
 	public String edit(Model model) {
-		
-		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
 		
 		model.addAttribute("activePage", "profile");
 		
@@ -331,9 +306,6 @@ public class StudentController {
 	
 	@GetMapping("/change-password")
 	public String changePassword(Model model) {
-		
-		Student s1 = studentServiceInterface.getCurrentStudent();
-		model.addAttribute("student", s1);
 		
 		model.addAttribute("activePage", "profile");
 		

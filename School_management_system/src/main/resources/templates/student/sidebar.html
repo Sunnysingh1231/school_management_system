@@ -53,6 +53,10 @@
 				th:classappend="${activePage == 'notice'} ? 'active'"
 				class="sidebar-menu-link"> <i class="fas fa-bell"></i> <span>Notifications</span>
 			</a></li>
+			<li class="sidebar-menu-item"><a th:href="@{/student/chat}"
+				th:classappend="${activePage == 'chat'} ? 'active'"
+				class="sidebar-menu-link"> <i class="fas fa-message"></i> <span>Chat With Teacher</span>
+			</a></li>
 			<li class="sidebar-menu-item"><a th:href="@{/student/setting}"
 				th:classappend="${activePage == 'setting'} ? 'active'"
 				class="sidebar-menu-link"> <i class="fas fa-cog"></i> <span>Settings</span>

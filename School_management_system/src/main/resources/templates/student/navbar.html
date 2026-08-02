@@ -9,13 +9,13 @@
 
 		</div>
 		<div class="navbar-mid">
-			<div class="container">
+			<div class="cont">
 				<div class="name" th:text = "${student.school.name}">John Doe</div>
 			</div>
 		</div>
 		<div class="navbar-right">
-			<button class="navbar-icon-btn">
-				<i class="fas fa-bell"></i> <span class="notification-badge">3</span>
+			<button class="navbar-icon-btn" th:if = "${unreadNoticeC} != 0" th:onclick="|window.location.href='@{/student/notice}'|">
+				<i class="fas fa-bell"></i> <span class="notification-badge" th:text = "${unreadNoticeC}"></span>
 			</button>
 			<!--  <button class="navbar-icon-btn">
                 <i class="fas fa-envelope"></i>

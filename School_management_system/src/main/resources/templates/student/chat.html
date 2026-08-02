@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard - School Management System</title>
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- External CSS -->
+
+<style>
+/* ================= ASSIGNMENT PAGE ================= */
+
+/* ================= SETTINGS PAGE ================= */
+.settings-grid {
+    width: 100%;
+    max-width: 800px;
+    height: 600px;
+    margin: 20px auto;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+/* ================= HEADER ================= */
+
+.chat-header {
+    background: #2563eb;
+    color: white;
+    padding: 18px 22px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+.teacher-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.teacher-img img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.teacher-info h3 {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+.teacher-info span {
+    font-size: 13px;
+    opacity: .9;
+}
+
+.back-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    color: white;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.back-btn:hover {
+    background: white;
+    color: #2563eb;
+}
+
+/* ================= CHAT BODY ================= */
+
+.chat-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    background: #f7f9fc;
+}
+
+/* ================= MESSAGE ================= */
+
+.message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.teacher {
+    align-items: flex-start;
+}
+
+.student {
+    align-items: flex-end;
+}
+
+.bubble {
+    max-width: 72%;
+    padding: 14px 18px;
+    border-radius: 18px;
+    line-height: 1.5;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.teacher .bubble {
+    background: white;
+    border: 1px solid #ddd;
+    border-top-left-radius: 5px;
+}
+
+.student .bubble {
+    background: #2563eb;
+    color: white;
+    border-top-right-radius: 5px;
+}
+
+.time {
+    font-size: 11px;
+    color: #888;
+}
+
+/* ================= FOOTER ================= */
+
+.chat-footer {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 18px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.chat-footer input {
+    flex: 1;
+    border: 1px solid #ddd;
+    outline: none;
+    border-radius: 30px;
+    padding: 14px 20px;
+    font-size: 15px;
+}
+
+.chat-footer input:focus {
+    border-color: #2563eb;
+}
+
+.chat-footer button {
+    width: 55px;
+    height: 55px;
+
+    border: none;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+
+    cursor: pointer;
+    font-size: 18px;
+    transition: .3s;
+}
+
+.chat-footer button:hover {
+    transform: scale(1.05);
+}
+
+/* ================= SCROLL ================= */
+
+.chat-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:768px) {
+
+    .settings-grid {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .chat-header {
+        padding: 15px;
+    }
+
+    .teacher-img img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .teacher-info h3 {
+        font-size: 16px;
+    }
+
+    .bubble {
+        max-width: 90%;
+        font-size: 14px;
+    }
+
+    .chat-footer {
+        padding: 12px;
+    }
+
+    .chat-footer input {
+        font-size: 14px;
+    }
+}
+</style>
+
+
+</head>
+
+<body>
+
+					<!-- Settings Grid -->
+					<div class="settings-grid">
+
+						<!-- Header -->
+						<div class="chat-header">
+
+							<div class="teacher-info">
+
+								<div class="teacher-img">
+									<img src="https://i.pravatar.cc/150?img=12">
+								</div>
+
+								<div>
+									<h3>Mrs. Priya Sharma</h3>
+									<span>Mathematics Teacher</span>
+								</div>
+
+							</div>
+
+							<button class="back-btn" onclick="history.back()">
+								<i class="fa-solid fa-arrow-left"></i>
+							</button>
+
+						</div>
+
+						<!-- Chat Body -->
+
+						<div class="chat-body">
+
+							<div class="message teacher">
+
+								<div class="bubble">
+									Hello Rahul 👋<br> Did you complete today's assignment?
+								</div>
+
+								<span class="time">10:15 AM</span>
+
+							</div>
+
+							<div class="message student">
+
+								<div class="bubble">Yes Ma'am, I completed it yesterday.</div>
+
+								<span class="time">10:16 AM</span>
+
+							</div>
+
+							<div class="message teacher">
+
+								<div class="bubble">Great 👍 Please upload it before
+									evening.</div>
+
+								<span class="time">10:17 AM</span>
+
+							</div>
+
+							<div class="message student">
+
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								<div class="bubble">Sure Ma'am.</div>
+								
+								<div class="bubble">Sure Ma'am.</div>
+
+								<span class="time">10:18 AM</span>
+
+							</div>
+
+						</div>
+
+						<!-- Footer -->
+
+						<div class="chat-footer">
+
+							<input type="text" placeholder="Type your message...">
+
+							<button>
+								<i class="fa-solid fa-paper-plane"></i>
+							</button>
+
+						</div>
+
+
+					</div>
+
+
+	<script th:src="@{/student_js/index.js}"></script>
+
+</body>
+
+</html>
