@@ -22,216 +22,195 @@
 
 /* ================= SETTINGS PAGE ================= */
 .settings-grid {
-    width: 100%;
-    max-width: 800px;
-    height: 600px;
-    margin: 20px auto;
-
-    display: flex;
-    flex-direction: column;
-
-    border-radius: 12px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	width: 100%;
+	max-width: 800px;
+	margin: 20px auto;
+	display: flex;
+	flex-direction: column;
+	border-radius: 12px;
+	overflow: hidden;
+	background: #fff;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	height: 100vh;
 }
 
 /* ================= HEADER ================= */
-
 .chat-header {
-    background: #2563eb;
-    color: white;
-    padding: 18px 22px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    flex-shrink: 0;
+	background: #2563eb;
+	color: white;
+	padding: 18px 22px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-shrink: 0;
 }
 
 .teacher-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
 }
 
 .teacher-img img {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    object-fit: cover;
+	width: 55px;
+	height: 55px;
+	border-radius: 50%;
+	object-fit: cover;
 }
 
 .teacher-info h3 {
-    font-size: 18px;
-    margin-bottom: 3px;
+	font-size: 18px;
+	margin-bottom: 3px;
 }
 
 .teacher-info span {
-    font-size: 13px;
-    opacity: .9;
+	font-size: 13px;
+	opacity: .9;
 }
 
 .back-btn {
-    width: 42px;
-    height: 42px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255,255,255,.2);
-    color: white;
-    cursor: pointer;
-    transition: .3s;
+	width: 42px;
+	height: 42px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .2);
+	color: white;
+	cursor: pointer;
+	transition: .3s;
 }
 
 .back-btn:hover {
-    background: white;
-    color: #2563eb;
+	background: white;
+	color: #2563eb;
 }
 
 /* ================= CHAT BODY ================= */
-
 .chat-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 25px;
-    background: #f7f9fc;
+	flex: 1;
+	overflow-y: auto;
+	padding: 25px;
+	background: #f7f9fc;
 }
 
 /* ================= MESSAGE ================= */
-
 .message {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 18px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 18px;
 }
 
 .teacher {
-    align-items: flex-start;
+	align-items: flex-start;
 }
 
 .student {
-    align-items: flex-end;
+	align-items: flex-end;
 }
 
 .bubble {
-    max-width: 72%;
-    padding: 14px 18px;
-    border-radius: 18px;
-    line-height: 1.5;
-    font-size: 15px;
-    margin-bottom: 6px;
+	max-width: 72%;
+	padding: 14px 18px;
+	border-radius: 18px;
+	line-height: 1.5;
+	font-size: 15px;
+	margin-bottom: 6px;
 }
 
 .teacher .bubble {
-    background: white;
-    border: 1px solid #ddd;
-    border-top-left-radius: 5px;
+	background: white;
+	border: 1px solid #ddd;
+	border-top-left-radius: 5px;
 }
 
 .student .bubble {
-    background: #2563eb;
-    color: white;
-    border-top-right-radius: 5px;
+	background: #2563eb;
+	color: white;
+	border-top-right-radius: 5px;
 }
 
 .time {
-    font-size: 11px;
-    color: #888;
+	font-size: 11px;
+	color: #888;
 }
 
 /* ================= FOOTER ================= */
-
 .chat-footer {
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    gap: 15px;
-
-    padding: 18px;
-    background: white;
-    border-top: 1px solid #eee;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	padding: 18px;
+	background: white;
+	border-top: 1px solid #eee;
 }
 
 .chat-footer input {
-    flex: 1;
-    border: 1px solid #ddd;
-    outline: none;
-    border-radius: 30px;
-    padding: 14px 20px;
-    font-size: 15px;
+	flex: 1;
+	border: 1px solid #ddd;
+	outline: none;
+	border-radius: 30px;
+	padding: 14px 20px;
+	font-size: 15px;
 }
 
 .chat-footer input:focus {
-    border-color: #2563eb;
+	border-color: #2563eb;
 }
 
 .chat-footer button {
-    width: 55px;
-    height: 55px;
-
-    border: none;
-    border-radius: 50%;
-    background: #2563eb;
-    color: white;
-
-    cursor: pointer;
-    font-size: 18px;
-    transition: .3s;
+	width: 55px;
+	height: 55px;
+	border: none;
+	border-radius: 50%;
+	background: #2563eb;
+	color: white;
+	cursor: pointer;
+	font-size: 18px;
+	transition: .3s;
 }
 
 .chat-footer button:hover {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 /* ================= SCROLL ================= */
-
 .chat-body::-webkit-scrollbar {
-    width: 6px;
+	width: 6px;
 }
 
 .chat-body::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 10px;
+	background: #ccc;
+	border-radius: 10px;
 }
 
 /* ================= MOBILE ================= */
-
-@media (max-width:768px) {
-
-    .settings-grid {
-        width: 100%;
-        height: 100vh;
-        margin: 0;
-        border-radius: 0;
-    }
-
-    .chat-header {
-        padding: 15px;
-    }
-
-    .teacher-img img {
-        width: 45px;
-        height: 45px;
-    }
-
-    .teacher-info h3 {
-        font-size: 16px;
-    }
-
-    .bubble {
-        max-width: 90%;
-        font-size: 14px;
-    }
-
-    .chat-footer {
-        padding: 12px;
-    }
-
-    .chat-footer input {
-        font-size: 14px;
-    }
+@media ( max-width :768px) {
+	.settings-grid {
+		width: 100%;
+		
+		margin: 0;
+		border-radius: 0;
+	}
+	.chat-header {
+		padding: 15px;
+	}
+	.teacher-img img {
+		width: 45px;
+		height: 45px;
+	}
+	.teacher-info h3 {
+		font-size: 16px;
+	}
+	.bubble {
+		max-width: 90%;
+		font-size: 14px;
+	}
+	.chat-footer {
+		padding: 12px;
+	}
+	.chat-footer input {
+		font-size: 14px;
+	}
 }
 </style>
 
@@ -240,101 +219,325 @@
 
 <body>
 
-					<!-- Settings Grid -->
-					<div class="settings-grid">
+	<!-- Settings Grid -->
+	<div class="settings-grid">
 
-						<!-- Header -->
-						<div class="chat-header">
+		<!-- Header -->
+		<div class="chat-header">
 
-							<div class="teacher-info">
+			<div class="teacher-info">
 
-								<div class="teacher-img">
-									<img src="https://i.pravatar.cc/150?img=12">
-								</div>
+				<div class="teacher-img">
+					<img src="https://i.pravatar.cc/150?img=12">
+				</div>
 
-								<div>
-									<h3>Mrs. Priya Sharma</h3>
-									<span>Mathematics Teacher</span>
-								</div>
+				<div>
+					<h3>Mrs. Priya Sharma</h3>
+					<span>Mathematics Teacher</span>
+				</div>
 
-							</div>
+			</div>
 
-							<button class="back-btn" onclick="history.back()">
-								<i class="fa-solid fa-arrow-left"></i>
-							</button>
+			<button class="back-btn" onclick="history.back()">
+				<i class="fa-solid fa-arrow-left"></i>
+			</button>
 
-						</div>
+		</div>
 
-						<!-- Chat Body -->
+		<!-- Chat Body -->
 
-						<div class="chat-body">
+		<div class="chat-body" id="chatBody"></div>
 
-							<div class="message teacher">
+		<div class="chat-footer">
+			<input type="text" id="messageInput"
+				placeholder="Type your message...">
 
-								<div class="bubble">
-									Hello Rahul 👋<br> Did you complete today's assignment?
-								</div>
-
-								<span class="time">10:15 AM</span>
-
-							</div>
-
-							<div class="message student">
-
-								<div class="bubble">Yes Ma'am, I completed it yesterday.</div>
-
-								<span class="time">10:16 AM</span>
-
-							</div>
-
-							<div class="message teacher">
-
-								<div class="bubble">Great 👍 Please upload it before
-									evening.</div>
-
-								<span class="time">10:17 AM</span>
-
-							</div>
-
-							<div class="message student">
-
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								<div class="bubble">Sure Ma'am.</div>
-								
-								<div class="bubble">Sure Ma'am.</div>
-
-								<span class="time">10:18 AM</span>
-
-							</div>
-
-						</div>
-
-						<!-- Footer -->
-
-						<div class="chat-footer">
-
-							<input type="text" placeholder="Type your message...">
-
-							<button>
-								<i class="fa-solid fa-paper-plane"></i>
-							</button>
-
-						</div>
+			<button id="sendBtn">
+				<i class="fa-solid fa-paper-plane"></i>
+			</button>
+		</div>
 
 
-					</div>
+	</div>
 
 
-	<script th:src="@{/student_js/index.js}"></script>
+	<script>
 
+	const WS_URL = "ws://" + window.location.host + "/ws/chat";
+
+let socket;
+let db;
+
+const conversationId = "teacher_101";
+
+const DB_NAME = "ChatDB";
+const DB_VERSION = 1;
+const STORE_NAME = "messages";
+
+const chatBody = document.getElementById("chatBody");
+const sendBtn = document.getElementById("sendBtn");
+const input = document.getElementById("messageInput");
+
+/* ==========================
+   DISPLAY MESSAGE
+========================== */
+
+function displayMessage(chatMessage) {
+
+    const message = document.createElement("div");
+
+    message.className = `message ${chatMessage.sender}`;
+
+    const bubble = document.createElement("div");
+
+    bubble.className = "bubble";
+
+    bubble.textContent = chatMessage.message;
+
+    const time = document.createElement("span");
+
+    time.className = "time";
+
+    time.textContent =
+        new Date(chatMessage.timestamp)
+        .toLocaleTimeString([],{
+            hour:"2-digit",
+            minute:"2-digit"
+        });
+
+    if(chatMessage.sender === "student"){
+
+        const status = document.createElement("span");
+
+        status.className = "status";
+        switch(chatMessage.status){
+
+            case "SENDING":
+                status.innerHTML=" ⏳";
+                break;
+
+            case "SENT":
+                status.innerHTML=" ✓";
+                break;
+
+            case "DELIVERED":
+                status.innerHTML=" ✓✓";
+                break;
+
+            case "READ":
+                status.innerHTML=" ✓✓";
+                status.style.color="#2196F3";
+                break;
+        }
+        time.appendChild(status);
+    }
+    message.appendChild(bubble);
+    message.appendChild(time);
+    chatBody.appendChild(message);
+    chatBody.scrollTop =
+        chatBody.scrollHeight;
+
+}
+window.displayMessage = displayMessage;
+/* ==========================
+   WEBSOCKET
+========================== */
+function connectWebSocket(){
+    socket = new WebSocket(WS_URL);
+    socket.onopen=function(){
+
+        console.log(
+            "✅ Connected to WebSocket Server"
+        );
+
+    };
+    socket.onmessage=function(event){
+        const chatMessage =
+            JSON.parse(event.data);
+        console.log(
+            "Received:",
+            chatMessage
+        );
+        saveMessage(chatMessage);
+        displayMessage(chatMessage);
+    };
+    socket.onclose=function(){
+        console.log(
+            "❌ WebSocket Closed"
+        );
+        setTimeout(
+            connectWebSocket,
+            3000
+        );
+    };
+    socket.onerror=function(error){
+
+        console.error(
+            "WebSocket Error",
+            error
+        );
+    };
+}
+function sendMessage(sender,message){
+    if(!socket ||
+       socket.readyState !== WebSocket.OPEN){
+
+        console.log(
+            "Socket not connected"
+        );
+        return;
+    }
+    const chatMessage={
+
+       // id:crypto.randomUUID(),
+        
+       // id: Date.now().toString(),
+       
+      id: Date.now() + "-" + Math.random().toString(36).substring(2, 10),
+
+        conversationId:
+            conversationId,
+
+        sender:
+            sender,
+
+        message:
+            message,
+
+        timestamp:
+            Date.now(),
+
+        status:
+            "SENT"
+    };
+    socket.send(
+        JSON.stringify(chatMessage)
+    );
+}
+/* ==========================
+   INDEXED DB
+========================== */
+
+function openDatabase(){
+    const request =
+        indexedDB.open(
+            DB_NAME,
+            DB_VERSION
+        );
+    request.onupgradeneeded=function(event){
+        db =
+        event.target.result;
+        if(!db.objectStoreNames.contains(STORE_NAME)){
+            db.createObjectStore(
+                STORE_NAME,
+                {
+                    keyPath:"id"
+                }
+            );
+        }
+    };
+    request.onsuccess=function(event){
+        db =
+        event.target.result;
+        console.log(
+            "IndexedDB Connected"
+        );
+        loadMessages();
+        // Start websocket after DB ready
+        connectWebSocket();
+    };
+    request.onerror=function(event){
+        console.error(
+            "IndexedDB Error",
+            event.target.error
+        );
+    };
+}
+
+function saveMessage(chatMessage){
+    if(!db){
+
+        console.log(
+            "DB not ready"
+        );
+
+        return;
+    }
+    const transaction =
+        db.transaction(
+            STORE_NAME,
+            "readwrite"
+        );
+    const store =
+        transaction.objectStore(
+            STORE_NAME
+        );
+    store.put(chatMessage);
+}
+function loadMessages(){
+	
+    chatBody.innerHTML="";
+    const transaction =
+        db.transaction(
+            STORE_NAME,
+            "readonly"
+        );
+    const store =
+        transaction.objectStore(
+            STORE_NAME
+        );
+    const request =
+        store.getAll();
+    request.onsuccess=function(){
+        request.result
+
+        .filter(msg =>
+            msg.conversationId === conversationId
+        )
+        .sort((a,b)=>
+            a.timestamp-b.timestamp
+        )
+        .forEach(displayMessage);
+    };
+}
+
+/* ==========================
+   SEND BUTTON
+========================== */
+sendBtn.addEventListener("click",sendCurrentMessage);
+
+input.addEventListener(
+"keypress",
+function(e){
+
+    if(e.key==="Enter"){
+
+        sendCurrentMessage();
+
+    }
+
+});
+
+function sendCurrentMessage(){
+
+	console.log("sendMessage called");
+    const text =
+        input.value.trim();
+
+    if(text==="")
+        return;
+
+    sendMessage(
+        "student",
+        text
+    );
+
+    input.value="";
+
+}
+
+openDatabase();
+</script>
 </body>
 
 </html>
