@@ -1,20 +1,22 @@
 <div th:fragment="timetable">
 
-	<form th:action ="@{/teacher/save-time-table}" method = "post">
-	
-	<div class="main-area">
+	<form th:action="@{/teacher/save-time-table}" method="post"
+		th:if="${#lists.isEmpty(timetable)}">
 
-		<div class="top-header">
-			<div>
-				<h2>Create Timetable</h2>
-				<p>Configure timetable for all classes</p>
+		<div class="main-area">
+
+			<div class="top-header">
+				<div>
+					<h2>Create Timetable</h2>
+					<p>Configure timetable for all classes</p>
+				</div>
 			</div>
-		</div>
 
-		<div class="glass-card">
+			<div class="glass-card">
 
-			<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
-<!-- 
+				<div
+					style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+					<!-- 
 				<div>
 					<label>Number of Classes</label><br> <select id="classCount">
 						<option value="">Select</option>
@@ -33,35 +35,80 @@
 					</select>
 				</div>
  -->
-				<div>
-					<label>Periods Per Day</label><br> <input type="number"
-						id="periodCount" min="1" max="12" value="8">
-				</div>
+					<div>
+						<label>Periods Per Day</label><br> <input type="number"
+							id="periodCount" min="1" max="12" value="8">
+					</div>
 
-				<div>
-					<label>Days</label><br> <select id="dayCount">
-						<option value="5">Monday-Friday</option>
-						<option value="6" selected>Monday-Saturday</option>
-						<option value="7">Monday-Sunday</option>
-					</select>
+					<div>
+						<label>Days</label><br> <select id="dayCount">
+							<option value="5">Monday-Friday</option>
+							<option value="6" selected>Monday-Saturday</option>
+							<option value="7">Monday-Sunday</option>
+						</select>
 
-				</div>
+					</div>
 
-				<div style="align-self: end;">
-					<button class="btn-primary" type = "button" onclick="generate()">Generate</button>
-				</div>
-				
-				<div style="align-self: end;">
-					<button class="btn-primary" type = "submit">Save & Post</button>
+					<div style="align-self: end;">
+						<button class="btn-primary" type="button" onclick="generate()">Generate</button>
+					</div>
+
+					<div style="align-self: end;">
+						<button class="btn-primary" type="submit">Save & Post</button>
+					</div>
+
 				</div>
 
 			</div>
 
+			<br> <input value="math" type="hidden" name="ect">
+
+			<div id="result"></div>
+	</form>
+
+
+	<div class="dashboard-content" th:if="${!#lists.isEmpty(timetable)}">
+
+		<!-- Header -->
+		<div class="page-header">
+			<h1>Weekly Timetable 📅</h1>
+			<p>Your class schedule overview</p>
 		</div>
 
-		<br>
-		<input value = "math" type = "hidden" name = "ect">
+		<!-- Timetable Card -->
+		<div class="timetable-card">
 
-		<div id="result"></div>
-	</form>
+			<table class="custom-timetable" th:if="${!#lists.isEmpty(timetable)}">
+				<thead>
+					<tr>
+						<th class="time">Days</th>
+						<th class="time" th:each="rd,c : ${timetable[1].periods}"
+							th:text="'P'+${c.index+1}">Time</th>
+					</tr>
+				</thead>
+
+				<tbody>
+
+					<tr th:each="table, c : ${timetable}">
+
+						<td class="time break" th:text="${table.day}"></td>
+						<td th:each="sub : ${table.periods}"><span
+							th:if="${sub.startTime}"
+							th:text="${sub.startTime}+' - '+${sub.endTime}"></span><br>
+							<h4 th:text="${sub.subject}"
+								th:class="${sub.subject} == 'Break' ? 'break-cell' : 'time'"></h4>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<form id = "deleteTimetable" th:action="@{/teacher/time-table/delete}" method="post"
+			onsubmit="return deleteTimetable(event)">
+			<div style="align-self: end;">
+				<button class="btn-primary">Delete This
+					Timetable & Create New</button>
+			</div>
+		</form>
 	</div>
+</div>

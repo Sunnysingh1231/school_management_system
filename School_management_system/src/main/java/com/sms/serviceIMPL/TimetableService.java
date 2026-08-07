@@ -12,10 +12,13 @@ import com.sms.model.Period;
 import com.sms.model.Timetable;
 import com.sms.repository.PeriodRepository;
 import com.sms.repository.TimeTableRepository;
-import com.sms.serviceInterface.TimetableInterface;
+import com.sms.serviceInterface.TimetableServiceInterface;
+
+import jakarta.transaction.Transactional;
+
 
 @Service
-public class TimetableService implements TimetableInterface{
+public class TimetableService implements TimetableServiceInterface{
 	
 	@Autowired
 	private TimeTableRepository timeTableRepository;
@@ -64,6 +67,14 @@ public class TimetableService implements TimetableInterface{
 	@Override
 	public List<Timetable> findTimeTableOfClass(int clsId){
 		return timeTableRepository.findAllByClassEntityId(clsId);
+	}
+
+	@Override
+	public void deleteTimetable(int id) {
+		
+		List<Timetable> timetables = timeTableRepository.findAllByClassEntityId(id);
+		
+		timeTableRepository.deleteAll(timetables);
 	}
 		
 	

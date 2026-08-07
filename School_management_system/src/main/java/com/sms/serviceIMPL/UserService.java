@@ -173,14 +173,17 @@ public class UserService implements UserServiceInterface{
 	public void addStudent(Student student,String role,String classname,String sec) {
 		
 		
-		student.setAdmissionDate(LocalDate.now());
-		student.setPassword(passwordEncoder.encode(student.getPassword()));
-		student.setSchool(getCurrentUser().getSchool());
-		student.setUser(getCurrentUser());
-		student.setRole(roleRepository.findByName(role));
-		student.setClassEntity(classRepository.findByClassNameAndSectionAndSchoolId(classname,sec,getCurrentUser().getSchool().getId()));
+//		student.setAdmissionDate(LocalDate.now());
+//		student.setPassword(passwordEncoder.encode(student.getPassword()));
+//		student.setSchool(getCurrentUser().getSchool());
+//		student.setUser(getCurrentUser());
+//		student.setRole(roleRepository.findByName(role));
+//		student.setClassEntity(classRepository.findByClassNameAndSectionAndSchoolId(classname,sec,getCurrentUser().getSchool().getId()));
 				
-		studentRepository.save(student);
+//		studentRepository.save(student);
+		
+//		System.out.println(student.getId());
+		System.out.println(student.getName());
 		
 	}
 

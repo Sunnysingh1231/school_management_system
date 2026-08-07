@@ -29,9 +29,10 @@ import com.sms.model.Period;
 import com.sms.model.Student;
 import com.sms.model.Teacher;
 import com.sms.model.Timetable;
+import com.sms.repository.TimeTableRepository;
 import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
-import com.sms.serviceInterface.TimetableInterface;
+import com.sms.serviceInterface.TimetableServiceInterface;
 import com.sms.serviceInterface.UserServiceInterface;
 import com.twilio.rest.assistants.v1.Session;
 
@@ -49,7 +50,10 @@ public class TeacherController {
 	private StudentServiceInterface studentServiceInterface;
 	
 	@Autowired
-	private TimetableInterface timetableInterface;
+	private TimetableServiceInterface timetableServiceInterface;
+	
+	@Autowired
+	private TimeTableRepository timeTableRepository;
 	
 
 //	GET MAPPING------------------------------------------------------------------------
@@ -100,13 +104,13 @@ public class TeacherController {
 	
 	@GetMapping("/test")
 	@ResponseBody
-	public List<ClassEntity> test() {
+	public Timetable test() {
 		
-		for(ClassEntity c : teacherServiceInterface.findAllClassByTeacher()) {
-			System.out.println(c.getSection());
-		}
+//		for(ClassEntity c : teacherServiceInterface.findAllClassByTeacher()) {
+//			System.out.println(c.getSection());
+//		}
 		
-		return teacherServiceInterface.findAllClassByTeacher();
+		return timeTableRepository.findById(58).get();
 	}
 	
 	@GetMapping("/students")
@@ -284,7 +288,8 @@ public class TeacherController {
 		
 		Integer cls = (Integer) session.getAttribute("clsId");
 		
-		
+		List<Timetable> timetables = timetableServiceInterface.findTimeTableOfClass(cls);
+		model.addAttribute("timetable", timetables);
 		
 		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
 	        return "teacher/time_table :: timetable"; // fragment
@@ -299,7 +304,7 @@ public class TeacherController {
 		
 		Integer cls = (Integer) session.getAttribute("clsId");
 		
-		return timetableInterface.findAlltimetable(cls);
+		return timetableServiceInterface.findAlltimetable(cls);
 	}
 	
 //	@GetMapping("/k")
@@ -406,7 +411,16 @@ public class TeacherController {
 		Integer cls = (Integer) session.getAttribute("clsId");
 		ClassEntity ce = teacherServiceInterface.findClassByClassId(cls).get();
 		
-		timetableInterface.saveTimrTable(st, et, subject, days, periods, ce);
+		timetableServiceInterface.saveTimrTable(st, et, subject, days, periods, ce);
+		return "redirect:/teacher";
+	}
+	
+	@PostMapping("/time-table/delete")
+	public String deleteTimetable(HttpSession session) {
+		
+		Integer cls = (Integer) session.getAttribute("clsId");
+		timetableServiceInterface.deleteTimetable(cls);
+		
 		return "redirect:/teacher";
 	}
 }

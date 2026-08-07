@@ -345,8 +345,30 @@ function generate(){
 
         </div>
         `;
-
     }
 
     document.getElementById("result").innerHTML=html;
+}
+
+//	DELETE TIMETABLE PERMANENTALLY----------------------------------------------------------------------------
+function deleteTimetable(event) {
+
+	event.preventDefault();
+
+	    Swal.fire({
+	        title: "Delete Timetable?",
+	        text: "Are you Sure to want Delete this Timetable Permanentally ?",
+	        icon: "question",
+	        showCancelButton: true,
+	        confirmButtonText: "Yes, Delete",
+	        cancelButtonText: "Cancel"
+	    }).then((result) => {
+
+	        if (result.isConfirmed) {
+	            document.getElementById("deleteTimetable").submit();
+	        }
+
+	    });
+
+	    return false;
 }
