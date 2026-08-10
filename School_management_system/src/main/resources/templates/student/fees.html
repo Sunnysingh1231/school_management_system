@@ -2,120 +2,118 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Dashboard - School Management System</title>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	<title>Student Dashboard - School Management System</title>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Google Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-	rel="stylesheet">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+		rel="stylesheet">
 
-<!-- Font Awesome Icons -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<!-- Font Awesome Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- External CSS -->
-<link rel="stylesheet" th:href="@{/student/dashboard.css}">
+	<!-- External CSS -->
+	<link rel="stylesheet" th:href="@{/student/dashboard.css}">
 
-<style>
-/* ================= ASSIGNMENT PAGE ================= */
+	<style>
+		/* ================= FEES PAGE ================= */
+		.fees-status-card {
+			background: var(--bg-secondary);
+			padding: 20px;
+			border-radius: 12px;
+			margin-bottom: 30px;
+			box-shadow: var(--shadow-md);
+		}
 
-/* ================= FEES PAGE ================= */
-.fees-status-card {
-	background: var(--bg-secondary);
-	padding: 20px;
-	border-radius: 12px;
-	margin-bottom: 30px;
-	box-shadow: var(--shadow-md);
-}
+		/* Table */
+		.fees-table-container {
+			background: var(--bg-secondary);
+			padding: 20px;
+			border-radius: 12px;
+			box-shadow: var(--shadow-md);
+			overflow-x: auto;
+		}
 
-/* Table */
-.fees-table-container {
-	background: var(--bg-secondary);
-	padding: 20px;
-	border-radius: 12px;
-	box-shadow: var(--shadow-md);
-	overflow-x: auto;
-}
+		.fees-table {
+			width: 100%;
+			border-collapse: collapse;
+		}
 
-.fees-table {
-	width: 100%;
-	border-collapse: collapse;
-}
+		.fees-table th {
+			text-align: left;
+			padding: 12px;
+			background: var(--bg-primary);
+		}
 
-.fees-table th {
-	text-align: left;
-	padding: 12px;
-	background: var(--bg-primary);
-}
+		.fees-table td {
+			padding: 12px;
+			border-bottom: 1px solid var(--border-color);
+		}
 
-.fees-table td {
-	padding: 12px;
-	border-bottom: 1px solid var(--border-color);
-}
+		.fees-table tr:hover {
+			background: var(--bg-primary);
+		}
 
-.fees-table tr:hover {
-	background: var(--bg-primary);
-}
+		/* Status */
+		.paid {
+			color: var(--success-color);
+			font-weight: 600;
+		}
 
-/* Status */
-.paid {
-	color: var(--success-color);
-	font-weight: 600;
-}
+		.pending {
+			color: var(--warning-color);
+			font-weight: 600;
+		}
 
-.pending {
-	color: var(--warning-color);
-	font-weight: 600;
-}
+		/* Pay Button */
+		.pay-btn-container {
+			margin-top: 20px;
+			text-align: right;
+		}
 
-/* Pay Button */
-.pay-btn-container {
-	margin-top: 20px;
-	text-align: right;
-}
+		.pay-btn {
+			background: linear-gradient(135deg, var(--primary-color),
+					var(--secondary-color));
+			color: white;
+			padding: 12px 20px;
+			border: none;
+			border-radius: 8px;
+			font-size: 14px;
+			cursor: pointer;
+		}
 
-.pay-btn {
-	background: linear-gradient(135deg, var(--primary-color),
-		var(--secondary-color));
-	color: white;
-	padding: 12px 20px;
-	border: none;
-	border-radius: 8px;
-	font-size: 14px;
-	cursor: pointer;
-}
+		.pay-btn:hover {
+			opacity: 0.9;
+		}
 
-.pay-btn:hover {
-	opacity: 0.9;
-}
+		.badge {
+			background: #10b981;
+			color: white;
+			padding: 2px 10px;
+			border-radius: 20px;
+			font-size: 0.7rem;
+			font-weight: bold;
+		}
 
-.badge {
-	background: #10b981;
-	color: white;
-	padding: 2px 10px;
-	border-radius: 20px;
-	font-size: 0.7rem;
-	font-weight: bold;
-}
+		.glass-card a {
+			height: 35px;
+			background: #3a10b9;
+			color: white;
+			padding: 2px 10px;
+			border-radius: 20px;
+			font-size: 1rem;
+			display: flex;
+			align-items: center;
+		}
 
-.glass-card a {
-	height: 35px;
-	background: #3a10b9;
-	color: white;
-	padding: 2px 10px;
-	border-radius: 20px;
-	font-size: 1rem;
-	display: flex;
-	align-items: center;
-}
-
-.badge.red {
-	background: #ef4444;
-}
-</style>
+		.badge.red {
+			background: #ef4444;
+		}
+	</style>
 
 
 </head>
@@ -175,8 +173,7 @@
 						<h3>Payment Progress</h3>
 
 						<div class="progress-bar">
-							<div class="progress-fill"
-								th:style="'width:' + ${(paid*100/(pending+paid))} + '%'"></div>
+							<div class="progress-fill" th:style="'width:' + ${(paid*100/(pending+paid))} + '%'"></div>
 						</div>
 
 						<p th:text="${(paid*100/(pending+paid))}+'% Paid'">70% Paid</p>
@@ -184,8 +181,8 @@
 
 					<!-- Fees Table -->
 					<div class="fees-table-container">
-						<form id="feeForm" th:action="@{/teacher/student/fees/payment}"
-							method="post" onsubmit="return validateFeeForm(event)">
+						<form id="feeForm" th:action="@{/student/create_payment}" method="post"
+							onsubmit="return validateFeeForm(event)">
 
 							<input type="hidden" name="studentId" th:value="${student.id}">
 
@@ -212,22 +209,20 @@
 											<td>₹<span th:text="${fee.amount}"></span></td>
 
 											<!-- Status -->
-											<td><span
-												th:class="${fee.status == 'PAID'} ? 'badge' : 'badge red'"
-												th:text="${fee.status}"> </span></td>
+											<td><span th:class="${fee.status == 'PAID'} ? 'badge' : 'badge red'"
+													th:text="${fee.status}"> </span></td>
 
 											<!-- Checkbox -->
-											<td style="text-align: right;"><input type="checkbox"
-												class="fee-check" name="feeIds" value="${fee.month}"
-												th:data-amount="${fee.amount}"
-												th:disabled="${fee.status == 'PAID'}"
-												onchange="updateTotal()"></td>
+											<td style="text-align: right;"><input type="checkbox" class="fee-check"
+													name="feeIds" value="${fee.month}" th:data-amount="${fee.amount}"
+													th:disabled="${fee.status == 'PAID'}" onchange="updateTotal()"></td>
 
 										</tr>
 									</tbody>
 								</table>
 								<h3>
 									Total Pay: ₹<span id="total">0</span>
+									<input id="hidd" type='hidden' name="amount">
 								</h3>
 								<!-- Total Section -->
 								<div
@@ -235,8 +230,7 @@
 
 
 
-									<div style="display: flex; gap: 10px; margin:auto;"
-										class="profile-bottom-actions">
+									<div style="display: flex; gap: 10px; margin:auto;" class="profile-bottom-actions">
 										<button type="button" class="pay-btn" onclick="selectAll()">Select
 											All</button>
 										<button type="submit" class="pay-btn">
@@ -251,6 +245,7 @@
 			</div>
 
 		</div>
+		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 		<script th:src="@{/student_js/index.js}"></script>
 		<script>
 			function updateTotal() {
@@ -258,29 +253,29 @@
 				let total = 0;
 
 				document.querySelectorAll('.fee-check:checked').forEach(
-						function(checkbox) {
+					function (checkbox) {
 
-							total += parseFloat(checkbox.dataset.amount);
-						});
+						total += parseFloat(checkbox.dataset.amount);
+					});
 
 				document.getElementById('total').textContent = total.toFixed(2);
-
+				document.getElementById('hidd').value = total.toFixed(2);
 			}
 
 			function selectAll() {
 
 				// Get only enabled checkboxes
 				const checkboxes = document
-						.querySelectorAll('.fee-check:not(:disabled)');
+					.querySelectorAll('.fee-check:not(:disabled)');
 
 				// Check if all enabled checkboxes are already selected
 				const allSelected = Array.from(checkboxes).every(
-						function(checkbox) {
-							return checkbox.checked;
-						});
+					function (checkbox) {
+						return checkbox.checked;
+					});
 
 				// Toggle only enabled checkboxes
-				checkboxes.forEach(function(checkbox) {
+				checkboxes.forEach(function (checkbox) {
 					checkbox.checked = !allSelected;
 				});
 
@@ -293,32 +288,99 @@
 				event.preventDefault();
 
 				const checked = document.querySelectorAll(".fee-check:checked");
-
+				const am = document.getElementById("hidd").value;
 				if (checked.length === 0) {
 
 					Swal.fire({
-						icon : "warning",
-						title : "No Month Selected",
-						text : "Please select at least one month."
+						icon: "warning",
+						title: "No Month Selected",
+						text: "Please select at least one month."
 					});
 
 					return false;
 				}
 				Swal
-						.fire({
-							title : "Payment Unavailable",
-							text : "We're sorry, but no payment gateway has been integrated yet. Please contact the class teacher.",
-							icon : "error",
-							confirmButtonText : "OK"
+					.fire({
+						title: "Payment Unavailable",
+						text: "We're sorry, but no payment gateway has been integrated yet. Please contact the class teacher.",
+						icon: "error",
+						confirmButtonText: "OK"
 						// cancelButtonText: "Cancel"
-						})
-				//.then((result) => {
+					})
+					.then((result) => {
 
-				//   if (result.isConfirmed) {
-				//       document.getElementById("feeForm").submit();
-				//   }
+						if (result.isConfirmed) {
+							// document.getElementById("feeForm").submit();
 
-				//});
+							const csrfToken = document
+								.querySelector('meta[name="_csrf"]')
+								.getAttribute("content");
+
+							const csrfHeader = document
+								.querySelector('meta[name="_csrf_header"]')
+								.getAttribute("content");
+
+							console.log("CSRF header:", csrfHeader);
+							console.log("CSRF token exists:", !!csrfToken);
+
+							fetch("/student/create_payment?amount=" + encodeURIComponent(am), {
+								method: "POST",
+								headers: {
+									[csrfHeader]: csrfToken
+								}
+							})
+								.then(response => {
+
+									if (!response.ok) {
+										throw new Error("HTTP error: " + response.status);
+									}
+
+									return response.json();   // convert Response to JSON
+								})
+								.then(order => {
+
+									console.log("Razorpay Order:", order);
+									console.log("Order ID:", order.id);
+
+									if (order.status == "created") {
+										let options = {
+											key: "rzp_test_TNFyzLHnJPSzBm",
+											amount: order.amount,
+											currency: order.currency,
+											name: "Student Management System",
+											description: "Fee Payment",
+											order_id: order.id,
+											handler: function (response) {
+
+												console.log("Payment ID:",
+													response.razorpay_payment_id);
+
+												console.log("Order ID:",
+													response.razorpay_order_id);
+
+												console.log("Signature:",
+													response.razorpay_signature);
+												console.log("Payment successful");
+												console.log(response);
+											},
+											modal: {
+												ondismiss: function () {
+													console.log("Payment popup closed");
+												}
+											}
+										}
+										var razorpay = new Razorpay(options);
+										razorpay.open();
+									}
+
+
+								})
+								.catch(error => {
+									console.error("Payment error:", error);
+								});
+						}
+
+					});
 
 				return false;
 

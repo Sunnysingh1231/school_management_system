@@ -1,5 +1,9 @@
 package com.sms.controller;
 
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -10,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -38,10 +43,13 @@ import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.experimental.var;
 @Controller
 @RequestMapping("student")
 public class StudentController {
 	
+	private final RazorpayClient razorpayClient;
+
 	@Autowired
 	private StudentServiceInterface studentServiceInterface;
 	
@@ -53,18 +61,17 @@ public class StudentController {
 	
 	@Autowired
 	private TimeTableRepository timeTableRepository;
-	
-	@GetMapping("/test")
-	@ResponseBody
-	public String test() {
-		
-		Student s1 = studentServiceInterface.getCurrentStudent();
-		
-		String month = LocalDate.now()
-		        .getMonth()
-		        .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-		return month;
+
+	StudentController(RazorpayClient razorpayClient) {
+		this.razorpayClient = razorpayClient;
 	}
+	
+//	@GetMapping("/test")
+//	@ResponseBody
+//	public String test() {
+//		
+//		
+//	}
 	
 	@GetMapping
 	public String dashboard(Model model, HttpServletRequest request) {
@@ -72,9 +79,8 @@ public class StudentController {
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		
 		List<Attendence> attendences = studentServiceInterface.findAttendenceByStudentId(s1.getId());
-		
 		boolean currentFee = studentServiceInterface.findCurrentMongthStudentFeeStatus(s1.getId());
-		
+
 		int count = attendences.size() == 0 ? 1 : attendences.size();
 		int abs = 0;
 		
@@ -92,7 +98,7 @@ public class StudentController {
 		
 		int tAssignments = studentServiceInterface.findAllStudentAssignment(s1).size();
 		List<Assignment> assignments = studentServiceInterface.findTop3AssignByClsId(s1.getClassEntity().getId());
-				
+
 		List<StudentAssignment> sAssignments = studentServiceInterface.findStdAssignBtStdId(s1.getId());
 		List<StudentAssignment> nAssignments = new ArrayList<>();
 		Short pa = (short) (tAssignments-sAssignments.size());
@@ -122,10 +128,6 @@ public class StudentController {
 		
 		
 		List<NotificationReceiver> n = studentServiceInterface.top3notification(s1);
-		
-		for(NotificationReceiver ee : n) {
-			System.out.println(ee.getId());
-		}
 		
 		model.addAttribute("top3notification", n);
 		
@@ -281,7 +283,8 @@ public class StudentController {
 	
 	@GetMapping("/chat")
 	public String chat(Model model) {
-		
+		Student s1 = studentServiceInterface.getCurrentStudent();
+		model.addAttribute("user", s1);
 		return "/student/chat";
 		
 	}
@@ -371,11 +374,28 @@ public class StudentController {
 	@PostMapping("/read-notice")
 	public String readNotice(@RequestParam int noticeId) {
 				
-		studentServiceInterface.readNotice(noticeId);
-		
-		System.out.println("All fine...");
-		
+		studentServiceInterface.readNotice(noticeId);		
 				
 		return "redirect:/student/notice";
 	}
+	@PostMapping("/create_payment")
+	@ResponseBody
+	public String createPayment(@RequestParam String amount) throws RazorpayException {		
+				
+		int a = new BigDecimal(amount).intValueExact();
+		RazorpayClient  clint = new RazorpayClient("rzp_test_TNFyzLHnJPSzBm","empXQsRWScYliUlnC7yB9ACd");
+		
+		JSONObject request = new JSONObject();
+        request.put("amount", a*100);
+        request.put("currency", "INR");
+        request.put("receipt", "SMS_put");
+
+        Order razorpayOrder = clint.orders.create(request);
+		
+        System.out.println(razorpayOrder);
+		
+		return razorpayOrder.toString();
+		
+	}
+	
 }

@@ -13,7 +13,8 @@ public class ChatMessage {
 
     private String id;
     private String conversationId;
-    private String sender;
+    private String role;
+    private String senderId;
     private String message;
     private long timestamp;
     private String status;

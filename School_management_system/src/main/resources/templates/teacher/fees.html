@@ -30,14 +30,13 @@
 
 			<tbody>
 				<tr th:each="student, count: ${students}">
-					<td th:text="${count.index+1}">2</td>
-					<td th:text="${student.name}">Anjali Verma</td>
-					<td th:text="${student.classEntity.className}">9-B</td>
-					<td th:text="${student.rollNumber}">12</td>
-					<td><span class="badge">Active</span></td>
-					<td><a
-						th:href="@{'/teacher/students/fees/pay/' + ${student.id}}"
-						onclick="loadPage(event, this.href)" class="action-btn view-btn">
+					<td th:text="${count.index+1}"></td>
+					<td th:text="${student.name}"></td>
+					<td th:text="${student.classEntity.className}"></td>
+					<td th:text="${student.rollNumber}"></td>
+					<td><span class="badge"></span></td>
+					<td><a th:href="@{'/teacher/students/fees/pay/' + ${student.id}}"
+							onclick="loadPage(event, this.href)" class="action-btn view-btn">
 							Pay </a>
 				</tr>
 			</tbody>

@@ -64,6 +64,7 @@ public class StudentService implements StudentServiceInterface {
 	}
 
 	public Student getCurrentStudent() {
+		
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		Student s1 = studentRepository.findByEmail(email);

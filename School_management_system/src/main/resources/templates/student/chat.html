@@ -252,7 +252,10 @@
 			<input type="text" id="messageInput"
 				placeholder="Type your message...">
 
-			<button id="sendBtn">
+			<button id="sendBtn"
+				th:data-user-id="${user.Id}"
+				th:data-user-role="${user.role.name}"
+			>
 				<i class="fa-solid fa-paper-plane"></i>
 			</button>
 		</div>
@@ -378,7 +381,10 @@ function connectWebSocket(){
         );
     };
 }
-function sendMessage(sender,message){
+function sendMessage(message){
+	
+	
+	
     if(!socket ||
        socket.readyState !== WebSocket.OPEN){
 
@@ -395,21 +401,18 @@ function sendMessage(sender,message){
        
       id: Date.now() + "-" + Math.random().toString(36).substring(2, 10),
 
-        conversationId:
-            conversationId,
+       conversationId: conversationId,
+       
+       role: sendBtn.dataset.userRole,
+            
+       senderId: Number(sendBtn.dataset.userId),
 
-        sender:
-            sender,
+        message: message,
 
-        message:
-            message,
+        timestamp: Date.now(),
 
-        timestamp:
-            Date.now(),
-
-        status:
-            "SENT"
-    };
+		status: "SENT"
+	};
     socket.send(
         JSON.stringify(chatMessage)
     );
@@ -506,9 +509,7 @@ function loadMessages(){
 ========================== */
 sendBtn.addEventListener("click",sendCurrentMessage);
 
-input.addEventListener(
-"keypress",
-function(e){
+input.addEventListener("keypress", function(e){
 
     if(e.key==="Enter"){
 
@@ -521,17 +522,10 @@ function(e){
 function sendCurrentMessage(){
 
 	console.log("sendMessage called");
-    const text =
-        input.value.trim();
-
+    const text = input.value.trim();
     if(text==="")
         return;
-
-    sendMessage(
-        "student",
-        text
-    );
-
+    sendMessage(text );
     input.value="";
 
 }

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment</title>
+    <link rel="stylesheet" th:href="@{/razorpay.css}">
+</head>
+
+<body>
+    <div class="page">
+        <div class="payment-card">
+
+            ```html
+            <div class="payment-header">
+                <div class="logo-circle">₹</div>
+
+                <div>
+                    <h1>Complete Payment</h1>
+                    <p>Secure one-time payment</p>
+                </div>
+            </div>
+
+            <div class="amount-box">
+                <span class="amount-label">Amount to Pay</span>
+
+                <div class="amount">
+                    ₹<span th:text="${amountRupees}">499</span>
+                </div>
+            </div>
+
+            <div class="methods">
+
+                <div class="method">
+                    <span class="method-icon">UPI</span>
+
+                    <div>
+                        <strong>UPI</strong>
+                        <small>UPI apps and supported UPI methods</small>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <span class="method-icon">CARD</span>
+
+                    <div>
+                        <strong>Credit / Debit Card</strong>
+                        <small>Supported card networks</small>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <span class="method-icon">BANK</span>
+
+                    <div>
+                        <strong>Net Banking</strong>
+                        <small>Pay using supported banks</small>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <span class="method-icon">•••</span>
+
+                    <div>
+                        <strong>More Options</strong>
+                        <small>Other payment methods enabled by Razorpay</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <button id="payButton" type="button">
+                Pay ₹<span th:text="${amountRupees}">499</span>
+            </button>
+
+            <p id="status" class="status"></p>
+
+            <div class="secure">
+                🔒 Securely processed by Razorpay
+            </div>
+            ```
+
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script th:inline="javascript">
+        const razorpayKeyId = /*[[${razorpayKeyId}]]*/ "";
+
+        const payButton = document.getElementById("payButton");
+        const statusBox = document.getElementById("status");
+
+        function status(message, type = "") {
+            statusBox.textContent = message;
+            statusBox.className = "status " + type;
+        }
+
+        payButton.addEventListener("click", async () => {
+            payButton.disabled = true;
+            status("Creating secure order...");
+
+            try {
+                const response = await fetch("/api/razorpay/create-order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const order = await response.json();
+
+                if (!response.ok || !order.success) {
+                    throw new Error(order.message || "Unable to create order.");
+                }
+
+                const options = {
+                    key: razorpayKeyId,
+                    amount: order.amount,
+                    currency: order.currency,
+                    name: "SMS Application",
+                    description: "One-time payment",
+                    order_id: order.orderId,
+
+                    /*
+                     * Razorpay Checkout displays available payment methods.
+                     * Depending on account/customer eligibility this can include:
+                     * UPI, cards, net banking, wallets and other enabled methods.
+                     */
+                    handler: async function (result) {
+                        status("Payment received. Verifying...");
+
+                        const verifyResponse = await fetch(
+                            "/api/razorpay/verify",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    internalOrderId: order.internalOrderId,
+                                    razorpayOrderId: result.razorpay_order_id,
+                                    razorpayPaymentId: result.razorpay_payment_id,
+                                    razorpaySignature: result.razorpay_signature
+                                })
+                            }
+                        );
+
+                        const verification = await verifyResponse.json();
+
+                        if (verifyResponse.ok && verification.success) {
+                            status(
+                                "Payment successful and verified.",
+                                "success"
+                            );
+
+                            // Example:
+                            // window.location.href =
+                            //     "/payment/success/" + order.internalOrderId;
+                        } else {
+                            status(
+                                verification.message ||
+                                "Payment verification failed.",
+                                "error"
+                            );
+                        }
+
+                        payButton.disabled = false;
+                    },
+
+                    modal: {
+                        ondismiss: function () {
+                            status("Payment window closed.");
+                            payButton.disabled = false;
+                        }
+                    },
+
+                    theme: {
+                        color: "#3399cc"
+                    }
+                };
+
+                const checkout = new Razorpay(options);
+
+                checkout.on("payment.failed", function (result) {
+                    console.error(result.error);
+                    status(
+                        result.error.description || "Payment failed.",
+                        "error"
+                    );
+                    payButton.disabled = false;
+                });
+
+                checkout.open();
+
+            } catch (error) {
+                console.error(error);
+                status(
+                    error.message || "Something went wrong.",
+                    "error"
+                );
+                payButton.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
