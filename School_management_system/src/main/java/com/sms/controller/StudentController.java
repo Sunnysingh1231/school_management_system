@@ -383,14 +383,15 @@ public class StudentController {
 	public String createPayment(@RequestParam String amount) throws RazorpayException {		
 				
 		int a = new BigDecimal(amount).intValueExact();
-		RazorpayClient  clint = new RazorpayClient("rzp_test_TNFyzLHnJPSzBm","empXQsRWScYliUlnC7yB9ACd");
+		
+		RazorpayClient  clint = new RazorpayClient("rzp_test_TPErYV1hRv1w5l","hwhVzaph532E9cy2hZABWqKR");
 		
 		JSONObject request = new JSONObject();
         request.put("amount", a*100);
         request.put("currency", "INR");
         request.put("receipt", "SMS_put");
 
-        Order razorpayOrder = clint.orders.create(request);
+        Order razorpayOrder = clint.Orders.create(request);
 		
         System.out.println(razorpayOrder);
 		

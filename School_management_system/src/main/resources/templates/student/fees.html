@@ -344,7 +344,7 @@
 
 									if (order.status == "created") {
 										let options = {
-											key: "rzp_test_TNFyzLHnJPSzBm",
+											key: "rzp_test_TPErYV1hRv1w5l",
 											amount: order.amount,
 											currency: order.currency,
 											name: "Student Management System",
@@ -352,16 +352,55 @@
 											order_id: order.id,
 											handler: function (response) {
 
-												console.log("Payment ID:",
-													response.razorpay_payment_id);
+											    console.log("Payment ID:", response.razorpay_payment_id);
+											    console.log("Order ID:", response.razorpay_order_id);
+											    console.log("Signature:", response.razorpay_signature);
 
-												console.log("Order ID:",
-													response.razorpay_order_id);
+											    fetch("/student/verify-payment", {
+											        method: "POST",
+											        headers: {
+											            "Content-Type": "application/json",
+											            [csrfHeader]: csrfToken
+											        },
+											        body: JSON.stringify({
+											            razorpayPaymentId: response.razorpay_payment_id,
+											            razorpayOrderId: response.razorpay_order_id,
+											            razorpaySignature: response.razorpay_signature
+											        })
+											    })
+											    .then(response => {
 
-												console.log("Signature:",
-													response.razorpay_signature);
-												console.log("Payment successful");
-												console.log(response);
+											        if (!response.ok) {
+											            throw new Error("Verification failed: " + response.status);
+											        }
+
+											        return response.json();
+											    })
+											    .then(result => {
+
+											        console.log("Backend response:", result);
+
+											        if (result.success) {
+
+											            alert("Payment successful!");
+
+											            // Ab page reload kar sakte ho
+											            location.reload();
+
+											        } else {
+
+											            alert("Payment verification failed!");
+
+											        }
+
+											    })
+											    .catch(error => {
+
+											        console.error("Verification error:", error);
+
+											        alert("Payment verification failed. Please contact admin.");
+
+											    });
 											},
 											modal: {
 												ondismiss: function () {
