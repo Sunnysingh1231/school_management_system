@@ -3,11 +3,14 @@ package com.sms.razorpay;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Utils;
+import com.sms.model.StudentFee;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,7 +21,10 @@ public class RazorpayPaymentService {
 //    private final RazorpayClient razorpayClient;
 //    private final PaymentRepository paymentRepository;
 //    private final String keyId;
-//    private final String keySecret;
+
+//	@Value("${razorpay.key.secret}")
+//    private String razorpayKeySecret;
+
 //    private final long fixedAmountPaise;
 //
 //    public RazorpayPaymentService(
@@ -75,42 +81,43 @@ public class RazorpayPaymentService {
 //        return response;
 //    }
 //
-//    @Transactional
-//    public boolean verify(VerifyPaymentRequest request) throws Exception {
-//
-//        Payment payment = paymentRepository
-//                .findByInternalOrderId(request.getInternalOrderId())
-//                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-//
-//        // Never trust the browser for which Razorpay order belongs to our order.
-//        if (!payment.getRazorpayOrderId().equals(request.getRazorpayOrderId())) {
-//            return false;
-//        }
-//
-//        if (!payment.getAmountPaise().equals(fixedAmountPaise) ||
-//                !"INR".equals(payment.getCurrency())) {
-//            return false;
-//        }
-//
-//        JSONObject attributes = new JSONObject();
-//        attributes.put("razorpay_order_id", request.getRazorpayOrderId());
-//        attributes.put("razorpay_payment_id", request.getRazorpayPaymentId());
-//        attributes.put("razorpay_signature", request.getRazorpaySignature());
-//
-//        boolean valid = Utils.verifyPaymentSignature(attributes, keySecret);
-//
-//        if (!valid) {
-//            payment.setStatus(PaymentStatus.FAILED);
-//            paymentRepository.save(payment);
-//            return false;
-//        }
-//
-//        payment.setRazorpayPaymentId(request.getRazorpayPaymentId());
-//        payment.setStatus(PaymentStatus.PAID);
-//        paymentRepository.save(payment);
-//
-//        return true;
-//    }
+    @Transactional
+    public boolean verifyPayment(VerifyPaymentRequest request) throws Exception {
+
+    	String payload =
+                request.getRazorpayOrderId()
+                + "|"
+                + request.getRazorpayPaymentId();
+
+        boolean verified = Utils.verifySignature(
+                payload,
+                request.getRazorpaySignature(),
+                "hwhVzaph532E9cy2hZABWqKR"
+        );
+
+        if (!verified) {
+            return false;
+        }
+
+        // Yahan database update hoga
+        
+        StudentFee sFee = new StudentFee();
+        
+        sFee.setAmount(null);
+        sFee.setMonth(null);
+        sFee.setPaymentDate(LocalDateTime.now());
+        sFee.setSchool(null);
+        sFee.setSession(null);
+        sFee.setStatus(null);
+        sFee.setStudent(null);
+        
+        sFee.setCurrency(null);
+        sFee.setRazorpayPaymentId(null);
+        sFee.setRazorpayOrderId(null);
+        sFee.setInternalOrderId(null);
+
+        return true;
+    }
 //
 //    @Transactional
 //    public void handleWebhook(String payload, String signature) throws Exception {

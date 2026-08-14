@@ -29,12 +29,7 @@ public class StudentFee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "fee_structure_id", nullable = false)
-//    private FeeStructure feeStructure;
     
-
     @Column(nullable = false)
     private String month;
 
@@ -51,6 +46,18 @@ public class StudentFee {
 
     @Column(length = 100)
     private String transactionId;
+    
+    @Column(name = "internal_order_id", nullable = false, unique = true, length = 80)
+	private String internalOrderId;
+
+	@Column(name = "razorpay_order_id", unique = true, length = 100)
+	private String razorpayOrderId;
+
+	@Column(name = "razorpay_payment_id", unique = true, length = 100)
+	private String razorpayPaymentId;
+
+	@Column(nullable = false, length = 10)
+	private String currency = "INR";
     
  
 }

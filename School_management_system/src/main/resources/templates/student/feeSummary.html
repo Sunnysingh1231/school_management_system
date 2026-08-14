@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fee Summary | Student Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            padding: 30px 20px;
+        }
+
+        .receipt-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.10);
+            overflow: hidden;
+        }
+
+        /* ================= HEADER ================= */
+
+        .receipt-header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 28px 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .school-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .school-logo {
+            width: 58px;
+            height: 58px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .school-info h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .school-info p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .summary-title {
+            text-align: right;
+        }
+
+        .summary-title h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .summary-title span {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .receipt-body {
+            padding: 35px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #0f172a;
+        }
+
+        /* ================= STUDENT INFO ================= */
+
+        .student-section {
+            margin-bottom: 35px;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        /* ================= FEE TABLE ================= */
+
+        .fee-section {
+            margin-bottom: 30px;
+        }
+
+        .fee-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .fee-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 300px;
+        }
+
+        .fee-table th {
+            background: #f1f5f9;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+            color: #475569;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .fee-table td {
+            padding: 15px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        .fee-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .fee-amount {
+            font-weight: 700;
+        }
+
+        .fee-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #fff7ed;
+            color: #ea580c;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ================= TOTAL ================= */
+
+        .payment-summary {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .total-box {
+            width: 320px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .grand-total {
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #cbd5e1;
+            font-size: 19px;
+            font-weight: 700;
+            color: #4f46e5;
+        }
+
+        /* ================= PAYMENT INFO ================= */
+
+        .payment-note {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .action-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .back-btn,
+        .pay-btn {
+            border: none;
+            padding: 13px 24px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .back-btn {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .back-btn:hover {
+            background: #cbd5e1;
+        }
+
+        .pay-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            min-width: 220px;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 7px 18px rgba(99, 102, 241, 0.3);
+        }
+
+        /* ================= SECURITY ================= */
+
+        .secure-payment {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 768px) {
+
+            .page-wrapper {
+                padding: 15px;
+            }
+
+            .receipt-header {
+                padding: 22px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .summary-title {
+                text-align: left;
+            }
+
+            .summary-title h2 {
+                font-size: 21px;
+            }
+
+            .receipt-body {
+                padding: 22px;
+            }
+
+            .student-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .payment-summary {
+                justify-content: stretch;
+            }
+
+            .total-box {
+                width: 100%;
+            }
+
+            .action-section {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .back-btn,
+            .pay-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .page-wrapper {
+                padding: 8px;
+            }
+
+            .receipt-container {
+                border-radius: 10px;
+            }
+
+            .receipt-header {
+                padding: 18px;
+            }
+
+            .school-logo {
+                width: 48px;
+                height: 48px;
+                font-size: 22px;
+            }
+
+            .school-info h1 {
+                font-size: 17px;
+            }
+
+            .school-info p {
+                font-size: 11px;
+            }
+
+            .summary-title h2 {
+                font-size: 19px;
+            }
+
+            .receipt-body {
+                padding: 17px;
+            }
+
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .info-box {
+                padding: 13px;
+            }
+
+            .info-value {
+                font-size: 14px;
+            }
+
+            .total-box {
+                padding: 17px;
+            }
+
+            .grand-total {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <div class="receipt-container">
+
+            <!-- HEADER -->
+
+            <div class="receipt-header">
+
+                <div class="school-info">
+
+                    <div class="school-logo">
+                        🎓
+                    </div>
+
+                    <div>
+                        <h1 th:text = "${user.school.name}">ABC Public School</h1>
+                        <p>Student Management System</p>
+                    </div>
+
+                </div>
+
+                <div class="summary-title">
+                    <h2>Fee Summary</h2>
+                    <span>Review your payment details</span>
+                </div>
+
+            </div>
+
+
+            <!-- BODY -->
+
+            <div class="receipt-body">
+
+
+                <!-- STUDENT INFORMATION -->
+
+                <div class="student-section">
+
+                    <div class="section-title">
+                        Student Information
+                    </div>
+
+                    <div class="student-info">
+
+                        <div class="info-box">
+                            <span class="info-label">
+                                Student Name
+                            </span>
+
+                            <span class="info-value" th:text = "${user.name}">
+                                Sunny Singh
+                            </span>
+                        </div>
+
+
+                        <div class="info-box">
+                            <span class="info-label">
+                                Student ID
+                            </span>
+
+                            <span class="info-value">
+                                STD-1025
+                            </span>
+                        </div>
+
+
+                        <div class="info-box">
+                            <span class="info-label">
+                                Class
+                            </span>
+
+                            <span class="info-value" th:text = "${user.classEntity.className+'-'+user.classEntity.section}">
+                                10 - A
+                            </span>
+                        </div>
+
+
+                        <div class="info-box">
+                            <span class="info-label">
+                                Roll Number
+                            </span>
+
+                            <span class="info-value" th:text = "${user.rollNumber}">
+                                25
+                            </span>
+                        </div>
+
+
+                        <div class="info-box">
+                            <span class="info-label">
+                                Academic Session
+                            </span>
+
+                            <span class="info-value" th:text = "${as}">
+                                2026 - 2027
+                            </span>
+                        </div>
+
+
+                        <div class="info-box">
+                            <span class="info-label">
+                                Parent / Guardian
+                            </span>
+
+                            <span class="info-value" th:text = "${user.parentName}"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEE DETAILS -->
+
+                <div class="fee-section">
+
+                    <div class="section-title">
+                        Fee Details
+                    </div>
+
+                    <div class="fee-table-wrapper">
+
+                        <table class="fee-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Month</th>
+                                    <th>Session</th>
+                                    <th>Amount</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr th:each = "month,count : ${months}">
+
+                                    <td th:text = "${count.index+1}">1</td>
+
+                                 
+                                    <td th:text = "${month}">
+                                        April
+                                    </td>
+
+                                    <td th:text = "${as}">
+                                        2026 - 2027
+                                    </td>
+
+                                    
+                                    <td class="fee-amount" th:text = "${amount}">
+                                        ₹100.00
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- TOTAL -->
+
+                    <div class="payment-summary">
+
+                        <div class="total-box">
+
+                            <div class="total-row">
+                                <span>Number of Fees</span>
+                                <strong th:text = "${size}"> 3</strong>
+                            </div>
+
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <strong th:text = "${total}">₹300.00</strong>
+                            </div>
+
+                            <div class="total-row">
+                                <span>Convenience Fee</span>
+                                <strong>₹0.00</strong>
+                            </div>
+
+                            <div class="total-row grand-total">
+                                <span>Total Payable</span>
+                                <span th:text = "${total}">₹300.00</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NOTE -->
+
+                <div class="payment-note">
+
+                    <strong>Payment Information</strong><br>
+
+                    You are about to make an online fee payment.
+                    Please verify all student and fee details before
+                    proceeding. You will be redirected to the secure
+                    Razorpay payment gateway.
+
+                </div>
+
+
+                <!-- ACTION -->
+
+                <div class="action-section">
+
+                    <button class="back-btn" onclick="history.back()">
+
+                        ← Back
+
+                    </button>
+
+
+                    <button class="pay-btn" onclick="proceedPayment()">
+
+                        🔒 Proceed to Secure Payment
+
+                    </button>
+
+                </div>
+
+
+                <div class="secure-payment">
+
+                    🔒 Secure payment powered by Razorpay
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+
+        function proceedPayment() {
+
+        	
+					// document.getElementById("feeForm").submit();
+
+					const csrfToken = document
+						.querySelector('meta[name="_csrf"]')
+						.getAttribute("content");
+
+					const csrfHeader = document
+						.querySelector('meta[name="_csrf_header"]')
+						.getAttribute("content");
+
+					console.log("CSRF header:", csrfHeader);
+					console.log("CSRF token exists:", !!csrfToken);
+
+					fetch("/student/create_payment?amount=" + encodeURIComponent(300), {
+						method: "POST",
+						headers: {
+							[csrfHeader]: csrfToken
+						}
+					})
+						.then(response => {
+
+							if (!response.ok) {
+								throw new Error("HTTP error: " + response.status);
+							}
+
+							return response.json();   // convert Response to JSON
+						})
+						.then(order => {
+
+							console.log("Razorpay Order:", order);
+							console.log("Order ID:", order.id);
+
+							if (order.status == "created") {
+								let options = {
+									key: "rzp_test_TPErYV1hRv1w5l",
+									amount: order.amount,
+									currency: order.currency,
+									name: "Student Management System",
+									description: "Fee Payment",
+									order_id: order.id,
+									handler: function (response) {
+
+									    fetch("/student/verify-payment", {
+									        method: "POST",
+									        headers: {
+									            "Content-Type": "application/json",
+									            [csrfHeader]: csrfToken
+									        },
+									        body: JSON.stringify({
+									            razorpayPaymentId: response.razorpay_payment_id,
+									            razorpayOrderId: response.razorpay_order_id,
+									            razorpaySignature: response.razorpay_signature
+									        })
+									    })
+									    .then(response => {
+
+									        if (!response.ok) {
+									            throw new Error("Verification failed: " + response.status);
+									        }
+
+									        return response.json();
+									    })
+									    .then(result => {
+
+									        console.log("Backend response:", result);
+
+									        if (result.success) {
+
+									            alert("Payment successful!");
+
+									            // Ab page reload kar sakte ho
+									            // location.reload();
+									            
+									            window.location.href = "/student/fees";
+
+									        } else {
+
+									            alert("Payment verification failed!");
+
+									        }
+
+									    })
+									    .catch(error => {
+
+									        console.error("Verification error:", error);
+
+									        alert("Payment verification failed. Please contact admin.");
+
+									    });
+									},
+									modal: {
+										ondismiss: function () {
+											console.log("Payment popup closed");
+										}
+									}
+								}
+								var razorpay = new Razorpay(options);
+								razorpay.open();
+							}
+
+
+						})
+						.catch(error => {
+							console.error("Payment error:", error);
+						});
+				
+            console.log("Proceeding to Razorpay payment...");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

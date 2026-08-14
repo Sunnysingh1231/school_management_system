@@ -39,6 +39,7 @@ import com.sms.model.StudentAssignmentDto;
 import com.sms.model.StudentFee;
 import com.sms.model.Timetable;
 import com.sms.repository.TimeTableRepository;
+import com.sms.serviceInterface.FeeStructureInterface;
 import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
 
@@ -61,6 +62,9 @@ public class StudentController {
 	
 	@Autowired
 	private TimeTableRepository timeTableRepository;
+	
+	@Autowired
+	private FeeStructureInterface feeStructureInterface;
 
 	StudentController(RazorpayClient razorpayClient) {
 		this.razorpayClient = razorpayClient;
@@ -313,6 +317,31 @@ public class StudentController {
 		model.addAttribute("activePage", "profile");
 		
 		return "/student/password_edit";
+		
+	}
+	
+	@GetMapping("/fee-summary")
+	public String feeSummary(Model model , @RequestParam String[] feeIds) {
+				
+		Student s1 = studentServiceInterface.getCurrentStudent();
+		String as = studentServiceInterface.getAcademicSession();
+		
+		model.addAttribute("user", s1);
+		model.addAttribute("as", as);
+		
+		BigDecimal feeAmount = feeStructureInterface.findFeeAmountByClsId(s1.getClassEntity().getId());
+		
+		
+		model.addAttribute("months", feeIds);
+		model.addAttribute("amount", feeAmount);
+		model.addAttribute("size", feeIds.length);
+		model.addAttribute("total", feeAmount.multiply(BigDecimal.valueOf(feeIds.length)));
+		
+		for(String s2 : feeIds) {
+			System.out.println(s2);
+		}
+		
+		return "/student/feeSummary";
 		
 	}
 	

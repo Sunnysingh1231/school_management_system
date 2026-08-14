@@ -5,16 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class RazorpayController {
 
-//    private final RazorpayPaymentService paymentService;
-//
-//    public RazorpayController(RazorpayPaymentService paymentService) {
-//        this.paymentService = paymentService;
-//    }
+    private final RazorpayPaymentService paymentService;
+
+    public RazorpayController(RazorpayPaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 //
 //    @GetMapping("/payment")
 //    public String payment(Model model) {
@@ -38,38 +39,32 @@ public class RazorpayController {
 //        }
 //    }
 //
-//    @PostMapping("/api/razorpay/verify")
-//    @ResponseBody
-//    public ResponseEntity<?> verify(@RequestBody VerifyPaymentRequest request) {
-//        try {
-//            boolean verified = paymentService.verify(request);
-//
-//            if (!verified) {
-//                return ResponseEntity.badRequest().body(
-//                        Map.of(
-//                                "success", false,
-//                                "message", "Payment verification failed."
-//                        )
-//                );
-//            }
-//
-//            return ResponseEntity.ok(
-//                    Map.of(
-//                            "success", true,
-//                            "message", "Payment verified successfully.",
-//                            "paymentId", request.getRazorpayPaymentId()
-//                    )
-//            );
-//
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body(
-//                    Map.of(
-//                            "success", false,
-//                            "message", "Payment verification failed."
-//                    )
-//            );
-//        }
-//    }
+    @PostMapping("/student/verify-payment")
+    @ResponseBody
+    public Map<String, Object> verify(@RequestBody VerifyPaymentRequest request) {
+    	Map<String, Object> response = new HashMap<>();
+
+        try {
+
+            boolean verified = paymentService.verifyPayment(request);
+
+            if (verified) {
+                response.put("success", true);
+                response.put("message", "Payment verified successfully");
+                System.out.println("payment successful...");
+            } else {
+                response.put("success", false);
+                response.put("message", "Payment verification failed");
+            }
+
+        } catch (Exception e) {
+
+            response.put("success", false);
+            response.put("message", e.getMessage());
+        }
+
+        return response;
+    }
 //
 //    /**
 //     * Configure this URL in Razorpay Dashboard:

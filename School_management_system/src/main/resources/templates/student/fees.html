@@ -4,8 +4,6 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="_csrf" th:content="${_csrf.token}">
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	<title>Student Dashboard - School Management System</title>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -181,7 +179,7 @@
 
 					<!-- Fees Table -->
 					<div class="fees-table-container">
-						<form id="feeForm" th:action="@{/student/create_payment}" method="post"
+						<form id="feeForm" th:action="@{/student/fee-summary}" method="get"
 							onsubmit="return validateFeeForm(event)">
 
 							<input type="hidden" name="studentId" th:value="${student.id}">
@@ -214,7 +212,7 @@
 
 											<!-- Checkbox -->
 											<td style="text-align: right;"><input type="checkbox" class="fee-check"
-													name="feeIds" value="${fee.month}" th:data-amount="${fee.amount}"
+													name="feeIds" th:value="${fee.month}" th:data-amount="${fee.amount}"
 													th:disabled="${fee.status == 'PAID'}" onchange="updateTotal()"></td>
 
 										</tr>
@@ -245,7 +243,7 @@
 			</div>
 
 		</div>
-		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+		
 		<script th:src="@{/student_js/index.js}"></script>
 		<script>
 			function updateTotal() {
@@ -298,130 +296,8 @@
 					});
 
 					return false;
-				}
-				Swal
-					.fire({
-						title: "Payment Unavailable",
-						text: "We're sorry, but no payment gateway has been integrated yet. Please contact the class teacher.",
-						icon: "error",
-						confirmButtonText: "OK"
-						// cancelButtonText: "Cancel"
-					})
-					.then((result) => {
-
-						if (result.isConfirmed) {
-							// document.getElementById("feeForm").submit();
-
-							const csrfToken = document
-								.querySelector('meta[name="_csrf"]')
-								.getAttribute("content");
-
-							const csrfHeader = document
-								.querySelector('meta[name="_csrf_header"]')
-								.getAttribute("content");
-
-							console.log("CSRF header:", csrfHeader);
-							console.log("CSRF token exists:", !!csrfToken);
-
-							fetch("/student/create_payment?amount=" + encodeURIComponent(am), {
-								method: "POST",
-								headers: {
-									[csrfHeader]: csrfToken
-								}
-							})
-								.then(response => {
-
-									if (!response.ok) {
-										throw new Error("HTTP error: " + response.status);
-									}
-
-									return response.json();   // convert Response to JSON
-								})
-								.then(order => {
-
-									console.log("Razorpay Order:", order);
-									console.log("Order ID:", order.id);
-
-									if (order.status == "created") {
-										let options = {
-											key: "rzp_test_TPErYV1hRv1w5l",
-											amount: order.amount,
-											currency: order.currency,
-											name: "Student Management System",
-											description: "Fee Payment",
-											order_id: order.id,
-											handler: function (response) {
-
-											    console.log("Payment ID:", response.razorpay_payment_id);
-											    console.log("Order ID:", response.razorpay_order_id);
-											    console.log("Signature:", response.razorpay_signature);
-
-											    fetch("/student/verify-payment", {
-											        method: "POST",
-											        headers: {
-											            "Content-Type": "application/json",
-											            [csrfHeader]: csrfToken
-											        },
-											        body: JSON.stringify({
-											            razorpayPaymentId: response.razorpay_payment_id,
-											            razorpayOrderId: response.razorpay_order_id,
-											            razorpaySignature: response.razorpay_signature
-											        })
-											    })
-											    .then(response => {
-
-											        if (!response.ok) {
-											            throw new Error("Verification failed: " + response.status);
-											        }
-
-											        return response.json();
-											    })
-											    .then(result => {
-
-											        console.log("Backend response:", result);
-
-											        if (result.success) {
-
-											            alert("Payment successful!");
-
-											            // Ab page reload kar sakte ho
-											            location.reload();
-
-											        } else {
-
-											            alert("Payment verification failed!");
-
-											        }
-
-											    })
-											    .catch(error => {
-
-											        console.error("Verification error:", error);
-
-											        alert("Payment verification failed. Please contact admin.");
-
-											    });
-											},
-											modal: {
-												ondismiss: function () {
-													console.log("Payment popup closed");
-												}
-											}
-										}
-										var razorpay = new Razorpay(options);
-										razorpay.open();
-									}
-
-
-								})
-								.catch(error => {
-									console.error("Payment error:", error);
-								});
-						}
-
-					});
-
-				return false;
+				}				
+				document.getElementById("feeForm").submit();
 
 			}
 		</script>

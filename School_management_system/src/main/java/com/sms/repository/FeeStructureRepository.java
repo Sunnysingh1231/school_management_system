@@ -26,4 +26,5 @@ public interface FeeStructureRepository extends JpaRepository<FeeStructure, Inte
 	@Query("SELECT f.amount FROM FeeStructure f WHERE f.classEntity.id = :id")
 	BigDecimal findAmountByClassEntityId(@Param("id") int id);
 
+
 }
