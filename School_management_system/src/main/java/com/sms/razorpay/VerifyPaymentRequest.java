@@ -1,11 +1,22 @@
 package com.sms.razorpay;
 
+import java.math.BigDecimal;
+
 public class VerifyPaymentRequest {
 
 	private String internalOrderId;
 	private String razorpayOrderId;
 	private String razorpayPaymentId;
 	private String razorpaySignature;
+//	private int amount;
+
+//	public int getAmount() {
+//		return amount;
+//	}
+//
+//	public void setAmount(int amount) {
+//		this.amount = amount;
+//	}
 
 	public String getInternalOrderId() {
 		return internalOrderId;

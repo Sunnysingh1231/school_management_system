@@ -3,13 +3,19 @@ package com.sms.razorpay;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Utils;
+import com.sms.model.Student;
 import com.sms.model.StudentFee;
+import com.sms.serviceInterface.StudentFeeServiceInterface;
+import com.sms.serviceInterface.StudentServiceInterface;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,6 +23,12 @@ import java.util.UUID;
 
 @Service
 public class RazorpayPaymentService {
+	
+	@Autowired
+	private StudentServiceInterface studentServiceInterface;
+	
+	@Autowired
+	private StudentFeeServiceInterface studentFeeServiceInterface;
 
 //    private final RazorpayClient razorpayClient;
 //    private final PaymentRepository paymentRepository;
@@ -82,7 +94,7 @@ public class RazorpayPaymentService {
 //    }
 //
     @Transactional
-    public boolean verifyPayment(VerifyPaymentRequest request) throws Exception {
+    public boolean verifyPayment(VerifyPaymentRequest request, int totalAmount, String[] feeId) throws Exception {
 
     	String payload =
                 request.getRazorpayOrderId()
@@ -101,20 +113,29 @@ public class RazorpayPaymentService {
 
         // Yahan database update hoga
         
-        StudentFee sFee = new StudentFee();
-        
-        sFee.setAmount(null);
-        sFee.setMonth(null);
-        sFee.setPaymentDate(LocalDateTime.now());
-        sFee.setSchool(null);
-        sFee.setSession(null);
-        sFee.setStatus(null);
-        sFee.setStudent(null);
-        
-        sFee.setCurrency(null);
-        sFee.setRazorpayPaymentId(null);
-        sFee.setRazorpayOrderId(null);
-        sFee.setInternalOrderId(null);
+        Student s1 = studentServiceInterface.getCurrentStudent();
+        String session = studentServiceInterface.getAcademicSession();
+        byte c = 0;
+        for(String f2 : feeId) {
+        	
+        	StudentFee sFee = new StudentFee();
+            
+            sFee.setAmount(BigDecimal.valueOf(totalAmount).divide(BigDecimal.valueOf(100)).divide(BigDecimal.valueOf(feeId.length)));
+            sFee.setMonth(f2);
+            sFee.setPaymentDate(LocalDateTime.now());
+            sFee.setSchool(s1.getSchool());
+            sFee.setSession(session);
+            sFee.setStatus("PAID");
+            sFee.setStudent(s1);
+            
+            sFee.setCurrency("INR");
+            sFee.setRazorpayPaymentId(request.getRazorpayPaymentId()+"-"+c);
+            sFee.setRazorpayOrderId(request.getRazorpayOrderId()+"-"+c);
+            sFee.setInternalOrderId("student");
+            
+            studentFeeServiceInterface.saveStudentFee(sFee);
+            c++;
+        }
 
         return true;
     }

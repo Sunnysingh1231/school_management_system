@@ -539,7 +539,6 @@
                             <tbody>
 
                                 <tr th:each = "month,count : ${months}">
-
                                     <td th:text = "${count.index+1}">1</td>
 
                                  
@@ -623,7 +622,7 @@
                     </button>
 
 
-                    <button class="pay-btn" onclick="proceedPayment()">
+                    <button class="pay-btn" type = "" onclick="proceedPayment()">
 
                         🔒 Proceed to Secure Payment
 
@@ -650,7 +649,7 @@
         function proceedPayment() {
 
         	
-					// document.getElementById("feeForm").submit();
+					 
 
 					const csrfToken = document
 						.querySelector('meta[name="_csrf"]')
@@ -663,11 +662,12 @@
 					console.log("CSRF header:", csrfHeader);
 					console.log("CSRF token exists:", !!csrfToken);
 
-					fetch("/student/create_payment?amount=" + encodeURIComponent(300), {
+					fetch("/student/create_payment", {
 						method: "POST",
 						headers: {
 							[csrfHeader]: csrfToken
-						}
+						},
+						
 					})
 						.then(response => {
 

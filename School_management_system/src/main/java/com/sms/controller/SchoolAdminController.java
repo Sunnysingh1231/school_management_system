@@ -230,11 +230,34 @@ public class SchoolAdminController {
 	}
 	
 	@PostMapping("/register-student")
-	public String studentRegistration(@ModelAttribute Student student,String classn,String section) {
+	public String studentRegistration(@RequestParam
+			String name,
+			String rollNumber,
+			String gender,
+			String phone,
+			String email,
+			LocalDate dob,
+			String parentName,
+			String parentPhone,
+			String password,
+			String classn,
+			String section) {
+		
+		Student s1 = new Student();
+		
+		s1.setName(name);
+		s1.setRollNumber(rollNumber);
+		s1.setGender(gender);
+		s1.setPhone(phone);
+		s1.setEmail(email);
+		s1.setDateOfBirth(dob);
+		s1.setParentName(parentName);
+		s1.setParentPhone(parentPhone);
+		s1.setPassword(password);
 		
 		
-		userServiceInterface.addStudent(student, "ROLE_STUDENT", classn, section);
-		
+		userServiceInterface.addStudent(s1, "ROLE_STUDENT", classn, section);
+				
 		return "/school_admin/dashboard";
 	}
 	

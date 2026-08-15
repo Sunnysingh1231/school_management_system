@@ -182,7 +182,6 @@
 						<form id="feeForm" th:action="@{/student/fee-summary}" method="get"
 							onsubmit="return validateFeeForm(event)">
 
-							<input type="hidden" name="studentId" th:value="${student.id}">
 
 							<!-- Fee Table -->
 							<div class="glass-card">
@@ -213,14 +212,14 @@
 											<!-- Checkbox -->
 											<td style="text-align: right;"><input type="checkbox" class="fee-check"
 													name="feeIds" th:value="${fee.month}" th:data-amount="${fee.amount}"
-													th:disabled="${fee.status == 'PAID'}" onchange="updateTotal()"></td>
+													th:disabled="${fee.status == 'PAID'}" onchange="updateTotal()">
+											</td>
 
 										</tr>
 									</tbody>
 								</table>
 								<h3>
 									Total Pay: ₹<span id="total">0</span>
-									<input id="hidd" type='hidden' name="amount">
 								</h3>
 								<!-- Total Section -->
 								<div
@@ -257,7 +256,6 @@
 					});
 
 				document.getElementById('total').textContent = total.toFixed(2);
-				document.getElementById('hidd').value = total.toFixed(2);
 			}
 
 			function selectAll() {
@@ -286,7 +284,6 @@
 				event.preventDefault();
 
 				const checked = document.querySelectorAll(".fee-check:checked");
-				const am = document.getElementById("hidd").value;
 				if (checked.length === 0) {
 
 					Swal.fire({

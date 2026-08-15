@@ -44,6 +44,7 @@ import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.experimental.var;
 @Controller
 @RequestMapping("student")
@@ -321,7 +322,9 @@ public class StudentController {
 	}
 	
 	@GetMapping("/fee-summary")
-	public String feeSummary(Model model , @RequestParam String[] feeIds) {
+	public String feeSummary(Model model , @RequestParam String[] feeIds, HttpSession session) {
+		
+		session.setAttribute("feeIds", feeIds);
 				
 		Student s1 = studentServiceInterface.getCurrentStudent();
 		String as = studentServiceInterface.getAcademicSession();
@@ -337,9 +340,7 @@ public class StudentController {
 		model.addAttribute("size", feeIds.length);
 		model.addAttribute("total", feeAmount.multiply(BigDecimal.valueOf(feeIds.length)));
 		
-		for(String s2 : feeIds) {
-			System.out.println(s2);
-		}
+		
 		
 		return "/student/feeSummary";
 		
@@ -409,21 +410,23 @@ public class StudentController {
 	}
 	@PostMapping("/create_payment")
 	@ResponseBody
-	public String createPayment(@RequestParam String amount) throws RazorpayException {		
-				
-		int a = new BigDecimal(amount).intValueExact();
+	public String createPayment(HttpSession session) throws RazorpayException {	
 		
+		Student s1 = studentServiceInterface.getCurrentStudent();
+		BigDecimal feeAmount = feeStructureInterface.findFeeAmountByClsId(s1.getClassEntity().getId());
+		String[] f1 = (String[]) session.getAttribute("feeIds");
+						
 		RazorpayClient  clint = new RazorpayClient("rzp_test_TPErYV1hRv1w5l","hwhVzaph532E9cy2hZABWqKR");
 		
 		JSONObject request = new JSONObject();
-        request.put("amount", a*100);
+        request.put("amount", (feeAmount.intValue())*100*f1.length);
         request.put("currency", "INR");
         request.put("receipt", "SMS_put");
 
         Order razorpayOrder = clint.Orders.create(request);
-		
-        System.out.println(razorpayOrder);
-		
+        
+        session.setAttribute("totalAmount", (feeAmount.intValue())*100*f1.length);
+				
 		return razorpayOrder.toString();
 		
 	}

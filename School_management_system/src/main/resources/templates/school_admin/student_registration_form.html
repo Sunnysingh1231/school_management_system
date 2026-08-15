@@ -134,17 +134,17 @@
 
                 <div class="input-group">
                     <label>Full Name</label>
-                    <input type="text" th:field="*{name}" placeholder="Enter Full Name" required>
+                    <input type="text" name = "name" placeholder="Enter Full Name" required>
                 </div>
 
                 <div class="input-group">
                     <label>Roll No.</label>
-                    <input type="number" th:field="*{rollNumber}" placeholder="Enter Roll Numbere" required>
+                    <input type="number" name="rollNumber" placeholder="Enter Roll Numbere" required>
                 </div>
 
                 <div class="input-group">
                     <label>Gender</label>
-                    <select th:field="*{gender}">
+                    <select name = "gender">
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -156,30 +156,30 @@
                     <label>Phone</label>
                     <div class="phone-box" >
                         <span>+91</span>
-                        <input type="text"  th:field="*{phone}" placeholder="Enter mobile number">
+                        <input type="text"  name = "phone" placeholder="Enter mobile number">
                     </div>
                 </div>
 
                 <div class="input-group">
                     <label>Email</label>
-                    <input type="email"  th:field="*{email}" placeholder="Enter Email">
+                    <input type="email"  name = "email" placeholder="Enter Email">
                 </div>
 
                 <div class="input-group">
                     <label>Date Of Birth</label>
-                    <input type="date"  th:field="*{dateOfBirth}">
+                    <input type="date"  name = "dob">
                 </div>
 
                 <div class="input-group">
                     <label>Parent Name</label>
-                    <input type="text"  th:field="*{parentName}" placeholder="Enter Parent Name" required>
+                    <input type="text"  name="parentName" placeholder="Enter Parent Name" required>
                 </div>
 
                 <div class="input-group">
                     <label>Parent Phone</label>
                     <div class="phone-box">
                         <span>+91</span>
-                        <input type="text"  th:field="*{parentPhone}" placeholder="Enter mobile number">
+                        <input type="text" name="parentPhone" placeholder="Enter mobile number">
                     </div>
                 </div>
 
@@ -218,7 +218,7 @@
 
                 <div class="input-group">
                     <label>Password</label>
-                    <input type="password"  th:field="*{password}" placeholder="Enter Password" required>
+                    <input type="password"  name="password" placeholder="Enter Password" required>
                 </div>
 
                 <div class="input-group">

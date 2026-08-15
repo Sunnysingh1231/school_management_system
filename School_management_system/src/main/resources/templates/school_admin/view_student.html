@@ -119,6 +119,7 @@
 
             <thead>
                 <tr>
+                	<th>#</th>
                     <th>Roll No.</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -132,7 +133,8 @@
 
             <tbody>
 
-                <tr th:each="student : ${students}">
+                <tr th:each="student,c : ${students}">
+                	<td th:text="${c.index+1}"></td>
                     <td th:text="${student.rollNumber}"></td>
                     <td th:text="${student.name}"></td>
                     <td th:text="${student.email}"></td>
