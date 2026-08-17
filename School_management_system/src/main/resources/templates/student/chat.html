@@ -252,6 +252,8 @@
 			<input type="text" id="messageInput"
 				placeholder="Type your message...">
 
+                <input type="hidden" id="userId" th:value="${user.Id}">
+
 			<button id="sendBtn"
 				th:data-user-id="${user.Id}"
 				th:data-user-role="${user.role.name}"
@@ -281,6 +283,8 @@ const chatBody = document.getElementById("chatBody");
 const sendBtn = document.getElementById("sendBtn");
 const input = document.getElementById("messageInput");
 
+const userId = document.getElementById("userId");
+
 /* ==========================
    DISPLAY MESSAGE
 ========================== */
@@ -289,7 +293,16 @@ function displayMessage(chatMessage) {
 
     const message = document.createElement("div");
 
-    message.className = `message ${chatMessage.sender}`;
+    // message.className = `message ${chatMessage.sender}`;
+
+    console.log(userId.value+" "+chatMessage.senderId);
+    
+
+    if(userId.value == chatMessage.senderId){
+
+        message.classList.add("message", "student");
+
+    }
 
     const bubble = document.createElement("div");
 
@@ -308,7 +321,7 @@ function displayMessage(chatMessage) {
             minute:"2-digit"
         });
 
-    if(chatMessage.sender === "student"){
+    if(chatMessage.conversationId === "nijkj"){
 
         const status = document.createElement("span");
 
@@ -487,7 +500,7 @@ function loadMessages(){
         );
     const store =
         transaction.objectStore(
-            STORE_NAME
+            STORE_NAME,open
         );
     const request =
         store.getAll();
