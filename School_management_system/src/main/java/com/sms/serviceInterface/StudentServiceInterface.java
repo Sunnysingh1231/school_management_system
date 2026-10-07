@@ -14,6 +14,7 @@ import com.sms.model.StudentAssignmentDto;
 public interface StudentServiceInterface {
 
 	Student getCurrentStudent();
+	Optional<Student> findStudentByStudentId(int id);
 	
 	List<Attendence> findAttendenceByStudentId(int id);
 	
@@ -21,7 +22,6 @@ public interface StudentServiceInterface {
 	
 	List<Attendence> findTop6AttendenceOfStudentByStudentId(int id);
 	
-	Optional<Student> findStudentByStudentId(int id);
 
 	String getAcademicSession();
 

@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Algo Filter Dashboard</title>
+
+<link rel="stylesheet" href="/css/ginn.css">
+
+</head>
+
+
+<body>
+
+
+	<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+	<nav class="navbar">
+
+		<div class="navbar-left">
+
+			<div class="brand">Algo Trading</div>
+
+			<div class="nav-links">
+
+				<a href="/market"> Market </a> <a href="/algo" class="active">
+					Algo Filter </a> <a href="/paper-trading"> Paper Trading </a> <a
+					href="/history"> Trade History </a>
+
+			</div>
+
+		</div>
+
+
+		<div class="navbar-right">
+
+			<div class="market-status">
+
+				<span id="connectionDot" class="connection-dot"> </span> <span
+					id="connectionText"> Connecting... </span>
+
+			</div>
+
+		</div>
+
+	</nav>
+
+
+
+	<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+	<main class="main-container">
+
+
+		<!-- =================================================
+     LIQUIDITY FILTER BOX
+================================================== -->
+
+		<section class="filter-box">
+
+			<!-- BOX HEADER -->
+			<div class="box-header">
+
+				<div>
+					<h2>Liquidity Filter</h2>
+					<p>(V > 1M), (Vol × LTP = TV > 500M), (D%C > 1.5)</p>
+				</div>
+
+				<div class="liquidity-controls">
+
+					<!-- SEARCH -->
+					<input type="text" id="liquiditySearch" class="liquidity-search"
+						placeholder="Search stock..." autocomplete="off">
+
+					<!-- SORT -->
+					<select id="liquiditySort" class="liquidity-sort">
+						<option value="default">Sort By</option>
+
+						<option value="volume">Volume</option>
+
+						<option value="tradedValue">Traded Value</option>
+
+						<option value="ltp">LTP</option>
+
+						<option value="topGainer">Top Gainer</option>
+
+						<option value="topLoser">Top Loser</option>
+					</select>
+
+					<!-- COUNT -->
+					<div class="box-summary">
+						<span>Stocks: </span> <strong id="liquidityTotalStocks">0</strong>
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<!-- LIQUIDITY TABLE -->
+
+			<div id="liquidityTableWrapper" class="table-wrapper empty">
+
+				<table class="stock-table">
+
+					<thead>
+
+						<tr>
+
+							<th>#</th>
+
+							<th>Stock</th>
+
+							<th>LTP</th>
+
+							<th>Change %</th>
+
+							<th>Volume (Cr)</th>
+
+							<!--<th>Traded Value</th>-->
+
+							<th>Traded Value (Cr)</th>
+
+							<th>Best Bid</th>
+
+							<th>Best Ask</th>
+
+							<th>Spread</th>
+
+							<th>Spread %</th>
+
+							<th>TV Safe</th>
+
+							<th>Spread Safe</th>
+
+							<th>Liquidity Safe</th>
+
+						</tr>
+
+					</thead>
+
+					<tbody id="liquidityStockTableBody">
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</section>
+
+		<!-- =================================================
+         EMA FILTER BOX
+    ================================================== -->
+
+		<section class="filter-box">
+
+
+			<!-- BOX HEADER -->
+
+			<div class="box-header">
+
+				<div>
+
+					<h2>EMA Filter</h2>
+
+					<p>EMA 20 / EMA 50 / EMA 200</p>
+
+				</div>
+
+
+				<div class="box-summary">
+
+					<span> Stocks: </span> <strong id="totalStocks"> 0 </strong>
+
+				</div>
+
+			</div>
+
+
+
+			<!-- =================================================
+             EMA TABLE
+        ================================================== -->
+
+			<div id="emaTableWrapper" class="table-wrapper empty">
+
+				<table class="stock-table">
+
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Stock</th>
+							<th>LTP</th>
+							<th>Change</th>
+							<th>Change %</th>
+							<th>Open</th>
+							<th>High</th>
+							<th>Low</th>
+							<th>Prev Close</th>
+							<th>Volume</th>
+							<th>Total Bid</th>
+							<th>Total Ask</th>
+						</tr>
+					</thead>
+
+
+					<tbody id="emaStockTableBody">
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+
+		</section>
+
+
+
+		<!-- =================================================
+         FUTURE BOXES
+         
+         Yahan baad me:
+         
+         RSI
+         MACD
+         VWAP
+         ATR
+         ENTRY
+         RISK
+         
+         ke boxes add kar sakte ho.
+    ================================================== -->
+
+
+		<!-- Example:
+
+    <section class="filter-box">
+
+        <div class="box-header">
+
+            <div>
+
+                <h2>RSI Filter</h2>
+
+                <p>Momentum Analysis</p>
+
+            </div>
+
+            <div class="box-summary">
+                Stocks: 0
+            </div>
+
+        </div>
+
+    </section>
+
+    -->
+
+
+	</main>
+
+
+
+	<script src="/js/test.js"></script>
+
+</body>
+
+</html>

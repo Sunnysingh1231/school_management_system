@@ -1,0 +1,761 @@
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+    width: 100%;
+
+    min-height: 100%;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #0b1220;
+
+    color: #ffffff;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+
+    height: 64px;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 25px;
+
+    background: #111a2b;
+
+    border-bottom:
+        1px solid #24324a;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+}
+
+
+/* =====================================================
+   NAVBAR LEFT
+===================================================== */
+
+.navbar-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 45px;
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.brand {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #ffffff;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   NAV LINKS
+===================================================== */
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.nav-links a {
+
+    text-decoration: none;
+
+    color: #8e9bb0;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    padding: 9px 14px;
+
+    border-radius: 6px;
+
+    transition:
+        0.2s ease;
+}
+
+
+.nav-links a:hover {
+
+    color: #ffffff;
+
+    background: #1a273d;
+}
+
+
+.nav-links a.active {
+
+    color: #ffffff;
+
+    background: #1d4ed8;
+}
+
+
+/* =====================================================
+   NAVBAR RIGHT
+===================================================== */
+
+.navbar-right {
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.market-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 12px;
+
+    color: #9aa8bc;
+}
+
+
+.connection-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #f59e0b;
+
+    box-shadow:
+        0 0 7px
+        rgba(245, 158, 11, 0.7);
+}
+
+
+.connection-dot.connected {
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 8px
+        rgba(34, 197, 94, 0.8);
+}
+
+
+.connection-dot.disconnected {
+
+    background: #ef4444;
+
+    box-shadow:
+        0 0 8px
+        rgba(239, 68, 68, 0.8);
+}
+
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.main-container {
+
+    width: 100%;
+
+    padding: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+
+/* =====================================================
+   FILTER BOX
+===================================================== */
+
+.filter-box {
+
+    width: 100%;
+
+    background: #111a2b;
+
+    border:
+        1px solid #24324a;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    transition:
+        0.25s ease;
+}
+
+
+
+/* =====================================================
+   BOX HEADER
+===================================================== */
+
+.box-header {
+
+    min-height: 68px;
+
+    padding: 12px 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: #131f33;
+
+    border-bottom:
+        1px solid #24324a;
+}
+
+
+.box-header h2 {
+
+    margin: 0;
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+
+.box-header p {
+
+    margin: 5px 0 0;
+
+    color: #7f8da3;
+
+    font-size: 11px;
+}
+
+
+
+/* =====================================================
+   STOCK COUNT
+===================================================== */
+
+.box-summary {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 6px 11px;
+
+    border-radius: 5px;
+
+    background: #1a273d;
+
+    color: #8f9caf;
+
+    font-size: 11px;
+}
+
+
+.box-summary strong {
+
+    color: #ffffff;
+
+    font-size: 13px;
+}
+
+
+
+/* =====================================================
+   TABLE WRAPPER
+===================================================== */
+
+/*
+    IMPORTANT:
+
+    0 STOCK
+    -> practically no table space
+
+    1 STOCK
+    -> 1 row
+
+    5 STOCK
+    -> 5 rows
+
+    10 STOCK
+    -> 10 rows
+
+    >10 STOCK
+    -> scrollbar
+*/
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    max-height: 522px;
+
+    transition:
+        max-height 0.25s ease;
+}
+
+
+/* =====================================================
+   EMPTY TABLE
+===================================================== */
+
+.table-wrapper.empty {
+
+    display: none;
+}
+
+
+/* =====================================================
+   SCROLL ONLY AFTER 10 ROWS
+===================================================== */
+
+.table-wrapper.scrollable {
+
+    overflow-y: auto;
+}
+
+
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+.table-wrapper::-webkit-scrollbar {
+
+    width: 7px;
+
+    height: 7px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-track {
+
+    background: #0c1422;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb {
+
+    background: #34445d;
+
+    border-radius: 10px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+
+    background: #4b5f7e;
+}
+
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.stock-table {
+
+    width: 100%;
+
+    min-width: 950px;
+
+    border-collapse: collapse;
+}
+
+
+
+/* =====================================================
+   TABLE HEADER
+===================================================== */
+
+.stock-table thead {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 5;
+
+    background: #17243a;
+}
+
+
+.stock-table th {
+
+    height: 45px;
+
+    padding:
+        0 14px;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+    color: #8391a6;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.4px;
+
+    border-bottom:
+        1px solid #26344d;
+}
+
+
+
+/* =====================================================
+   TABLE ROW
+===================================================== */
+
+.stock-table tbody tr {
+
+    height: 47px;
+
+    border-bottom:
+        1px solid #1d293d;
+
+    transition:
+        background 0.15s ease;
+}
+
+
+.stock-table tbody tr:hover {
+
+    background: #18263c;
+}
+
+
+
+/* =====================================================
+   TABLE CELL
+===================================================== */
+
+.stock-table td {
+
+    height: 47px;
+
+    padding:
+        0 14px;
+
+    white-space: nowrap;
+
+    font-size: 12px;
+
+    color: #d5dce7;
+}
+
+
+
+/* =====================================================
+   STOCK NAME
+===================================================== */
+
+.stock-name {
+
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+
+/* =====================================================
+   LTP
+===================================================== */
+
+.ltp {
+
+    font-weight: 600;
+
+    color: #ffffff;
+}
+
+
+
+/* =====================================================
+   EMA VALUES
+===================================================== */
+
+.ema-value {
+
+    font-family:
+        Consolas,
+        monospace;
+
+    color: #b7c3d4;
+}
+
+
+
+/* =====================================================
+   TREND
+===================================================== */
+
+.trend {
+
+    display: inline-block;
+
+    padding:
+        4px 8px;
+
+    border-radius: 4px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.trend.bullish {
+
+    color: #22c55e;
+
+    background:
+        rgba(34, 197, 94, 0.12);
+}
+
+
+.trend.bearish {
+
+    color: #ef4444;
+
+    background:
+        rgba(239, 68, 68, 0.12);
+}
+
+
+.trend.neutral {
+
+    color: #f59e0b;
+
+    background:
+        rgba(245, 158, 11, 0.12);
+}
+
+
+
+/* =====================================================
+   SIGNAL
+===================================================== */
+
+.signal {
+
+    font-weight: 700;
+
+    font-size: 11px;
+}
+
+
+.signal.buy {
+
+    color: #22c55e;
+}
+
+
+.signal.sell {
+
+    color: #ef4444;
+}
+
+
+.signal.wait {
+
+    color: #f59e0b;
+}
+
+
+
+/* =====================================================
+   BUY BUTTON
+===================================================== */
+
+.buy-btn {
+
+    border: none;
+
+    padding:
+        6px 12px;
+
+    border-radius: 4px;
+
+    background: #16a34a;
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        0.2s ease;
+}
+
+
+.buy-btn:hover {
+
+    background: #15803d;
+
+    transform:
+        translateY(-1px);
+}
+
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .navbar {
+
+        padding:
+            0 15px;
+    }
+
+
+    .navbar-left {
+
+        gap: 15px;
+    }
+
+
+    .nav-links {
+
+        display: none;
+    }
+
+
+    .main-container {
+
+        padding: 15px;
+    }
+
+}
+.liquidity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.liquidity-search {
+    width: 180px;
+    height: 36px;
+    padding: 0 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    outline: none;
+    font-size: 14px;
+}
+
+.liquidity-search:focus {
+    border-color: #666;
+}
+
+.liquidity-sort {
+    width: 170px;
+    height: 36px;
+    padding: 0 10px;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    background: white;
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.liquidity-sort:focus {
+    outline: none;
+}
+/* =====================================================
+   CHANGE / CHANGE %
+   ===================================================== */
+
+.stock-table td.bullish {
+    color: #00c853 !important;
+    font-weight: 600;
+}
+
+.stock-table td.bearish {
+    color: #ff1744 !important;
+    font-weight: 600;
+}
+
+.stock-table td.neutral {
+    color: #888888 !important;
+    font-weight: 600;
+}

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paper Trading</title>
+
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background: #f3f4f6;
+	color: #111827;
+}
+
+.topbar {
+	background: #111827;
+	color: white;
+	padding: 18px 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.brand {
+	font-size: 23px;
+	font-weight: 700;
+}
+
+.live-status {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+}
+
+.dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: red;
+}
+
+.dot.online {
+	background: #22c55e;
+}
+
+.container {
+	max-width: 1500px;
+	margin: auto;
+	padding: 25px;
+}
+
+.hero {
+	background: linear-gradient(135deg, #4f46e5, #7c3aed);
+	color: white;
+	padding: 30px;
+	border-radius: 18px;
+	margin-bottom: 25px;
+}
+
+.hero h1 {
+	margin: 0 0 8px;
+	font-size: 32px;
+}
+
+.hero p {
+	margin: 0;
+	opacity: .9;
+}
+
+.section {
+	background: white;
+	padding: 22px;
+	border-radius: 18px;
+	margin-bottom: 25px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, .06);
+}
+
+.section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.section-header h2 {
+	margin: 0;
+}
+
+.section-header p {
+	margin: 5px 0 0;
+	color: #6b7280;
+}
+
+.refresh-btn {
+	border: none;
+	background: #4f46e5;
+	color: white;
+	padding: 10px 16px;
+	border-radius: 9px;
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.stock-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 18px;
+}
+
+.stock-card {
+	border: 1px solid #e5e7eb;
+	border-radius: 15px;
+	padding: 18px;
+	background: #fff;
+	transition: .2s;
+}
+
+.stock-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+}
+
+.stock-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.symbol {
+	font-size: 19px;
+	font-weight: 700;
+}
+
+.live-badge {
+	background: #dcfce7;
+	color: #15803d;
+	padding: 4px 8px;
+	border-radius: 20px;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.price {
+	font-size: 28px;
+	font-weight: 700;
+	margin-top: 15px;
+}
+
+.change {
+	margin-top: 5px;
+	font-weight: 600;
+}
+
+.positive {
+	color: #16a34a;
+}
+
+.negative {
+	color: #dc2626;
+}
+
+.details {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin-top: 15px;
+	font-size: 13px;
+}
+
+.detail {
+	background: #f9fafb;
+	padding: 9px;
+	border-radius: 8px;
+}
+
+.detail span {
+	display: block;
+	color: #6b7280;
+	font-size: 11px;
+	margin-bottom: 3px;
+}
+
+.quantity {
+	width: 100%;
+	margin-top: 15px;
+	padding: 11px;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+}
+
+.action-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	margin-top: 12px;
+}
+
+.buy-btn, .sell-btn {
+	border: none;
+	padding: 11px;
+	border-radius: 8px;
+	color: white;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.buy-btn {
+	background: #16a34a;
+}
+
+.sell-btn {
+	background: #dc2626;
+}
+
+.buy-btn:hover {
+	background: #15803d;
+}
+
+.sell-btn:hover {
+	background: #b91c1c;
+}
+
+.position-card {
+	border: 1px solid #e5e7eb;
+	border-radius: 15px;
+	padding: 18px;
+	margin-bottom: 12px;
+}
+
+.position-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.position-symbol {
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.status-badge {
+	padding: 5px 10px;
+	border-radius: 20px;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.status-bought {
+	background: #dcfce7;
+	color: #15803d;
+}
+
+.status-sold {
+	background: #fee2e2;
+	color: #b91c1c;
+}
+
+.position-grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 10px;
+	margin-top: 15px;
+}
+
+.position-value {
+	background: #f9fafb;
+	padding: 12px;
+	border-radius: 9px;
+}
+
+.position-value span {
+	display: block;
+	font-size: 11px;
+	color: #6b7280;
+	margin-bottom: 4px;
+}
+
+.history-table-wrapper {
+	overflow-x: auto;
+}
+
+.history-table {
+	width: 100%;
+	border-collapse: collapse;
+	min-width: 1000px;
+}
+
+.history-table th, .history-table td {
+	padding: 13px;
+	border-bottom: 1px solid #e5e7eb;
+	text-align: left;
+}
+
+.history-table th {
+	background: #f9fafb;
+	font-size: 13px;
+}
+
+.delete-btn {
+	border: none;
+	background: #ef4444;
+	color: white;
+	padding: 7px 12px;
+	border-radius: 7px;
+	cursor: pointer;
+}
+
+.empty {
+	text-align: center;
+	padding: 30px;
+	color: #6b7280;
+}
+
+@media ( max-width : 700px) {
+	.position-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+	.container {
+		padding: 12px;
+	}
+	
+}
+.trade-summary {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.summary-card {
+    min-width: 145px;
+    padding: 12px 15px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.summary-card span {
+    display: block;
+    color: #6b7280;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.summary-card strong {
+    font-size: 17px;
+    color: #111827;
+}
+
+.summary-card .profit {
+    color: #16a34a;
+}
+
+.summary-card .loss {
+    color: #dc2626;
+}
+
+@media(max-width: 1100px) {
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .trade-summary {
+        justify-content: flex-start;
+    }
+
+}
+</style>
+
+</head>
+
+<body>
+
+	<div class="topbar">
+
+		<div class="brand">MarketLive — Paper Trading</div>
+
+		<div class="live-status">
+
+			<div id="connectionDot" class="dot"></div>
+
+			<span id="connectionText"> Connecting... </span>
+
+		</div>
+
+	</div>
+
+
+	<div class="container">
+
+		<div class="hero">
+
+			<h1>Paper Trading</h1>
+
+			<p>Live Upstox market data based simulated trading</p>
+
+		</div>
+
+
+		<!-- ========================================= -->
+		<!-- RANDOM 10 -->
+		<!-- ========================================= -->
+
+		<section class="section">
+
+			<div class="section-header">
+
+				<div>
+
+					<h2>Random 10 Stocks</h2>
+
+					<p>Live market price</p>
+
+				</div>
+
+				<button class="refresh-btn" onclick="loadStocks()">Refresh
+					10</button>
+
+			</div>
+
+			<div id="stocksContainer" class="stock-grid"></div>
+
+		</section>
+
+
+		<!-- ========================================= -->
+		<!-- CURRENT POSITIONS -->
+		<!-- ========================================= -->
+
+		<section class="section">
+
+			<div class="section-header">
+
+				<div>
+
+					<h2>My Current Stocks</h2>
+
+					<p>Active bought stocks and recently sold stocks</p>
+
+				</div>
+
+			</div>
+
+			<div id="positionsContainer"></div>
+
+		</section>
+
+
+		<!-- ========================================= -->
+		<!-- TRADE HISTORY -->
+		<!-- ========================================= -->
+
+		<section class="section">
+
+			<div class="section-header">
+
+				<div>
+					<h2>Completed Trade History</h2>
+
+					<p>Permanently completed paper trades</p>
+				</div>
+
+				<!-- ============================= -->
+				<!-- TRADE SUMMARY -->
+				<!-- ============================= -->
+
+				<div class="trade-summary">
+
+					<div class="summary-card">
+
+						<span>Total Trades</span> <strong id="totalTrades"> 0 </strong>
+
+					</div>
+
+
+					<div class="summary-card">
+
+						<span>Total Investment</span> <strong id="totalInvestment">
+							₹0.00 </strong>
+
+					</div>
+
+
+					<div class="summary-card">
+
+						<span>Total Profit / Loss</span> <strong id="totalProfitLoss">
+							₹0.00 </strong>
+
+					</div>
+
+
+					<div class="summary-card">
+
+						<span>Total P/L %</span> <strong id="totalProfitLossPercent">
+							0.00% </strong>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<div class="history-table-wrapper">
+
+				<table class="history-table">
+
+					<thead>
+
+						<tr>
+
+							<th>Symbol</th>
+
+							<th>Qty</th>
+
+							<th>Buy Price</th>
+
+							<th>Sell Price</th>
+
+							<th>P/L</th>
+
+							<th>P/L %</th>
+
+							<th>Buy Date</th>
+
+							<th>Sell Date</th>
+
+							<th>Action</th>
+
+						</tr>
+
+					</thead>
+
+					<tbody id="historyTable">
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</section>
+
+	</div>
+
+
+	<script th:src="@{/js/paper-trading.js}"></script>
+
+</body>
+
+</html>

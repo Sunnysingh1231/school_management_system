@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Live Market Dashboard</title>
+
+<link rel="stylesheet" th:href="@{/css/market.css}">
+
+</head>
+
+<body>
+
+	<div class="app">
+
+		<!-- ================= HEADER ================= -->
+
+		<header class="topbar">
+
+			<div class="brand">
+
+				<div class="brand-icon">₹</div>
+
+				<div>
+					<h1>MarketLive</h1>
+					<span>NSE Market Dashboard</span>
+				</div>
+
+			</div>
+
+
+			<div class="connection">
+
+				<span id="connectionDot" class="dot offline"></span> <span
+					id="connectionText"> Connecting... </span> <a href="/top10"
+					style="border: 1px solid red; border-radius: 20px; background: #ffff; margin-left: 10px; padding: 8px; text-decoration: none;">
+					Top 10 Trading </a> <a href="/algo-tradingg"
+					style="border: 1px solid red; border-radius: 20px; background: #ffff; margin-left: 10px; padding: 8px; text-decoration: none;">Algo
+					Trading </a>
+			</div>
+
+		</header>
+
+
+		<!-- ================= MAIN ================= -->
+
+		<main class="container">
+
+
+			<!-- ================= HERO ================= -->
+
+			<section class="hero-card">
+
+				<div>
+
+					<span class="label"> LIVE MARKET </span>
+
+					<h2>Indian Share Market</h2>
+
+					<p>Real-time data powered by Upstox</p>
+
+				</div>
+
+
+				<div class="market-time">
+
+					<span>Market Status</span> <strong id="marketStatus">
+						Waiting... </strong> <span id="lastUpdate2">Waiting...</span>
+
+				</div>
+
+			</section>
+
+
+
+			<!-- ================= MARKET CARDS ================= -->
+
+			<section class="market-grid">
+
+
+				<!-- NIFTY -->
+
+				<div class="stock-card">
+
+					<div class="stock-header">
+
+						<div>
+
+							<h3>NIFTY 50</h3>
+
+							<span> NSE INDEX </span>
+
+						</div>
+
+						<div class="live-badge">LIVE</div>
+
+					</div>
+
+
+					<div class="price" id="niftyPrice">--</div>
+
+
+					<div class="change" id="niftyChange">--</div>
+
+
+					<div class="stats">
+
+						<div>
+							<span>Open</span> <strong id="niftyOpen"> -- </strong>
+						</div>
+
+						<div>
+							<span>High</span> <strong id="niftyHigh"> -- </strong>
+						</div>
+
+						<div>
+							<span>Low</span> <strong id="niftyLow"> -- </strong>
+						</div>
+
+						<div>
+							<span>Prev Close</span> <strong id="niftyClose"> -- </strong>
+						</div>
+
+					</div>
+
+				</div>
+
+
+
+				<!-- BANK NIFTY -->
+
+				<div class="stock-card">
+
+					<div class="stock-header">
+
+						<div>
+
+							<h3>NIFTY BANK</h3>
+
+							<span> NSE INDEX </span>
+
+						</div>
+
+						<div class="live-badge">LIVE</div>
+
+					</div>
+
+
+					<div class="price" id="bankPrice">--</div>
+
+
+					<div class="change" id="bankChange">--</div>
+
+
+					<div class="stats">
+
+						<div>
+							<span>Open</span> <strong id="bankOpen"> -- </strong>
+						</div>
+
+						<div>
+							<span>High</span> <strong id="bankHigh"> -- </strong>
+						</div>
+
+						<div>
+							<span>Low</span> <strong id="bankLow"> -- </strong>
+						</div>
+
+						<div>
+							<span>Prev Close</span> <strong id="bankClose"> -- </strong>
+						</div>
+
+					</div>
+
+				</div>
+
+			</section>
+
+
+
+
+			<!-- ================= STOCK TABLE ================= -->
+			<section class="panel">
+
+				<div class="panel-header">
+
+					<div>
+						<h2>Live Market</h2>
+						<p>Real-time instrument updates</p>
+					</div>
+
+					<div class="update-info">
+						Last update: <span id="lastUpdate">--</span>
+					</div>
+
+				</div>
+
+
+				<!-- ================= SEARCH ================= -->
+				<div class="market-controls">
+
+					<div class="market-search">
+
+						<input type="text" id="stockSearch"
+							placeholder="Search stock name / symbol..." autocomplete="off">
+
+						<button type="button" id="clearSearch">Refresh</button>
+
+					</div>
+
+					<div class="pagination-info">
+						Showing <strong id="pageInfo">0 - 0</strong> of <strong
+							id="totalStocks">0</strong> stocks
+					</div>
+
+				</div>
+
+
+				<!-- ================= MARKET TABLE ================= -->
+
+				<div class="table-wrapper">
+
+					<table>
+
+						<thead>
+
+							<tr>
+
+								<th>S. No</th>
+								<th>Symbol</th>
+								<th>LTP</th>
+								<th>Change</th>
+								<th>Change %</th>
+								<th>Open</th>
+								<th>High</th>
+								<th>Low</th>
+								<th>Prev Close</th>
+								<th>Volume</th>
+								<th>Last Qty</th>
+								<th>TOTAL BID</th>
+								<th>TOTAL ASK</th>
+
+							</tr>
+
+						</thead>
+
+						<tbody id="marketTable">
+
+							<!-- JS inserts only 20 rows -->
+
+						</tbody>
+
+					</table>
+
+				</div>
+
+
+				<!-- ================= PAGINATION ================= -->
+
+				<div class="pagination" id="pagination">
+
+					<!-- JS creates pagination buttons -->
+
+				</div>
+
+
+				<!-- ================= MARKET DEPTH ================= -->
+
+				<section class="panel">
+
+					<div class="panel-header">
+
+						<div>
+
+							<h2>Market Depth</h2>
+
+							<p>5-Level Bid & Ask</p>
+
+						</div>
+
+
+						<!-- Selected Symbol -->
+
+						<div class="depth-symbol-center">
+
+							<strong id="depthSymbol">--</strong>
+
+						</div>
+
+
+						<!-- Symbol Dropdown -->
+
+						<div class="depth-symbol">
+
+							<select id="depthSymbolSelect">
+
+								<option value="">Select Symbol</option>
+
+							</select>
+
+						</div>
+
+					</div>
+
+
+					<div class="depth-wrapper">
+
+
+						<!-- ================= BID SIDE ================= -->
+
+						<div class="depth-side bid-side">
+
+							<div class="depth-title bid-title">
+
+								<span>BUY / BID</span> <span>Quantity</span>
+
+							</div>
+
+
+							<div class="depth-header">
+
+								<span>Bid Price</span> <span>Bid Qty</span>
+
+							</div>
+
+
+							<div id="bidLevels">
+
+								<!-- JS -->
+
+							</div>
+
+						</div>
+
+
+						<!-- ================= ASK SIDE ================= -->
+
+						<div class="depth-side ask-side">
+
+							<div class="depth-title ask-title">
+
+								<span>SELL / ASK</span> <span>Quantity</span>
+
+							</div>
+
+
+							<div class="depth-header">
+
+								<span>Ask Price</span> <span>Ask Qty</span>
+
+							</div>
+
+
+							<div id="askLevels">
+
+								<!-- JS -->
+
+							</div>
+
+						</div>
+
+					</div>
+
+
+					<!-- ================= TOTAL BID / ASK ================= -->
+
+					<div class="depth-total-wrapper">
+
+						<div class="depth-total bid-total">
+
+							<div>
+
+								<span class="total-label"> TOTAL BID </span> <small> 5
+									Levels </small>
+
+							</div>
+
+							<strong id="totalBidQty"> 0 </strong>
+
+						</div>
+
+
+						<div class="depth-total ask-total">
+
+							<div>
+
+								<span class="total-label"> TOTAL ASK </span> <small> 5
+									Levels </small>
+
+							</div>
+
+							<strong id="totalAskQty"> 0 </strong>
+
+						</div>
+
+					</div>
+
+				</section>
+
+			</section>
+
+
+
+
+
+
+
+
+			<!-- ================= FOOTER ================= -->
+
+			<footer>
+
+				<span> MarketLive </span> <span> Live data dashboard </span>
+
+			</footer>
+
+		</main>
+
+	</div>
+
+	<script th:src="@{/js/martket.js}"></script>
+
+</body>
+
+</html>

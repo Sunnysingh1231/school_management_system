@@ -86,6 +86,11 @@ public class StudentService implements StudentServiceInterface {
 	}
 
 	@Override
+	public Optional<Student> findStudentByStudentId(int id) {
+		return studentRepository.findById(id);
+	}
+	
+	@Override
 	public List<Attendence> findAttendenceByStudentId(int id) {
 
 		return attendenceRepository.findByStudentId(id);
@@ -104,10 +109,6 @@ public class StudentService implements StudentServiceInterface {
 		return attendenceRepository.findTop6ByStudent_IdOrderByDateDesc(id);
 	}
 
-	@Override
-	public Optional<Student> findStudentByStudentId(int id) {
-		return studentRepository.findById(id);
-	}
 	
 //	DASHBOARD----------------------------------------------------------------------------------------------------
 	

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,8 @@ import com.sms.repository.ClassRepository;
 import com.sms.repository.RoleRepository;
 import com.sms.repository.StudentRepository;
 import com.sms.repository.TeacherRepository;
+import com.sms.serviceInterface.StudentFeeServiceInterface;
+import com.sms.serviceInterface.StudentServiceInterface;
 import com.sms.serviceInterface.TeacherServiceInterface;
 import com.sms.serviceInterface.UserServiceInterface;
 
@@ -43,6 +46,9 @@ public class SchoolAdminController {
 	
 	@Autowired
 	private TeacherRepository teacherRepository;
+	
+	@Autowired
+	private StudentServiceInterface studentServiceInterface;
 	
 	
 // GET MAPPING-------------------------------------------------------------------
@@ -119,6 +125,22 @@ public class SchoolAdminController {
 		model.addAttribute("classes",userServiceInterface.findAllClasses());
 		
 		return "/school_admin/view_classes";
+		
+	}
+	
+//  STUDENT SECTION---------------------------------------------------------------------------------------
+	
+	@GetMapping("/student-detail")
+	public String viewStudentDetail(Model model, @RequestParam int stdid) {
+		
+		// SET SCHOOL NAME TO HEADER NAVBAR
+		model.addAttribute("schoolName",userServiceInterface.schoolName());
+		Optional<Student> student = studentServiceInterface.findStudentByStudentId(stdid);
+		
+		model.addAttribute("student", student.get());
+		
+		
+		return "/school_admin/student_detail";
 		
 	}
 	

@@ -64,6 +64,28 @@
         tr:hover {
             background: #f5f5f5;
         }
+        .ancer{
+			padding:6px 12px;
+			border-radius:15px;
+			text-decoration:none;
+			font-size:14px;
+			margin:2px;
+		}
+			
+		.view{
+			background:#4ecdc4;
+			color:white;
+		}
+			
+		.edit{
+			background:#ffcc00;
+			color:black;
+		}
+			
+		.delete{
+			background:#ff6b6b;
+			color:white;
+		}
     </style>
 </head>
 <body>
@@ -107,7 +129,7 @@
 
             <button type="submit">Filter</button>
 
-        </form>
+        
 
 		<div class="stat-card" style="display: flex; align-items: center; gap: 10px;">
             <h3>Total Students:</h3>
@@ -142,12 +164,18 @@
                     <td th:text="${student.gender}"></td>
                     <td th:text="${student.classEntity.className}"></td>
                     <td th:text="${student.classEntity.section}"></td>
+                    <td>
+                    	<input type = "hidden" name = "stdid" th:value = "${student.id}">
+						<a th:href="@{/admin/student-detail(stdid=${student.id})}" class="ancer view">Detail</a>
+						<a href="" class="ancer edit">Edit</a>
+						<a th:href="@{/admin/student-detail(stdid=${student.id})}" class="ancer delete">Delete</a>
+					</td>
                 </tr>
 
             </tbody>
 
         </table>
-
+</form>
     </div>
 
 </body>

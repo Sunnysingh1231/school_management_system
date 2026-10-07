@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Algo Filter Dashboard</title>
+
+<link rel="stylesheet" href="/css/ginn.css">
+
+</head>
+
+
+<body>
+
+
+	<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+	<nav class="navbar">
+
+		<div class="navbar-left">
+
+			<div class="brand">Algo Trading</div>
+
+			<div class="nav-links">
+
+				<a href="/market"> Market </a> <a href="/algo" class="active">
+					Algo Filter </a> <a href="/paper-trading"> Paper Trading </a> <a
+					href="/history"> Trade History </a>
+
+			</div>
+
+		</div>
+
+
+		<div class="navbar-right">
+
+			<div class="market-status">
+
+				<span id="connectionDot" class="connection-dot"> </span> <span
+					id="connectionText"> Connecting... </span>
+
+			</div>
+
+		</div>
+
+	</nav>
+
+
+
+	<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+	<main class="main-container">
+
+
+		<!-- =================================================
+     LIQUIDITY FILTER BOX
+================================================== -->
+
+		<section class="filter-box">
+
+			<!-- BOX HEADER -->
+			<div class="box-header">
+
+				<div>
+					<h2>Liquidity Filter</h2>
+					<p>(V > 1M), (Vol × LTP = TV > 500M), (D%C > 1.5)</p>
+				</div>
+
+				<div class="liquidity-controls">
+
+					<!-- SEARCH -->
+					<input type="text" id="liquiditySearch" class="liquidity-search"
+						placeholder="Search stock..." autocomplete="off">
+
+					<!-- SORT -->
+					<select id="liquiditySort" class="liquidity-sort">
+						<option value="default">Sort By</option>
+
+						<option value="volume">Volume</option>
+
+						<option value="tradedValue">Traded Value</option>
+
+						<option value="ltp">LTP</option>
+
+						<option value="topGainer">Top Gainer</option>
+
+						<option value="topLoser">Top Loser</option>
+					</select>
+
+					<!-- COUNT -->
+					<div class="box-summary">
+						<span>Stocks: </span> <strong id="liquidityTotalStocks">0</strong>
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<!-- LIQUIDITY TABLE -->
+
+			<div id="liquidityTableWrapper" class="table-wrapper empty">
+
+				<table class="stock-table">
+
+					<thead>
+
+						<tr>
+
+							<th>#</th>
+
+							<th>Stock</th>
+
+							<th>Open</th>
+
+							<th>Close</th>
+
+							<th>Low</th>
+
+							<!--<th>Traded Value</th>-->
+
+							<th>High</th>
+
+							<th>Volume</th>
+
+							<th>Time</th>
+
+						</tr>
+
+					</thead>
+
+					<tbody id="liquidityStockTableBody">
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</section>
+
+		<!-- =================================================
+         EMA FILTER BOX
+    ================================================== -->
+
+		<section class="filter-box">
+
+
+			<!-- BOX HEADER -->
+
+			<div class="box-header">
+
+				<div>
+
+					<h2>EMA Filter</h2>
+
+					<p>EMA 20 / EMA 50 / EMA 200</p>
+
+				</div>
+
+
+				<div class="box-summary">
+
+					<span> Stocks: </span> <strong id="totalStocks"> 0 </strong>
+
+				</div>
+
+			</div>
+
+
+
+			<!-- =================================================
+             EMA TABLE
+        ================================================== -->
+
+			<div id="emaTableWrapper" class="table-wrapper empty">
+
+				<table class="stock-table">
+
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Stock</th>
+							<th>LTP</th>
+							<th>EMA 20</th>
+							<th>EMA 50</th>
+							<th>EMA 200</th>
+							<th>Trend</th>
+							<th>Bullish %</th>
+							<th>Bearish %</th>
+							<th>Price > EMA20</th>
+
+							<th>Price > EMA50</th>
+
+							<th>Price > EMA200</th>
+
+							<th>Alignment</th>
+						</tr>
+					</thead>
+
+					<tbody id="emaStockTableBody">
+					</tbody>
+
+				</table>
+
+			</div>
+
+
+		</section>
+
+		<!-- =================================================
+     TRADE HISTORY BOX
+================================================== -->
+
+		<section class="filter-box trade-history-box">
+
+			<div class="box-header">
+
+				<div>
+					<h2>Trade History</h2>
+					<p>EMA BUY / SELL Trades</p>
+				</div>
+
+				<div class="box-summary">
+					<span>Trades: </span> <strong id="tradeHistoryTotal">0</strong>
+				</div>
+
+			</div>
+
+
+			<!-- TRADE HISTORY TABLE -->
+
+			<div id="tradeHistoryTableWrapper" class="table-wrapper empty">
+
+				<table class="stock-table trade-history-table">
+
+					<thead>
+
+						<tr>
+
+							<th>#</th>
+
+							<th>Stock</th>
+
+							<th>Status</th>
+
+							<th>Buy Price</th>
+
+							<th>Sell Price</th>
+
+							<th>Change %</th>
+
+							<th>P/L</th>
+
+							<th>Bullish %</th>
+
+							<th>Bearish %</th>
+
+							<th>EMA 20</th>
+
+							<th>EMA 50</th>
+
+							<th>EMA 200</th>
+
+							<th>Trend</th>
+
+							<th>Buy Time</th>
+
+							<th>Sell Time</th>
+
+						</tr>
+
+					</thead>
+
+
+					<tbody id="tradeHistoryTableBody">
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</section>
+
+
+
+		<!-- =================================================
+         FUTURE BOXES
+         
+         Yahan baad me:
+         
+         RSI
+         MACD
+         VWAP
+         ATR
+         ENTRY
+         RISK
+         
+         ke boxes add kar sakte ho.
+    ================================================== -->
+
+
+		<!-- Example:
+
+    <section class="filter-box">
+
+        <div class="box-header">
+
+            <div>
+
+                <h2>RSI Filter</h2>
+
+                <p>Momentum Analysis</p>
+
+            </div>
+
+            <div class="box-summary">
+                Stocks: 0
+            </div>
+
+        </div>
+
+    </section>
+
+    -->
+
+
+	</main>
+
+
+
+	<script src="/js/test.js"></script>
+
+</body>
+
+</html>

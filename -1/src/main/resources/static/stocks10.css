@@ -1,0 +1,560 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f4f6;
+    color: #111827;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+    height: 70px;
+
+    background: #111827;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 30px;
+}
+
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 10px;
+
+    background: #4f46e5;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 23px;
+
+    font-weight: bold;
+}
+
+
+.brand h1 {
+    font-size: 20px;
+}
+
+
+.brand span {
+    font-size: 12px;
+
+    color: #9ca3af;
+}
+
+
+.connection {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 14px;
+}
+
+
+.dot {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+}
+
+
+.dot.online {
+    background: #22c55e;
+
+    box-shadow: 0 0 8px #22c55e;
+}
+
+
+.dot.offline {
+    background: #ef4444;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    max-width: 1500px;
+
+    margin: auto;
+
+    padding: 25px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+
+    color: white;
+
+    border-radius: 15px;
+
+    padding: 28px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+
+.hero h2 {
+    font-size: 30px;
+
+    margin-bottom: 8px;
+}
+
+
+.hero p {
+    opacity: 0.85;
+}
+
+
+.market-status {
+    text-align: right;
+}
+
+
+.market-status span {
+    display: block;
+
+    font-size: 13px;
+
+    opacity: 0.8;
+}
+
+
+.market-status strong {
+    font-size: 20px;
+}
+
+
+/* =========================
+   STOCK GRID
+========================= */
+
+.stock-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+
+.stock-card {
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+.stock-name {
+    font-weight: bold;
+
+    font-size: 15px;
+
+    margin-bottom: 12px;
+}
+
+
+.stock-price {
+    font-size: 25px;
+
+    font-weight: bold;
+
+    margin-bottom: 6px;
+}
+
+
+.stock-change {
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+.positive {
+    color: #16a34a;
+}
+
+
+.negative {
+    color: #dc2626;
+}
+
+
+.neutral {
+    color: #6b7280;
+}
+
+
+/* =========================
+   PANEL
+========================= */
+
+.panel {
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+
+.panel-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+
+.panel-header h2 {
+    font-size: 21px;
+}
+
+
+.panel-header p {
+    color: #6b7280;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+}
+
+
+#lastUpdate {
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container {
+
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    white-space: nowrap;
+}
+
+
+thead {
+    background: #f9fafb;
+}
+
+
+th {
+    text-align: left;
+
+    padding: 13px;
+
+    font-size: 12px;
+
+    color: #6b7280;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+td {
+    padding: 13px;
+
+    border-bottom: 1px solid #f0f0f0;
+
+    font-size: 13px;
+}
+
+
+tbody tr:hover {
+    background: #f9fafb;
+}
+
+
+/* =========================
+   DEPTH SELECTOR
+========================= */
+
+.depth-selector {
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.depth-selector label {
+
+    font-weight: bold;
+}
+
+
+#stockSelector {
+
+    padding: 10px 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    min-width: 220px;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   DEPTH
+========================= */
+
+.depth-container {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+
+.depth-box {
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.depth-box h3 {
+
+    padding: 13px 15px;
+
+    font-size: 15px;
+}
+
+
+.bid-title {
+
+    background: #ecfdf5;
+
+    color: #047857;
+}
+
+
+.ask-title {
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+}
+
+
+.depth-box table {
+
+    width: 100%;
+}
+
+
+.depth-box th,
+.depth-box td {
+
+    padding: 10px 15px;
+}
+
+
+/* =========================
+   TOTAL BUY SELL
+========================= */
+
+.total-depth {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+
+    margin-top: 20px;
+}
+
+
+.total-box {
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    background: #f9fafb;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.total-box span {
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+.total-box strong {
+
+    font-size: 22px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .stock-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .stock-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .hero {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .market-status {
+
+        text-align: left;
+    }
+
+    .depth-container {
+
+        grid-template-columns: 1fr;
+    }
+
+    .total-depth {
+
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .stock-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+
+        padding: 12px;
+    }
+}

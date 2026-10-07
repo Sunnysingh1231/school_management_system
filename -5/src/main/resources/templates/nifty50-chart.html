@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NIFTY 50 - 5 Minute Chart</title>
+
+<link rel="stylesheet" href="/css/nifty50-chart.css">
+
+<!-- Lightweight Charts -->
+<script
+	src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
+</head>
+
+<body>
+
+	<div class="page">
+
+		<!-- ================================================= -->
+		<!-- HEADER -->
+		<!-- ================================================= -->
+
+		<header class="top-header">
+
+			<div>
+
+				<h1>NIFTY 50</h1>
+
+				<p>5 Minute Historical Chart</p>
+
+			</div>
+
+			<div class="header-right">
+
+				<span class="status-dot"></span> <span>Historical Data</span>
+
+			</div>
+
+		</header>
+
+
+		<!-- ================================================= -->
+		<!-- CONTROLS -->
+		<!-- ================================================= -->
+
+		<section class="controls">
+
+			<div class="control-group">
+
+				<label>Stock</label> <select id="stockSelect">
+
+					<option value="">Select Stock</option>
+
+				</select>
+
+			</div>
+
+
+			<div class="control-group">
+
+				<label>Time</label> <select id="timeSelect">
+
+					<option value="all">09:15 - 10:00</option>
+
+				</select>
+
+			</div>
+
+
+			<button id="loadBtn">Load Chart</button>
+
+		</section>
+
+
+		<!-- ================================================= -->
+		<!-- STOCK INFORMATION -->
+		<!-- ================================================= -->
+
+		<section class="stock-info">
+
+			<div class="info-box">
+
+				<span>Stock</span> <strong id="selectedStock"> - </strong>
+
+			</div>
+
+
+			<div class="info-box">
+
+				<span>Timeframe</span> <strong> 5 Minutes </strong>
+
+			</div>
+
+
+			<div class="info-box">
+
+				<span>Period</span> <strong> Previous 20 Days </strong>
+
+			</div>
+
+
+			<div class="info-box">
+
+				<span>Candles</span> <strong id="candleCount"> 0 </strong>
+
+			</div>
+
+		</section>
+
+
+		<!-- ================================================= -->
+		<!-- CHART -->
+		<!-- ================================================= -->
+
+		<section class="chart-panel">
+
+			<div class="chart-header">
+
+				<div>
+
+					<h2 id="chartTitle">Select a stock</h2>
+
+					<p>09:15 AM - 10:00 AM</p>
+
+				</div>
+
+			</div>
+
+
+			<div id="chart"></div>
+
+		</section>
+
+	</div>
+
+
+	<script src="/js/nifty50-chart.js"></script>
+
+</body>
+
+</html>
