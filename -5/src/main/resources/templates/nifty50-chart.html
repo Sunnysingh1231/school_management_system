@@ -10,6 +10,7 @@
 <title>NIFTY 50 - 5 Minute Chart</title>
 
 <link rel="stylesheet" href="/css/nifty50-chart.css">
+<link rel="stylesheet" href="/css/ginn.css">
 
 <!-- Lightweight Charts -->
 <script
@@ -18,6 +19,37 @@
 </head>
 
 <body>
+
+<nav class="navbar">
+
+		<div class="navbar-left">
+
+			<div class="brand">Algo Trading</div>
+
+			<div class="nav-links">
+
+				<a href="/market"> Market </a> 
+				<a href="/test" > Algo Filter </a> 
+				<a href="/chart" class="active"> Chart </a> 
+				<a href="/history"> Trade History </a>
+
+			</div>
+
+		</div>
+
+
+		<div class="navbar-right">
+
+			<div class="market-status">
+
+				<span id="connectionDot" class="connection-dot"> </span> <span
+					id="connectionText"> Connecting... </span>
+
+			</div>
+
+		</div>
+
+	</nav>
 
 	<div class="page">
 
@@ -62,13 +94,17 @@
 
 
 			<div class="control-group">
-
 				<label>Time</label> <select id="timeSelect">
 
-					<option value="all">09:15 - 10:00</option>
+					<option value="all">All Trading Hours</option>
+
+					<option value="morning">09:15 - 10:00</option>
+
+					<option value="midday">10:00 - 14:00</option>
+
+					<option value="afternoon">14:00 - 15:30</option>
 
 				</select>
-
 			</div>
 
 

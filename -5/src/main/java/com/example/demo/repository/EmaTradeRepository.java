@@ -12,4 +12,5 @@ public interface EmaTradeRepository
             String instrumentKey,
             String status
     );
+    
 }

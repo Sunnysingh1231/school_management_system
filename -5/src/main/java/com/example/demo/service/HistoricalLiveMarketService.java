@@ -46,7 +46,6 @@ public class HistoricalLiveMarketService {
 
 				List<String> instrumentKeys = List.of(
 
-						"NSE_EQ|INE040A01034",
 					    "NSE_EQ|INE090A01021",
 					    "NSE_EQ|INE062A01020",
 					    "NSE_EQ|INE002A01018",

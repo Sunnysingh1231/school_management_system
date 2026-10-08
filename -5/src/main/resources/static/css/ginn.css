@@ -759,3 +759,154 @@ body {
     color: #888888 !important;
     font-weight: 600;
 }
+
+/* =====================================================
+   TRADE SUMMARY
+===================================================== */
+
+.trade-summary {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(150px, 1fr));
+
+    gap: 12px;
+
+    padding: 15px 18px;
+
+    background: #0f1828;
+
+    border-bottom: 1px solid #24324a;
+}
+
+
+/* =====================================================
+   SUMMARY CARD
+===================================================== */
+
+.trade-summary-card {
+
+    min-height: 72px;
+
+    padding: 12px 14px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    background: #162238;
+
+    border: 1px solid #263750;
+
+    border-radius: 7px;
+
+    transition: 0.2s ease;
+}
+
+
+.trade-summary-card:hover {
+
+    background: #1a2a43;
+
+    border-color: #365078;
+
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   SUMMARY LABEL
+===================================================== */
+
+.trade-summary-card span {
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #8391a6;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+}
+
+
+/* =====================================================
+   SUMMARY VALUE
+===================================================== */
+
+.trade-summary-card strong {
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+/* =====================================================
+   LOSS
+===================================================== */
+
+.trade-summary-card.loss-card strong {
+
+    color: #ef4444;
+}
+
+
+/* =====================================================
+   PROFIT
+===================================================== */
+
+.trade-summary-card.profit-card strong {
+
+    color: #22c55e;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1100px) {
+
+    .trade-summary {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .trade-summary {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .trade-summary {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}

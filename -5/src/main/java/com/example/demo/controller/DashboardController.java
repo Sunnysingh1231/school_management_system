@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DashboardController {
 
 
-	@GetMapping("/")
+	@GetMapping("/market")
 	public String dashboard() {
 		return "market";
 	}
 
-	@GetMapping("/top10")
+	@GetMapping("/history")
 	public String top10() {
-		return "paper-trading";
+		return "tradeHistory";
 	}
 
 	@GetMapping("/algo")

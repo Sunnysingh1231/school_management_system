@@ -30,9 +30,10 @@
 
 			<div class="nav-links">
 
-				<a href="/market"> Market </a> <a href="/algo" class="active">
-					Algo Filter </a> <a href="/paper-trading"> Paper Trading </a> <a
-					href="/history"> Trade History </a>
+				<a href="/market"> Market </a> 
+				<a href="/test" class="active"> Algo Filter </a> 
+				<a href="/chart"> Chart </a> 
+				<a href="/history"> Trade History </a>
 
 			</div>
 
@@ -203,6 +204,8 @@
 							<th>Price > EMA200</th>
 
 							<th>Alignment</th>
+							
+							<th>Time</th>
 						</tr>
 					</thead>
 
@@ -216,81 +219,7 @@
 
 		</section>
 
-		<!-- =================================================
-     TRADE HISTORY BOX
-================================================== -->
-
-		<section class="filter-box trade-history-box">
-
-			<div class="box-header">
-
-				<div>
-					<h2>Trade History</h2>
-					<p>EMA BUY / SELL Trades</p>
-				</div>
-
-				<div class="box-summary">
-					<span>Trades: </span> <strong id="tradeHistoryTotal">0</strong>
-				</div>
-
-			</div>
-
-
-			<!-- TRADE HISTORY TABLE -->
-
-			<div id="tradeHistoryTableWrapper" class="table-wrapper empty">
-
-				<table class="stock-table trade-history-table">
-
-					<thead>
-
-						<tr>
-
-							<th>#</th>
-
-							<th>Stock</th>
-
-							<th>Status</th>
-
-							<th>Buy Price</th>
-
-							<th>Sell Price</th>
-
-							<th>Change %</th>
-
-							<th>P/L</th>
-
-							<th>Bullish %</th>
-
-							<th>Bearish %</th>
-
-							<th>EMA 20</th>
-
-							<th>EMA 50</th>
-
-							<th>EMA 200</th>
-
-							<th>Trend</th>
-
-							<th>Buy Time</th>
-
-							<th>Sell Time</th>
-
-						</tr>
-
-					</thead>
-
-
-					<tbody id="tradeHistoryTableBody">
-
-					</tbody>
-
-				</table>
-
-			</div>
-
-		</section>
-
+		
 
 
 		<!-- =================================================

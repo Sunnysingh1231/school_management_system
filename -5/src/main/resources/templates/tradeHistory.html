@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Trade History</title>
+
+<link rel="stylesheet" href="/css/ginn.css">
+
+</head>
+
+
+<body>
+
+	<nav class="navbar">
+
+		<div class="navbar-left">
+
+			<div class="brand">Algo Trading</div>
+
+			<div class="nav-links">
+
+				<a href="/market"> Market </a> <a href="/test"> Algo Filter </a> <a
+					href="/chart"> Chart </a> <a href="/history" class="active">
+					Trade History </a>
+
+			</div>
+
+		</div>
+
+
+		<div class="navbar-right">
+
+			<div class="market-status">
+
+				<span id="connectionDot" class="connection-dot"> </span> <span
+					id="connectionText"> Connecting... </span>
+
+			</div>
+
+		</div>
+
+	</nav>
+
+	<main class="main-container">
+
+		<section class="filter-box trade-history-box">
+
+			<div class="box-header">
+
+				<div>
+					<h2>Trade History</h2>
+					<p>EMA BUY / SELL Trades</p>
+				</div>
+
+				<div class="box-summary">
+					<span>Trades:</span> <strong id="tradeHistoryTotal">0</strong>
+				</div>
+
+			</div>
+
+			<div class="trade-summary">
+
+				<div class="trade-summary-card">
+					<span>Total Investment</span> <strong id="totalInvestment">₹0.00</strong>
+				</div>
+
+				<div class="trade-summary-card">
+					<span>Net Profit</span> <strong id="netProfit">₹0.00</strong>
+				</div>
+
+				<div class="trade-summary-card">
+					<span>Total Sell Price</span> <strong id="totalSellPrice">₹0.00</strong>
+				</div>
+
+
+
+				<div class="trade-summary-card loss-card">
+					<span>Total Loss</span> <strong id="totalLoss">₹0.00</strong>
+				</div>
+
+				<div class="trade-summary-card profit-card">
+					<span>Net Profit %</span> <strong id="netProfitPercent">0.00%</strong>
+				</div>
+
+			</div>
+
+			<div id="tradeHistoryTableWrapper" class="table-wrapper empty">
+
+				<table class="stock-table trade-history-table">
+
+					<thead>
+
+						<tr>
+							<th>#</th>
+							<th>Stock</th>
+							<th>Status</th>
+							<th>Sell Price</th>
+							<th>Sell Time</th>
+							<th>Buy Price</th>
+							<th>Buy Time</th>
+							<th>Change %</th>
+							<th>P/L</th>
+						</tr>
+
+					</thead>
+
+					<tbody id="tradeHistoryTableBody">
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</section>
+
+	</main>
+
+
+
+	<script src="/js/test.js"></script>
+
+</body>
+
+</html>

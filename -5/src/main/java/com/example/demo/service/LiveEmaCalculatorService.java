@@ -3,9 +3,11 @@ package com.example.demo.service;
 import com.example.demo.model.Candle;
 import com.example.demo.webSocket.EmaWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class LiveEmaCalculatorService {
+
+	private final EmaBuySellFilterService emaBuySellFilterService;
 
 	private static final int EMA20 = 20;
 
@@ -28,13 +32,15 @@ public class LiveEmaCalculatorService {
 
 	private final EmaWebSocketHandler emaWebSocketHandler;
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper =
+	        new ObjectMapper()
+	                .registerModule(new JavaTimeModule());
 
-	private final Map<String, TrendResult> latestResults = new ConcurrentHashMap<>();
-
-	public LiveEmaCalculatorService(EmaWebSocketHandler emaWebSocketHandler) {
+	public LiveEmaCalculatorService(EmaWebSocketHandler emaWebSocketHandler,
+			EmaBuySellFilterService emaBuySellFilterService) {
 
 		this.emaWebSocketHandler = emaWebSocketHandler;
+		this.emaBuySellFilterService = emaBuySellFilterService;
 	}
 
 	// =====================================================
@@ -78,6 +84,8 @@ public class LiveEmaCalculatorService {
 
 		private final boolean bearishAlignment;
 
+		private final LocalDateTime timestamp;
+
 		public TrendResult(
 
 				String instrumentKey,
@@ -104,7 +112,7 @@ public class LiveEmaCalculatorService {
 
 				boolean bullishAlignment,
 
-				boolean bearishAlignment) {
+				boolean bearishAlignment, LocalDateTime timestamp) {
 
 			this.instrumentKey = instrumentKey;
 
@@ -131,6 +139,8 @@ public class LiveEmaCalculatorService {
 			this.bullishAlignment = bullishAlignment;
 
 			this.bearishAlignment = bearishAlignment;
+
+			this.timestamp = timestamp;
 		}
 
 		public String getInstrumentKey() {
@@ -184,6 +194,10 @@ public class LiveEmaCalculatorService {
 		public boolean isBearishAlignment() {
 			return bearishAlignment;
 		}
+
+		public LocalDateTime getTimestamp() {
+			return timestamp;
+		}
 	}
 
 	// =====================================================
@@ -227,6 +241,7 @@ public class LiveEmaCalculatorService {
 		for (Candle candle : candles) {
 
 			closes.add(candle.getClose());
+			
 		}
 
 		// =================================================
@@ -240,6 +255,8 @@ public class LiveEmaCalculatorService {
 		double ema200 = calculateEMA(closes, EMA200);
 
 		double currentPrice = closes.get(closes.size() - 1);
+
+		LocalDateTime timestamp = candles.get(candles.size() - 1).getTimestamp();
 
 		// =================================================
 		// PRICE VS EMA
@@ -366,24 +383,15 @@ public class LiveEmaCalculatorService {
 
 						bullishAlignment,
 
-						bearishAlignment);
-		
-		latestResults.put(
-		        instrumentKey,
-		        result
-		);
+						bearishAlignment,
+						
+						timestamp);
 
-		// =================================================
-		// OBJECT → JSON
-		// =================================================
+		emaBuySellFilterService.processAllStocks(result);
 
 		try {
 
 			String json = objectMapper.writeValueAsString(result);
-
-			// =================================================
-			// JSON → BROWSER
-			// =================================================
 
 			emaWebSocketHandler.sendMessage(json);
 
@@ -430,10 +438,5 @@ public class LiveEmaCalculatorService {
 
 		return ema;
 	}
-	
-	public Map<String, TrendResult> getLatestResults() {
 
-	    return latestResults;
-
-	}
 }

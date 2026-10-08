@@ -11,39 +11,47 @@
 
 <link rel="stylesheet" th:href="@{/css/market.css}">
 
+
 </head>
 
 <body>
+
+<nav class="navbar">
+
+		<div class="navbar-left">
+
+			<div class="brand">Algo Trading</div>
+
+			<div class="nav-links">
+
+				<a href="/market" class="active"> Market </a> 
+				<a href="/test" > Algo Filter </a> 
+				<a href="/chart"> Chart </a> 
+				<a href="/history"> Trade History </a>
+
+			</div>
+
+		</div>
+
+
+		<div class="navbar-right">
+
+			<div class="market-status">
+
+				<span id="connectionDot" class="connection-dot"> </span> <span
+					id="connectionText"> Connecting... </span>
+
+			</div>
+
+		</div>
+
+	</nav>
 
 	<div class="app">
 
 		<!-- ================= HEADER ================= -->
 
-		<header class="topbar">
-
-			<div class="brand">
-
-				<div class="brand-icon">₹</div>
-
-				<div>
-					<h1>MarketLive</h1>
-					<span>NSE Market Dashboard</span>
-				</div>
-
-			</div>
-
-
-			<div class="connection">
-
-				<span id="connectionDot" class="dot offline"></span> <span
-					id="connectionText"> Connecting... </span> <a href="/top10"
-					style="border: 1px solid red; border-radius: 20px; background: #ffff; margin-left: 10px; padding: 8px; text-decoration: none;">
-					Top 10 Trading </a> <a href="/algo-tradingg"
-					style="border: 1px solid red; border-radius: 20px; background: #ffff; margin-left: 10px; padding: 8px; text-decoration: none;">Algo
-					Trading </a>
-			</div>
-
-		</header>
+		
 
 
 		<!-- ================= MAIN ================= -->
