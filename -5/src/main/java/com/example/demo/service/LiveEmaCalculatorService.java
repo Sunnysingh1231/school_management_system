@@ -24,10 +24,6 @@ public class LiveEmaCalculatorService {
 
 	private static final int EMA200 = 200;
 
-	// =====================================================
-	// STOCK CANDLES
-	// =====================================================
-
 	private final Map<String, List<Candle>> stockCandles = new ConcurrentHashMap<>();
 
 	private final EmaWebSocketHandler emaWebSocketHandler;
@@ -42,10 +38,6 @@ public class LiveEmaCalculatorService {
 		this.emaWebSocketHandler = emaWebSocketHandler;
 		this.emaBuySellFilterService = emaBuySellFilterService;
 	}
-
-	// =====================================================
-	// TREND TYPE
-	// =====================================================
 
 	public enum TrendType {
 
@@ -200,10 +192,6 @@ public class LiveEmaCalculatorService {
 		}
 	}
 
-	// =====================================================
-	// ADD CANDLE
-	// =====================================================
-
 	public void addCandle(Candle candle) {
 
 		String instrumentKey = candle.getInstrumentKey();
@@ -214,39 +202,29 @@ public class LiveEmaCalculatorService {
 
 			candles.add(candle);
 
-			if (candles.size() > EMA200) {
+			if (candles.size() > 500) {
 
 				candles.remove(0);
 			}
 
 			if (candles.size() >= EMA200) {
+				
+				System.out.println(candles.size());
 
 				analyzeTrend(instrumentKey, candles);
 			}
 		}
 	}
 
-	// =====================================================
-	// ANALYZE TREND
-	// =====================================================
-
 	private void analyzeTrend(String instrumentKey, List<Candle> candles) {
 
 		List<Double> closes = new ArrayList<>();
-
-		// =================================================
-		// CLOSE PRICES
-		// =================================================
 
 		for (Candle candle : candles) {
 
 			closes.add(candle.getClose());
 			
 		}
-
-		// =================================================
-		// EMA
-		// =================================================
 
 		double ema20 = calculateEMA(closes, EMA20);
 
@@ -258,27 +236,15 @@ public class LiveEmaCalculatorService {
 
 		LocalDateTime timestamp = candles.get(candles.size() - 1).getTimestamp();
 
-		// =================================================
-		// PRICE VS EMA
-		// =================================================
-
 		boolean above20 = currentPrice > ema20;
 
 		boolean above50 = currentPrice > ema50;
 
 		boolean above200 = currentPrice > ema200;
 
-		// =================================================
-		// EMA ALIGNMENT
-		// =================================================
-
 		boolean bullishAlignment = ema20 > ema50 && ema50 > ema200;
 
 		boolean bearishAlignment = ema20 < ema50 && ema50 < ema200;
-
-		// =================================================
-		// BULLISH / BEARISH STRENGTH
-		// =================================================
 
 		double bullishStrength = 0;
 
@@ -324,10 +290,6 @@ public class LiveEmaCalculatorService {
 			bearishStrength += 40;
 		}
 
-		// =================================================
-		// TREND CLASSIFICATION
-		// =================================================
-
 		TrendType trend;
 
 		if (bullishStrength >= 80) {
@@ -350,10 +312,6 @@ public class LiveEmaCalculatorService {
 
 			trend = TrendType.SIDEWAYS;
 		}
-
-		// =================================================
-		// RESULT OBJECT
-		// =================================================
 
 		TrendResult result =
 
@@ -400,10 +358,6 @@ public class LiveEmaCalculatorService {
 			e.printStackTrace();
 		}
 	}
-
-	// =====================================================
-	// EMA CALCULATION
-	// =====================================================
 
 	private double calculateEMA(List<Double> prices, int period) {
 

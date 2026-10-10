@@ -89,7 +89,14 @@ public class HistoricalLiveMarketService {
 
 					for (String instrumentKey : instrumentKeys) {
 
-						List<Candle> candles = allStocks.get(instrumentKey);
+						List<Candle> candles =
+						        historicalService.getPrevious20Days5Minute(instrumentKey);
+
+						candles.sort(
+						        java.util.Comparator.comparing(Candle::getTimestamp)
+						);
+
+						allStocks.put(instrumentKey, candles);
 
 						if (i < candles.size()) {
 

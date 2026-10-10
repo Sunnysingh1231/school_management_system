@@ -32,7 +32,48 @@ public class EmaBuySellFilterService {
 
 		EmaTrade emaTrade = new EmaTrade();
 
-		if (trade.getBearishStrength() > 90 && trade.getInstrumentKey().equals("NSE_EQ|INE090A01021")) {
+		if (trade.getBullishStrength() > 90 && 
+				trade.getInstrumentKey().equals("NSE_EQ|INE090A01021") && 
+				emaTrades.stream().noneMatch(t -> t.getInstrumentKey().equals(trade.getInstrumentKey()))) {
+
+			emaTrade.setBuyPrice(trade.getCurrentPrice());
+			emaTrade.setInstrumentKey(trade.getInstrumentKey());
+			emaTrade.setStatus("BUY");
+			emaTrade.setTrend(String.valueOf(trade.getTrend()));
+
+			emaTrade.setBuyTime(trade.getTimestamp());
+			
+			System.out.println(trade.getInstrumentKey()+" / "+trade.getTimestamp()+" / "+trade.getCurrentPrice());
+
+			emaTrades.add(emaTrade);
+		}
+
+		if (trade.getBullishStrength() < 90 ) {
+
+			Iterator<EmaTrade> iterator = emaTrades.iterator();
+
+			while (iterator.hasNext()) {
+
+				EmaTrade e1 = iterator.next();
+
+				if (e1.getInstrumentKey().equals(trade.getInstrumentKey()) && e1.getStatus().equals("BUY")) {
+
+					e1.setSellPrice(trade.getCurrentPrice());
+
+					e1.setSellTime(trade.getTimestamp());
+
+					emaTradeRepository.save(e1);
+
+					iterator.remove();
+
+					break;
+				}
+			}
+		}
+		
+		if (trade.getBearishStrength() > 90 && 
+				trade.getInstrumentKey().equals("NSE_EQ|INE090A01021") && 
+				emaTrades.stream().noneMatch(t -> t.getInstrumentKey().equals(trade.getInstrumentKey()))) {
 
 			emaTrade.setSellPrice(trade.getCurrentPrice());
 			emaTrade.setInstrumentKey(trade.getInstrumentKey());
@@ -40,11 +81,10 @@ public class EmaBuySellFilterService {
 			emaTrade.setTrend(String.valueOf(trade.getTrend()));
 
 			emaTrade.setSellTime(trade.getTimestamp());
+			
+			System.out.println(trade.getInstrumentKey()+" / "+trade.getTimestamp()+" / "+trade.getCurrentPrice());
 
-			System.out.println(trade.getBearishStrength()+ " / "+trade.getInstrumentKey()+" / "+trade.getTimestamp()+" / "+trade.getCurrentPrice()+" / "+trade.getEma20()
-			+" / "+trade.getEma50()+" / "+trade.getEma200());
-
-			//emaTrades.add(emaTrade);
+			emaTrades.add(emaTrade);
 		}
 
 		if (trade.getBearishStrength() < 90) {
@@ -55,15 +95,13 @@ public class EmaBuySellFilterService {
 
 				EmaTrade e1 = iterator.next();
 
-				if (e1.getInstrumentKey().equals(trade.getInstrumentKey())) {
+				if (e1.getInstrumentKey().equals(trade.getInstrumentKey()) && e1.getStatus().equals("SELL")) {
 
 					e1.setBuyPrice(trade.getCurrentPrice());
-					
+
 					e1.setBuyTime(trade.getTimestamp());
 
-					
-					
-			//emaTradeRepository.save(e1);
+					emaTradeRepository.save(e1);
 
 					iterator.remove();
 
@@ -71,6 +109,7 @@ public class EmaBuySellFilterService {
 				}
 			}
 		}
+
 	}
 
 	public List<EmaTrade> getAllTrades() {

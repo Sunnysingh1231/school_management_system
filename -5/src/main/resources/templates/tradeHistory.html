@@ -3,128 +3,181 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Trade History</title>
-
-<link rel="stylesheet" href="/css/ginn.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade History</title>
+    <link rel="stylesheet" href="/css/ginn.css">
 </head>
-
 
 <body>
 
-	<nav class="navbar">
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="brand">Algo Trading</div>
 
-		<div class="navbar-left">
+            <div class="nav-links">
+                <a href="/market">Market</a>
+                <a href="/test">Algo Filter</a>
+                <a href="/chart">Chart</a>
+                <a href="/history" class="active">Trade History</a>
+            </div>
+        </div>
 
-			<div class="brand">Algo Trading</div>
+        <div class="navbar-right">
+            <div class="market-status">
+                <span id="connectionDot" class="connection-dot"></span>
+                <span id="connectionText">Connecting...</span>
+            </div>
+        </div>
+    </nav>
 
-			<div class="nav-links">
+    <main class="main-container">
 
-				<a href="/market"> Market </a> <a href="/test"> Algo Filter </a> <a
-					href="/chart"> Chart </a> <a href="/history" class="active">
-					Trade History </a>
+        <!-- ================= SELL TRADES ================= -->
+        <section class="filter-box trade-history-box">
 
-			</div>
+            <div class="box-header">
+                <div>
+                    <h2>Trade History</h2>
+                    <span style="color: red;">SELL </span>
+                    <span>Trades</span>
+                </div>
 
-		</div>
+                <div class="box-summary">
+                    <span>Trades:</span>
+                    <strong id="sellTradeHistoryTotal">0</strong>
+                </div>
+            </div>
 
+            <div class="trade-summary">
 
-		<div class="navbar-right">
+                <div class="trade-summary-card">
+                    <span>Total Investment</span>
+                    <strong id="sellTotalInvestment">₹0.00</strong>
+                </div>
 
-			<div class="market-status">
+                <div class="trade-summary-card">
+                    <span>Net Profit</span>
+                    <strong id="sellNetProfit">₹0.00</strong>
+                </div>
 
-				<span id="connectionDot" class="connection-dot"> </span> <span
-					id="connectionText"> Connecting... </span>
+                <div class="trade-summary-card">
+                    <span>Total Sell Price</span>
+                    <strong id="sellTotalSellPrice">₹0.00</strong>
+                </div>
 
-			</div>
+                <div class="trade-summary-card loss-card">
+                    <span>Total Loss</span>
+                    <strong id="sellTotalLoss">₹0.00</strong>
+                </div>
 
-		</div>
+                <div class="trade-summary-card profit-card">
+                    <span>Net Profit %</span>
+                    <strong id="sellNetProfitPercent">0.00%</strong>
+                </div>
 
-	</nav>
+            </div>
 
-	<main class="main-container">
+            <div id="sellTradeHistoryTableWrapper"
+                 class="table-wrapper empty">
 
-		<section class="filter-box trade-history-box">
+                <table class="stock-table trade-history-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Sell Price</th>
+                            <th>Sell Time</th>
+                            <th>Buy Price</th>
+                            <th>Buy Time</th>
+                            <th>Change %</th>
+                            <th>P/L</th>
+                        </tr>
+                    </thead>
 
-			<div class="box-header">
+                    <tbody id="sellTradeHistoryTableBody">
+                    </tbody>
+                </table>
 
-				<div>
-					<h2>Trade History</h2>
-					<p>EMA BUY / SELL Trades</p>
-				</div>
-
-				<div class="box-summary">
-					<span>Trades:</span> <strong id="tradeHistoryTotal">0</strong>
-				</div>
-
-			</div>
-
-			<div class="trade-summary">
-
-				<div class="trade-summary-card">
-					<span>Total Investment</span> <strong id="totalInvestment">₹0.00</strong>
-				</div>
-
-				<div class="trade-summary-card">
-					<span>Net Profit</span> <strong id="netProfit">₹0.00</strong>
-				</div>
-
-				<div class="trade-summary-card">
-					<span>Total Sell Price</span> <strong id="totalSellPrice">₹0.00</strong>
-				</div>
-
-
-
-				<div class="trade-summary-card loss-card">
-					<span>Total Loss</span> <strong id="totalLoss">₹0.00</strong>
-				</div>
-
-				<div class="trade-summary-card profit-card">
-					<span>Net Profit %</span> <strong id="netProfitPercent">0.00%</strong>
-				</div>
-
-			</div>
-
-			<div id="tradeHistoryTableWrapper" class="table-wrapper empty">
-
-				<table class="stock-table trade-history-table">
-
-					<thead>
-
-						<tr>
-							<th>#</th>
-							<th>Stock</th>
-							<th>Status</th>
-							<th>Sell Price</th>
-							<th>Sell Time</th>
-							<th>Buy Price</th>
-							<th>Buy Time</th>
-							<th>Change %</th>
-							<th>P/L</th>
-						</tr>
-
-					</thead>
-
-					<tbody id="tradeHistoryTableBody">
-					</tbody>
-
-				</table>
-
-			</div>
-
-		</section>
-
-	</main>
+            </div>
+        </section>
 
 
+        <!-- ================= BUY TRADES ================= -->
+        <section class="filter-box trade-history-box">
 
-	<script src="/js/test.js"></script>
+            <div class="box-header">
+                <div>
+                    <h2>Trade History</h2>
+                    <span style="color: #22c55e;">BUY </span>
+                    <span>Trades</span>
+                </div>
+
+                <div class="box-summary">
+                    <span>Trades:</span>
+                    <strong id="buyTradeHistoryTotal">0</strong>
+                </div>
+            </div>
+
+            <div class="trade-summary">
+
+                <div class="trade-summary-card">
+                    <span>Total Investment</span>
+                    <strong id="buyTotalInvestment">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card">
+                    <span>Net Profit</span>
+                    <strong id="buyNetProfit">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card">
+                    <span>Total Sell Price</span>
+                    <strong id="buyTotalSellPrice">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card loss-card">
+                    <span>Total Loss</span>
+                    <strong id="buyTotalLoss">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card profit-card">
+                    <span>Net Profit %</span>
+                    <strong id="buyNetProfitPercent">0.00%</strong>
+                </div>
+
+            </div>
+
+            <div id="buyTradeHistoryTableWrapper"
+                 class="table-wrapper empty">
+
+                <table class="stock-table trade-history-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Buy Price</th>
+                            <th>Buy Time</th>
+                            <th>Sell Price</th>
+                            <th>Sell Time</th>
+                            <th>Change %</th>
+                            <th>P/L</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="buyTradeHistoryTableBody">
+                    </tbody>
+                </table>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script src="/js/tradeHistory.js"></script>
 
 </body>
-
 </html>
+
