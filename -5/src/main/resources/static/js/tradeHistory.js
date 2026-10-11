@@ -181,10 +181,10 @@ function renderBuyTrades(trades) {
     totalElement.innerText = trades.length;
     investmentElement.innerText = "₹" + totalInvestment.toFixed(2);
     sellPriceElement.innerText = "₹" + totalSellPrice.toFixed(2);
-    netProfitElement.innerText = "₹" + netProfit.toFixed(2) + " / " + (netProfit + totalLoss).toFixed(2);
-    lossElement.innerText = "₹" + totalLoss.toFixed(2) + " / " + (netProfit + totalLoss).toFixed(2);
+    netProfitElement.innerText = "₹" + netProfit.toFixed(2);
+    lossElement.innerText = "₹" + totalLoss.toFixed(2);
     profitPercentElement.innerText = profitPercent.toFixed(2) + "%";
-
+	
     const color = netProfit > 0
         ? "#22c55e"
         : netProfit < 0

@@ -102,7 +102,7 @@ public class HistoricalLiveMarketService {
 
 							Candle candle = candles.get(i);
 							
-							emaCalculatorService.addCandle(candle);
+//							emaCalculatorService.addCandle(candle);
 
 
 							String json = objectMapper.writeValueAsString(candle);
@@ -113,7 +113,7 @@ public class HistoricalLiveMarketService {
 						}
 						
 					}
-					System.out.println("Total candle "+i+"/"+maxCandles);
+//					System.out.println("Total candle "+i+"/"+maxCandles);
 
 					Thread.sleep(500);
 				}

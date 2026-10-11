@@ -64,7 +64,7 @@ public class Nifty50FiveMinuteHistoricalService {
 		// UPSTOX HISTORICAL API URL
 		// =====================================================
 
-		String url = "https://api.upstox.com/v3/historical-candle/" + encodedInstrumentKey + "/minutes/5/"
+		String url = "https://api.upstox.com/v3/historical-candle/" + encodedInstrumentKey + "/minutes/3/"
 				+ toDate.format(DATE_FORMAT) + "/" + fromDate.format(DATE_FORMAT);
 
 //        System.out.println();
