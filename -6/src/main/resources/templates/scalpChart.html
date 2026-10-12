@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Scalp Live Chart</title>
+
+<link rel="stylesheet" href="/css/nifty50-chart.css">
+<link rel="stylesheet" href="/css/ginn.css">
+
+<!-- Lightweight Charts -->
+<script
+	src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
+<style>
+.up {
+	color: #22c55e;
+}
+
+.down {
+	color: #ef4444;
+}
+
+.flat {
+	color: #9ca3af;
+}
+
+.legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin: 8px 0 12px;
+	font-size: 13px;
+	color: #9ca3af;
+}
+
+.legend span::before {
+	content: "";
+	display: inline-block;
+	width: 18px;
+	height: 3px;
+	margin-right: 6px;
+	vertical-align: middle;
+	background: var(--c);
+}
+
+.legend .dashed::before {
+	background: repeating-linear-gradient(90deg, var(--c) 0 6px, transparent
+		6px 10px);
+}
+
+.trades-panel {
+	margin-top: 18px;
+}
+
+.trades-panel h2 {
+	margin: 0 0 10px;
+	font-size: 18px;
+}
+
+.trades-scroll {
+	max-height: 320px;
+	overflow: auto;
+}
+</style>
+
+</head>
+
+<body>
+
+	<nav class="navbar">
+
+		<div class="navbar-left">
+
+			<div class="brand">Algo Trading</div>
+
+			<div class="nav-links">
+
+				<a href="/market"> Market </a> <a href="/test"> Algo Filter </a> <a
+					href="/chart"> Chart </a> <a href="/history"> Trade History </a> <a
+					href="/scalp"> Scalp History </a> <a href="/scalp-chart"
+					class="active">Scalp Chart </a>
+
+			</div>
+
+		</div>
+
+
+		<div class="navbar-right">
+
+			<div class="market-status">
+
+				<span id="connectionDot" class="connection-dot"> </span> <span
+					id="connectionText"> Connecting... </span>
+
+			</div>
+
+		</div>
+
+	</nav>
+
+	<div class="page">
+
+		<!-- ================================================= -->
+		<!-- HEADER -->
+		<!-- ================================================= -->
+
+		<header class="top-header">
+
+			<div>
+
+				<h1>Scalp Live Chart</h1>
+
+				<p id="headerSubtitle">VWAP + EMA 9/21/50 + Volume | Paper
+					Trading</p>
+
+			</div>
+
+			<div class="header-right">
+
+				<span class="status-dot"></span> <span id="modeText">Waiting...</span>
+
+			</div>
+
+		</header>
+
+
+		<!-- ================================================= -->
+		<!-- CONTROLS -->
+		<!-- ================================================= -->
+
+		<section class="controls">
+
+			<div class="control-group">
+
+				<label>Stock</label> <select id="stockSelect">
+
+					<option value="">Select Stock</option>
+
+				</select>
+
+			</div>
+
+
+			<button id="loadBtn">Load Chart</button>
+
+		</section>
+
+
+		<!-- ================================================= -->
+		<!-- STOCK INFORMATION (LIVE) -->
+		<!-- ================================================= -->
+
+		<section class="stock-info">
+
+			<div class="info-box">
+
+				<span>Stock</span> <strong id="selectedStock"> - </strong>
+
+			</div>
+
+			<div class="info-box">
+
+				<span>Timeframe</span> <strong id="timeframeText"> - </strong>
+
+			</div>
+
+			<div class="info-box">
+
+				<span>Candles</span> <strong id="candleCount"> 0 </strong>
+
+			</div>
+
+			<div class="info-box">
+
+				<span>Last Price</span> <strong id="lastPrice"> - </strong>
+
+			</div>
+
+			<div class="info-box">
+
+				<span>Trend</span> <strong id="trendText"> - </strong>
+
+			</div>
+
+			<div class="info-box">
+
+				<span>RSI</span> <strong id="rsiText"> - </strong>
+
+			</div>
+
+			<div class="info-box">
+
+				<span>Position</span> <strong id="positionText"> No open
+					trade </strong>
+
+			</div>
+
+			<div class="info-box">
+
+				<span>Stock P/L</span> <strong id="stockPnl"> ₹0.00 </strong>
+
+			</div>
+
+		</section>
+
+
+		<!-- ================================================= -->
+		<!-- CHART -->
+		<!-- ================================================= -->
+
+		<section class="chart-panel">
+
+			<div class="chart-header">
+
+				<div>
+
+					<h2 id="chartTitle">Select a stock</h2>
+
+					<div class="legend">
+						<span style="--c: #3b82f6">EMA 9</span> <span style="--c: #f59e0b">EMA
+							21</span> <span style="--c: #a855f7">EMA 50</span> <span class="dashed"
+							style="--c: #06b6d4">VWAP</span> <span style="--c: #22c55e">BUY
+							/ Target</span> <span style="--c: #ef4444">SELL / SL</span>
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<div id="chart"></div>
+
+		</section>
+
+
+		<!-- ================================================= -->
+		<!-- TRADES OF SELECTED STOCK -->
+		<!-- ================================================= -->
+
+		<section class="trades-panel">
+
+			<h2>Trades (selected stock)</h2>
+
+			<div class="trades-scroll">
+
+				<table class="stock-table trade-history-table">
+
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Side</th>
+							<th>Entry Time</th>
+							<th>Entry</th>
+							<th>SL</th>
+							<th>Target 1</th>
+							<th>Target 2</th>
+							<th>Exit Time</th>
+							<th>Exit</th>
+							<th>Exit Reason</th>
+							<th>R</th>
+							<th>P/L</th>
+						</tr>
+					</thead>
+
+					<tbody id="tradesBody">
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</section>
+
+	</div>
+
+
+	<script src="/js/scalpChart.js"></script>
+
+</body>
+
+</html>

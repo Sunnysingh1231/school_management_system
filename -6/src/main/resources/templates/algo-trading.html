@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Algo Trading</title>
+
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background: #f3f4f6;
+	color: #111827;
+}
+
+.topbar {
+	background: #111827;
+	color: white;
+	padding: 18px 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.brand {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.status {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: red;
+}
+
+.dot.online {
+	background: #22c55e;
+}
+
+.container {
+	padding: 25px;
+}
+
+.hero {
+	background: linear-gradient(135deg, #4f46e5, #7c3aed);
+	color: white;
+	border-radius: 18px;
+	padding: 28px;
+	margin-bottom: 25px;
+}
+
+.hero h1 {
+	margin: 0 0 8px;
+}
+
+.controls {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+button {
+	border: none;
+	padding: 10px 18px;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.refresh {
+	background: #4f46e5;
+	color: white;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+	gap: 18px;
+}
+
+.panel {
+	background: white;
+	border-radius: 15px;
+	padding: 20px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, .06);
+}
+
+.panel h2 {
+	margin-top: 0;
+}
+
+.stock-card {
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	padding: 16px;
+	margin-bottom: 12px;
+}
+
+.stock-card.bullish {
+	background: #ecfdf5;
+	border-color: #22c55e;
+}
+
+.stock-card.bearish {
+	background: #fef2f2;
+	border-color: #ef4444;
+}
+
+.stock-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.symbol {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.signal {
+	padding: 5px 10px;
+	border-radius: 20px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.buy {
+	background: #16a34a;
+	color: white;
+}
+
+.sell {
+	background: #dc2626;
+	color: white;
+}
+
+.metrics {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.metric {
+	background: rgba(255, 255, 255, .75);
+	padding: 8px;
+	border-radius: 7px;
+}
+
+.metric small {
+	display: block;
+	color: #6b7280;
+}
+
+.metric strong {
+	display: block;
+	margin-top: 3px;
+}
+
+.trade-btn {
+	width: 100%;
+	margin-top: 14px;
+	background: #111827;
+	color: white;
+}
+
+.empty {
+	color: #6b7280;
+	text-align: center;
+	padding: 30px;
+}
+</style>
+
+</head>
+
+<body>
+
+	<div class="topbar">
+
+		<div class="brand">MarketLive — Algo Trading</div>
+
+		<div class="status">
+			<span id="statusDot" class="dot"></span> <span id="statusText">
+				Connecting... </span>
+		</div>
+
+	</div>
+
+	<h2>Market Regime</h2>
+
+	<div id="market-regime-container">Loading...</div>
+
+	<div class="container">
+
+		<div class="hero">
+
+			<h1>Algorithmic Stock Scanner</h1>
+
+			<p>Market Regime → Liquidity → Trend → Momentum → VWAP → ATR →
+				Risk</p>
+
+		</div>
+
+		<div class="controls">
+
+			<div>
+
+				<strong> Final Algorithm Signals </strong>
+
+				<div id="lastUpdate">Waiting...</div>
+
+			</div>
+
+			<button class="refresh" onclick="loadAlgoStocks()">Run
+				Scanner</button>
+
+		</div>
+
+		<div class="grid">
+
+			<section class="panel">
+
+				<h2>Step 5 — Volume + VWAP</h2>
+
+				<div id="step5">
+					<div class="empty">Waiting...</div>
+				</div>
+
+			</section>
+
+			<section class="panel">
+
+				<h2>Step 6 — ATR + Setup</h2>
+
+				<div id="step6">
+					<div class="empty">Waiting...</div>
+				</div>
+
+			</section>
+
+			<section class="panel">
+
+				<h2>Step 7 — Entry + Risk</h2>
+
+				<div id="step7">
+					<div class="empty">Waiting...</div>
+				</div>
+
+			</section>
+
+			<section class="panel">
+
+				<h2>Final Algo Stocks</h2>
+
+				<div id="finalStocks">
+					<div class="empty">Waiting...</div>
+				</div>
+
+			</section>
+
+			<div class="algo-filter-box">
+
+				<h3>Step 1 — Market Regime</h3>
+
+				<div id="step1Stocks"></div>
+
+			</div>
+
+
+			<div class="algo-filter-box">
+
+				<h3>Step 2 — Liquidity</h3>
+
+				<div id="step2Stocks"></div>
+
+			</div>
+
+
+			<div class="algo-filter-box">
+
+				<h3>Step 3 — Trend</h3>
+
+				<div id="step3Stocks"></div>
+
+			</div>
+
+
+			<div class="algo-filter-box">
+
+				<h3>Step 4 — Momentum</h3>
+
+				<div id="step4Stocks"></div>
+
+			</div>
+
+
+			<div class="algo-filter-box">
+
+				<h3>Step 5 — Volume + VWAP</h3>
+
+				<div id="step5Stocks"></div>
+
+			</div>
+
+
+			<div class="algo-filter-box">
+
+				<h3>Step 6 — ATR + Setup</h3>
+
+				<div id="step6Stocks"></div>
+
+			</div>
+
+
+			<div class="algo-filter-box">
+
+				<h3>Step 7 — Entry + Risk</h3>
+
+				<div id="step7Stocks"></div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="/js/algo-trading.js"></script>
+</body>
+</html>
