@@ -49,6 +49,16 @@ public class DashboardController {
 	public String scalpChart() {
 		return "scalpChart";
 	}
+	
+	@GetMapping("/emavwap-chart")
+	public String emaVwapChart() {
+		return "emaVwapChart";
+	}
+	
+	@GetMapping("/emavwap-history")
+	public String emaVwapHistory() {
+		return "emaVwapHistory";
+	}
 
 	
 }

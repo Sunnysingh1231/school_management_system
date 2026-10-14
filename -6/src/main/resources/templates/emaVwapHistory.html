@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMA VWAP Trade History</title>
+    <link rel="stylesheet" href="/css/ginn.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="brand">Scalp Trading</div>
+
+            <div class="nav-links">
+                <a href="/market">Market</a>
+                <a href="/test">Algo Filter</a>
+                <a href="/chart">Chart</a>
+                <a href="/history">Trade History</a>
+                <a href="/scalp">Scalp History</a>
+                <a href="/scalp-chart">Scalp Chart</a>
+                <a href="/emavwap-history" class="active">EMA-VWAP History</a>
+                <a href="/emavwap-chart">EMA-VWAP Chart</a>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <div class="market-status">
+                <span id="connectionDot" class="connection-dot"></span>
+                <span id="connectionText">Connecting...</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+
+        <!-- ================= SELL TRADES ================= -->
+        <section class="filter-box trade-history-box">
+
+            <div class="box-header">
+                <div>
+                    <h2>EMA + VWAP Trade History</h2>
+                    <span style="color: red;">SELL </span>
+                    <span>Trades</span>
+                </div>
+
+                <div class="box-summary">
+                    <span>Trades:</span>
+                    <strong id="sellTradeHistoryTotal">0</strong>
+                </div>
+            </div>
+
+            <div class="trade-summary">
+
+                <div class="trade-summary-card">
+                    <span>Total Investment</span>
+                    <strong id="sellTotalInvestment">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card">
+                    <span>Net Profit</span>
+                    <strong id="sellNetProfit">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card">
+                    <span>Total Sell Price</span>
+                    <strong id="sellTotalSellPrice">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card loss-card">
+                    <span>Total Loss</span>
+                    <strong id="sellTotalLoss">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card profit-card">
+                    <span>Net Profit %</span>
+                    <strong id="sellNetProfitPercent">0.00%</strong>
+                </div>
+
+            </div>
+
+            <div id="sellTradeHistoryTableWrapper"
+                 class="table-wrapper empty">
+
+                <table class="stock-table trade-history-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Sell Price</th>
+                            <th>Sell Time</th>
+                            <th>Buy Price</th>
+                            <th>Buy Time</th>
+                            <th>Change %</th>
+                            <th>P/L</th>
+                            <th>Exit Reason</th>
+                            <th>R</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="sellTradeHistoryTableBody">
+                    </tbody>
+                </table>
+
+            </div>
+        </section>
+
+
+        <!-- ================= BUY TRADES ================= -->
+        <section class="filter-box trade-history-box">
+
+            <div class="box-header">
+                <div>
+                    <h2>EMA + VWAP Trade History</h2>
+                    <span style="color: #22c55e;">BUY </span>
+                    <span>Trades</span>
+                </div>
+
+                <div class="box-summary">
+                    <span>Trades:</span>
+                    <strong id="buyTradeHistoryTotal">0</strong>
+                </div>
+            </div>
+
+            <div class="trade-summary">
+
+                <div class="trade-summary-card">
+                    <span>Total Investment</span>
+                    <strong id="buyTotalInvestment">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card">
+                    <span>Net Profit</span>
+                    <strong id="buyNetProfit">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card">
+                    <span>Total Sell Price</span>
+                    <strong id="buyTotalSellPrice">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card loss-card">
+                    <span>Total Loss</span>
+                    <strong id="buyTotalLoss">₹0.00</strong>
+                </div>
+
+                <div class="trade-summary-card profit-card">
+                    <span>Net Profit %</span>
+                    <strong id="buyNetProfitPercent">0.00%</strong>
+                </div>
+
+            </div>
+
+            <div id="buyTradeHistoryTableWrapper"
+                 class="table-wrapper empty">
+
+                <table class="stock-table trade-history-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Buy Price</th>
+                            <th>Buy Time</th>
+                            <th>Sell Price</th>
+                            <th>Sell Time</th>
+                            <th>Change %</th>
+                            <th>P/L</th>
+                            <th>Exit Reason</th>
+                            <th>R</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="buyTradeHistoryTableBody">
+                    </tbody>
+                </table>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script th:src="@{/js/emaVwapHistory.js}"></script>
+
+</body>
+</html>

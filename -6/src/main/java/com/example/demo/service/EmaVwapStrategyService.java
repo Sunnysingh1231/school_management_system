@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
+
 import com.example.demo.model.Candle;
 import com.example.demo.service.LiveEmaCalculatorService.TrendResult;
-import com.example.demo.webSocket.EmaWebSocketHandler;
+import com.example.demo.webSocket.EmaVwapWebSocketHandler;
 import com.example.demo.webSocket.WebSocketHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,7 +62,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Service
 @ConditionalOnProperty(name = "scalp.enabled", havingValue = "true", matchIfMissing = false)
-public class ScalpMyStrategyService {
+public class EmaVwapStrategyService {
 
 	// =========================================================
 	// CONFIG
@@ -84,14 +85,6 @@ public class ScalpMyStrategyService {
 
 	@Value("${scalp.poll-seconds:10}")
 	private int pollSeconds;
-
-	/** Do Upstox API calls ke beech minimum gap (ms). 429/Cloudflare 1015 se bachne ke liye */
-	@Value("${scalp.api-delay-ms:500}")
-	private long apiDelayMs;
-
-	/** 429 aane par kitni baar retry (har baar double wait) */
-	@Value("${scalp.api-max-retries:5}")
-	private int apiMaxRetries;
 
 	// ---- entry filters ----
 
@@ -212,7 +205,7 @@ public class ScalpMyStrategyService {
 	private String accessToken;
 
 	private final WebSocketHandler webSocketHandler;
-	private final EmaWebSocketHandler emaWebSocketHandler;
+	private final EmaVwapWebSocketHandler emaVwapWebSocketHandler;
 
 	private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 	private final HttpClient httpClient = HttpClient.newHttpClient();
@@ -237,9 +230,10 @@ public class ScalpMyStrategyService {
 	private LocalDate dayRDate;
 	private double dayR;
 
-	public ScalpStrategyService(WebSocketHandler webSocketHandler, EmaWebSocketHandler emaWebSocketHandler) {
+	public EmaVwapStrategyService(WebSocketHandler webSocketHandler, EmaVwapWebSocketHandler emaVwapWebSocketHandler) {
 		this.webSocketHandler = webSocketHandler;
-		this.emaWebSocketHandler = emaWebSocketHandler;
+		this.emaVwapWebSocketHandler = emaVwapWebSocketHandler;
+		
 	}
 
 	// =========================================================
@@ -321,8 +315,6 @@ public class ScalpMyStrategyService {
 		Map<String, Object> m = new LinkedHashMap<>();
 		m.put("mode", modeText);
 		m.put("intervalMinutes", intervalMinutes);
-		m.put("strategy", "VWAP + EMA 9/21/50 pullback");
-		m.put("midEma", 21);
 		m.put("status", statusText);
 		m.put("closedTrades", closed);
 		m.put("openTrades", open);
@@ -1367,56 +1359,12 @@ public class ScalpMyStrategyService {
 		return fetchCandles(url, instrumentKey);
 	}
 
-	private long lastApiCallAt = 0;
-
-	/** Har Upstox call ke beech kam se kam apiDelayMs ka gap */
-	private synchronized void throttle() throws InterruptedException {
-
-		long wait = apiDelayMs - (System.currentTimeMillis() - lastApiCallAt);
-
-		if (wait > 0) {
-			Thread.sleep(wait);
-		}
-
-		lastApiCallAt = System.currentTimeMillis();
-	}
-
-	/** 429/503 aane par exponential backoff ke saath retry (3s, 6s, 12s, 24s, 48s) */
-	private HttpResponse<String> sendWithRetry(HttpRequest request) throws Exception {
-
-		int attempt = 0;
-
-		while (true) {
-
-			throttle();
-
-			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-			int code = response.statusCode();
-
-			boolean rateLimited = code == 429 || code == 503;
-
-			if (!rateLimited || attempt >= apiMaxRetries) {
-				return response;
-			}
-
-			long backoff = Math.min(60000L, 3000L * (1L << attempt));
-
-			attempt++;
-
-			System.err.println("Upstox rate limit (" + code + "), " + backoff / 1000 + " sec ruk ke retry "
-					+ attempt + "/" + apiMaxRetries);
-
-			Thread.sleep(backoff);
-		}
-	}
-
 	private List<Candle> fetchCandles(String url, String instrumentKey) throws Exception {
 
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
 				.header("Authorization", "Bearer " + accessToken).header("Accept", "application/json").GET().build();
 
-		HttpResponse<String> response = sendWithRetry(request);
+		HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
 		if (response.statusCode() != 200) {
 			throw new IllegalStateException(
@@ -1465,7 +1413,7 @@ public class ScalpMyStrategyService {
 
 	private void pushTrend(LiveEmaCalculatorService.TrendResult trend) {
 		try {
-			emaWebSocketHandler.sendMessage(objectMapper.writeValueAsString(trend));
+			emaVwapWebSocketHandler.sendMessage(objectMapper.writeValueAsString(trend));
 		} catch (Exception e) {
 			// client na ho to ignore
 		}
