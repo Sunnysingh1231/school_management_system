@@ -1,0 +1,103 @@
+/* ================= NAVBAR ================= */
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 30px;
+	/* background:white; */
+	background: linear-gradient(135deg, var(--primary), var(--secondary));
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-weight: 600;
+	font-size: 20px;
+}
+
+.logo i {
+	color: var(--primary);
+}
+
+.nav-buttons {
+	display: flex;
+	gap: 15px;
+}
+
+.btn {
+	padding: 10px 18px;
+	border-radius: 25px;
+	border: none;
+	cursor: pointer;
+	font-weight: 500;
+	transition: 0.3s;
+}
+
+.btn-back {
+	background: #e2e8f0;
+}
+
+.btn-login {
+	background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
+	color: white;
+}
+
+.btn:hover {
+	transform: translateY(-2px);
+}
+/* ================= NAVBAR ================= */
+        .navlogocont {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .navlogocont .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .navlogocont .logo i {
+            color: var(--primary);
+        }
+
+        .navlogocont .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navlogocont .btn {
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .navlogocont .btn-back {
+            background: #e2e8f0;
+        }
+
+        .navlogocont .btn-login {
+            background: linear-gradient(135deg, rgb(255, 187, 0), rgb(128, 0, 0));
+            color: white;
+        }
+
+        .navlogocont .btn:hover {
+            transform: translateY(-2px);
+        }

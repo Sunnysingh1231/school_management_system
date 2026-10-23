@@ -37,8 +37,6 @@ public class CustSuccessHandeler implements AuthenticationSuccessHandler{
 		else {
 			response.sendRedirect("/");
 		}
-		
-		
 	}
 
 }

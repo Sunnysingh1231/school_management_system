@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-
 import com.example.demo.model.Candle;
 import com.example.demo.service.LiveEmaCalculatorService.TrendResult;
-import com.example.demo.webSocket.EmaVwapWebSocketHandler;
+import com.example.demo.webSocket.EmaWebSocketHandler;
 import com.example.demo.webSocket.WebSocketHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -205,7 +204,7 @@ public class EmaVwapStrategyService {
 	private String accessToken;
 
 	private final WebSocketHandler webSocketHandler;
-	private final EmaVwapWebSocketHandler emaVwapWebSocketHandler;
+	private final EmaWebSocketHandler emaWebSocketHandler;
 
 	private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 	private final HttpClient httpClient = HttpClient.newHttpClient();
@@ -230,10 +229,9 @@ public class EmaVwapStrategyService {
 	private LocalDate dayRDate;
 	private double dayR;
 
-	public EmaVwapStrategyService(WebSocketHandler webSocketHandler, EmaVwapWebSocketHandler emaVwapWebSocketHandler) {
+	public EmaVwapStrategyService(WebSocketHandler webSocketHandler, EmaWebSocketHandler emaWebSocketHandler) {
 		this.webSocketHandler = webSocketHandler;
-		this.emaVwapWebSocketHandler = emaVwapWebSocketHandler;
-		
+		this.emaWebSocketHandler = emaWebSocketHandler;
 	}
 
 	// =========================================================
@@ -1413,7 +1411,7 @@ public class EmaVwapStrategyService {
 
 	private void pushTrend(LiveEmaCalculatorService.TrendResult trend) {
 		try {
-			emaVwapWebSocketHandler.sendMessage(objectMapper.writeValueAsString(trend));
+			emaWebSocketHandler.sendMessage(objectMapper.writeValueAsString(trend));
 		} catch (Exception e) {
 			// client na ho to ignore
 		}

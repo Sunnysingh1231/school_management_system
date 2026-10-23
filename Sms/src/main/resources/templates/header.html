@@ -1,0 +1,21 @@
+<div th:fragment="head">
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap" style = "color:black;"></i>Smart School Management
+        </div>
+        <div class="nav-buttons">
+
+            <form th:method="get" th:action="@{/login}" sec:authorize="!isAuthenticated()">
+                <button class="btn btn-login">Login</button>
+            </form>
+
+            <form th:method="POST" th:action="@{/logout}" sec:authorize="isAuthenticated()">
+                <button class="btn btn-login">Logout</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>

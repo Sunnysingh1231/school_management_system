@@ -7,10 +7,10 @@
 ===================================================== */
 
 const API_STOCKS = "/api/nifty50/stocks";
-let API_INSTRUMENTS = "/api/emavwap/instruments";
-let API_CANDLES = "/api/emavwap/candles";
-let API_TRADES = "/api/emavwap/trades";
-let API_SUMMARY = "/api/emavwap/summary";
+const API_INSTRUMENTS = "/api/emavwap/instruments";
+const API_CANDLES = "/api/emavwap/candles";
+const API_TRADES = "/api/scalp/trades";
+const API_SUMMARY = "/api/scalp/summary";
 
 /* Kitne ms baad naya data poll karna hai (replay 1 sec/candle ke liye 1000) */
 const POLL_MS = 1000;

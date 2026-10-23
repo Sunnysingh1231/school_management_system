@@ -1,66 +1,10 @@
 /* =====================================================
-   EMA + VWAP TRADE HISTORY
-   Source: GET /api/emavwap/trades  (memory se, DB nahi)
+   SCALP TRADE HISTORY
+   Source: GET /api/scalp/trades  (memory se, DB nahi)
    HTML same rahega, sirf ye JS replace karna hai.
 ===================================================== */
 
-/*
- * Backend do tarah ka ho sakta hai, dono chalenge:
- *   1) EmaVwapController          -> /api/emavwap/trades
- *   2) generic ScalpController    -> /api/scalp/trades  (jab wahan emavwap.enabled=true wali strategy chal rahi ho)
- */
-let TRADES_API = "/api/emavwap/trades";
-let backendPromise = null;
-
-async function detectBackend() {
-
-    const tried = [];
-
-    for (const base of ["/api/emavwap", "/api/scalp"]) {
-
-        try {
-
-            const response = await fetch(base + "/summary");
-
-            if (!response.ok) {
-                tried.push(`${base}/summary -> HTTP ${response.status}`);
-                continue;
-            }
-
-            const summary = await response.json();
-
-            if (base === "/api/scalp" && !/EMA.*20.*VWAP/i.test(String(summary.strategy || ""))) {
-                tried.push(`${base}/summary -> strategy "${summary.strategy || "?"}" (EMA+VWAP nahi)`);
-                continue;
-            }
-
-            TRADES_API = base + "/trades";
-
-            console.log("EMA+VWAP backend:", base);
-
-            return;
-
-        } catch (e) {
-
-            tried.push(`${base}/summary -> ${e.message}`);
-        }
-    }
-
-    throw new Error("EMA+VWAP backend nahi mila. " + tried.join(" | "));
-}
-
-function ensureBackend() {
-
-    if (!backendPromise) {
-
-        backendPromise = detectBackend().catch(error => {
-            backendPromise = null;
-            throw error;
-        });
-    }
-
-    return backendPromise;
-}
+const TRADES_API = "/api/emavwap/trades";
 const REFRESH_MS = 3000;
 
 
@@ -141,8 +85,6 @@ function formatR(r) {
 ===================================================== */
 
 async function fetchAllTrades() {
-    await ensureBackend();
-
     const response = await fetch(TRADES_API);
 
     if (!response.ok) {
@@ -198,10 +140,11 @@ function normalize(trade) {
         changePercent,
         reasonCode: trade.exitReason || "",
         rMultiple: isClosed ? Number(trade.rMultiple) || 0 : 0,
-        trailingActive: !!(trade.trailingActive !== undefined ? trade.trailingActive : trade.partialBooked),
+        partialBooked: !!trade.partialBooked,
         initialSl: Number(trade.initialStopLoss) || 0,
         currentSl: Number(trade.stopLoss) || 0,
-        target: Number(trade.target !== undefined && trade.target !== null ? trade.target : (trade.target2 !== undefined ? trade.target2 : trade.target1)) || 0
+        target1: Number(trade.target1) || 0,
+        target2: Number(trade.target2) || 0
     };
 }
 
@@ -312,9 +255,9 @@ function renderSection(prefix, rawTrades) {
             <td>${secondTime}</td>
             <td class="${plClass}">${t.isClosed ? t.changePercent.toFixed(2) + "%" : "-"}</td>
             <td class="${plClass}" title="Qty: ${t.qty} | ${t.reason}">${t.isClosed ? t.profitLoss.toFixed(2) : "-"}</td>
-            <td class="${t.isClosed ? plClass : ""}" title="Initial SL: ${t.initialSl.toFixed(2)} | Current SL: ${t.currentSl.toFixed(2)} | Target: ${t.target.toFixed(2)}">
+            <td class="${t.isClosed ? plClass : ""}" title="Initial SL: ${t.initialSl.toFixed(2)} | Current SL: ${t.currentSl.toFixed(2)} | TP1: ${t.target1.toFixed(2)} | TP2: ${t.target2.toFixed(2)}">
                 ${t.isClosed ? reasonLabel(t.reasonCode) : "Running"}
-                ${t.trailingActive ? '<br><small>Trailing was active</small>' : ""}
+                ${t.partialBooked ? '<br><small>50% booked at TP1</small>' : ""}
             </td>
             <td class="${plClass}">${t.isClosed ? formatR(t.rMultiple) : "-"}</td>
         `;
