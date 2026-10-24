@@ -11,10 +11,14 @@ public class UserController {
 
 		if (authentication != null && authentication.isAuthenticated()
 				&& !"anonymousUser".equals(authentication.getPrincipal())) {
-			return "redirect:/dashboard";
+			
+			if (authentication.getAuthorities().stream()
+	                .anyMatch(a -> a.getAuthority().equals("ROLE_SUPER_ADMIN"))) {
+	            return "redirect:/super";
+	        }
 		}
 
-		return "index";
+		return "homepage";
 	}
 
 	@GetMapping("/login")

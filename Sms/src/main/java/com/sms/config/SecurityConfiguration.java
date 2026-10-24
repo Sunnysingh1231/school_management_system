@@ -38,10 +38,12 @@ public class SecurityConfiguration {
 						.requestMatchers("/teacher/**").hasAnyRole("TEACHER")
 						.requestMatchers("/student/**").hasAnyRole("STUDENT")
 						.anyRequest().authenticated())
-				.formLogin(form -> form.loginPage("/login")
-
-//					.defaultSuccessUrl("/",true)
-						.successHandler(custSuccessHandeler).permitAll())
+				.formLogin(form -> form
+						.loginPage("/login")
+					    .failureUrl("/login?error=true")
+					    .successHandler(custSuccessHandeler)
+					    .permitAll()
+					    )
 				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true)
 						.deleteCookies("JSESSIONID").permitAll())
 				.headers(headers -> headers.cacheControl(cache -> {
