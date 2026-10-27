@@ -1,0 +1,24 @@
+
+<div th:fragment="school_head">
+
+	<!-- navbar -->
+    <nav class="navbar">
+
+        <div class="logo">SmS</div>
+        
+        <div><label th:text="${schoolName}"></label></div>
+        
+        <!-- Navigation Links -->
+        <div class="nav-buttons" id="nav-links" onclick="toggleMenu()">
+
+            
+            
+
+            <form th:method="POST" th:action="@{/logout}">
+                <button class="btn logout-btn">Logout</button>
+            </form>
+        </div>
+    </nav>
+    
+
+</div>
