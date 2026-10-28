@@ -41,7 +41,7 @@ public class UserController {
 			}
 		}
 
-		return "login";
+		return "login_form";
 	}
 
 }

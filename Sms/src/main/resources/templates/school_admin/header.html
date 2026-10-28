@@ -2,23 +2,25 @@
 <div th:fragment="school_head">
 
 	<!-- navbar -->
-    <nav class="navbar">
+	<nav class="navbar">
 
-        <div class="logo">SmS</div>
-        
-        <div><label th:text="${schoolName}"></label></div>
-        
-        <!-- Navigation Links -->
-        <div class="nav-buttons" id="nav-links" onclick="toggleMenu()">
+		<div class="logo">
+			<i class="fas fa-graduation-cap" style = "color:black;"></i>
+			<label th:text="${#strings.isEmpty(schoolName) ? 'SmS' : schoolName}">SmS</label>
+		</div>
 
-            
-            
+		<!-- Navigation Links -->
+		<div class="nav-buttons" id="nav-links" onclick="toggleMenu()">
 
-            <form th:method="POST" th:action="@{/logout}">
-                <button class="btn logout-btn">Logout</button>
-            </form>
-        </div>
-    </nav>
-    
+			<form id="logoutForm" th:action="@{/logout}" method="post"
+				sec:authorize="isAuthenticated()">
+
+				<button class="btn btn-login" type="button" id="logoutBtn">
+					Logout</button>
+			</form>
+
+		</div>
+	</nav>
+
 
 </div>
